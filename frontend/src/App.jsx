@@ -5,8 +5,9 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Footer from './components/Footer';
 import Letstalk from './components/Letstalk';
-import ContactPage from './pages/Contact';
+import ContactPage from './pages/Contact'; 
 import Project from './components/Project';
+import FormPage  from './components/FormPage';
 import Interior from './pages/Interior';
 import Exterior from './pages/Exterior';
 import Design from './pages/Design';
@@ -14,6 +15,7 @@ import About_com from './components/About_com';
 import ProjectDetails from './pages/ProjectDetails';
 import Blog from './pages/Blog';
 import Login from './pages/Login';
+import MyCourses from './pages/MyCourses';
 import Dashboard from './pages/Dashboard';
 
 // New Admin Pages
@@ -43,8 +45,10 @@ function AppContent() {
         <Route path="/exterior" element={<Exterior />} />
         <Route path="/designs" element={<Design />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/form" element={<FormPage />} />
         <Route path="/about_com" element={<About_com />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/mycourses" element={<MyCourses />} />
 
         {/* Dashboard & Admin Routes */}
         <Route path="/dashboard" element={<Dashboard />} />
