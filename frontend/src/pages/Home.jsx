@@ -5,17 +5,19 @@ import NavBar from "../components/Navbar";
 import Letstalk from "../components/Letstalk";
 import Project from "../components/Project";
 import video from "../assets/try.mp4";
+import FormPage from "../components/FormPage";
 
 const Home = () => {
   const projectRef = useRef(null);
   return (
     <div className="relative">
-      <NavBar />
-      <HeroSection projectRef={projectRef} />
+      <NavBar projectRef={projectRef}/>
+      <HeroSection  />
       <div ref={projectRef}>
         <Project />
       </div>
-      <Letstalk />
+      {/* <Letstalk /> */}
+      <FormPage />
     </div>
   );
 };
