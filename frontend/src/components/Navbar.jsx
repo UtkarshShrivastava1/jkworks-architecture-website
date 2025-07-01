@@ -41,7 +41,7 @@ function NavBar({ projectRef }) {
 
   const navLinks = [
     { to: "/", label: "Home" },
-    { to: "/project", label: "Projects" },
+    { to: "/project", label: "PROJECTS" },
     { to: "/about", label: "About" },
     { to: "/blog", label: "Blogs" },
     // { to: "/courses", label: "My Courses" },
@@ -79,7 +79,7 @@ function NavBar({ projectRef }) {
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8 text-sm tracking-wide font-medium uppercase">
           {navLinks.map((link) =>
-            link.label === "Projects" && location.pathname === "/" ? (
+            link.label === "PROJECTS" && location.pathname === "/" ? (
               <button
                 key={link.to}
                 className="relative group text-white hover:text-[#f4a079] transition-colors bg-transparent border-none outline-none cursor-pointer"
@@ -94,7 +94,7 @@ function NavBar({ projectRef }) {
                 key={link.to}
                 to={link.to}
                 className="relative group text-white hover:text-[#f4a079] transition-colors"
-                onClick={link.label === "Projects" ? () => setIsMobileOpen(false) : undefined}
+                onClick={link.label === "PROJECTS" ? () => setIsMobileOpen(false) : undefined}
               >
                 {link.label}
                 <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#f4a079] transition-all duration-300 group-hover:w-full"></span>
@@ -145,7 +145,7 @@ function NavBar({ projectRef }) {
           >
             <div className="flex flex-col space-y-4">
               {navLinks.map((link) =>
-                link.label === "Projects" && location.pathname === "/" ? (
+                link.label === "PROJECTS" && location.pathname === "/" ? (
                   <button
                     key={link.to}
                     className="text-base px-4 py-2 rounded hover:bg-[#f4a079]/10 transition-all uppercase tracking-wide text-left bg-transparent border-none outline-none cursor-pointer"
