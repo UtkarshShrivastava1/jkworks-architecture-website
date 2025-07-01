@@ -10,8 +10,8 @@ const Home = () => {
   const projectRef = useRef(null);
   return (
     <div className="relative">
-      <NavBar />
-      <HeroSection projectRef={projectRef} />
+      <NavBar projectRef={projectRef}/>
+      <HeroSection  />
       <div ref={projectRef}>
         <Project />
       </div>
