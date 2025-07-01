@@ -114,7 +114,7 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:bg-white/10 transition-all duration-300"
-                      placeholder="admin1234"
+                      placeholder="admin123"
                     />
                   </div>
                 </div>
