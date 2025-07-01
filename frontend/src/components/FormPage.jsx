@@ -1,150 +1,454 @@
-import { useState } from 'react';
+// import React, { useState } from 'react';
+// import { Instagram, Facebook, Linkedin, Twitter, Mail, Phone, User, Building, MessageSquare } from 'lucide-react';
+
+// const ContactForm = () => {
+//   const [formData, setFormData] = useState({
+//     name: '',
+//     companyName: '',
+//     email: '',
+//     phone: '',
+//     message: ''
+//   });
+
+//   const [focusedField, setFocusedField] = useState('');
+
+//   const handleChange = (e) => {
+//     setFormData({
+//       ...formData,
+//       [e.target.name]: e.target.value
+//     });
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     console.log('Form submitted:', formData);
+//     // Handle form submission here
+//   };
+
+//   const handleFocus = (fieldName) => {
+//     setFocusedField(fieldName);
+//   };
+
+//   const handleBlur = () => {
+//     setFocusedField('');
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-gray-200 relative overflow-hidden">
+//       {/* Decorative background elements - responsive sizes */}
+//       <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-gray-300 opacity-100 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
+//       <div className="absolute top-15 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-gray-300 opacity-100 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
+//       {/* Header */}
+//       <div className="text-center py-8 md:py-12">
+//         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#c99e70] mb-2"> 
+//           Contact us
+//         </h1>
+//       </div>
+
+//       {/* Main Content */}
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          
+//           {/* Left Section - Company Info */}
+//           <div className="space-y-8">
+//             <div>
+//               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-6 leading-tight">
+//                  Every masterpiece starts with a conversation.  {' '}
+//                 <span className="text-[#c99e70]">Reach out &</span>
+//                 <br />
+//                 <span className="text-gray-700">Let's shape your vision into lasting architecture.</span>
+//               </h2>
+//             </div>
+
+//             {/* Social Media Icons */}
+//             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+//               <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+//                 <Instagram className="w-6 h-6 text-white" />
+//               </div>
+//               <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+//                 <Facebook className="w-6 h-6 text-white" />
+//               </div>
+//               <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+//                 <Linkedin className="w-6 h-6 text-white" />
+//               </div>
+//               <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+//                 <Twitter className="w-6 h-6 text-white" />
+//               </div>
+//             </div>
+
+//             {/* Contact Info */}
+//             <div className="bg-gray-800 rounded-2xl p-6 sm:p-8 text-white space-y-6 shadow-2xl">
+//               <div className="text-center">
+//                 <div className="w-16 h-16 bg-[#c99e70] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+//                   <Mail className="w-8 h-8 text-white" />
+//                 </div>
+//                 <p className="text-base sm:text-lg mb-6">
+//                   Our team is ready to help you bring your ideas to life.
+//                 </p>
+//               </div>
+              
+//               <div className="space-y-4">
+//                 <div className="flex items-center justify-center space-x-3 hover:bg-gray-700 p-3 rounded-lg transition-colors duration-200">
+//                   <Phone className="w-5 h-5 text-[#c99e70]" />
+//                   <span className="text-base sm:text-lg">+1 (555) 123-4567</span>
+//                 </div>
+//                 <div className="flex items-center justify-center space-x-3 hover:bg-gray-700 p-3 rounded-lg transition-colors duration-200">
+//                   <Mail className="w-5 h-5 text-[#c99e70]" />
+//                   <span className="text-base sm:text-lg">contact@example.com</span>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Right Section - Contact Form */}
+//           <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 md:p-10 relative overflow-hidden">
+//             {/* Decorative background elements */}
+//             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#c99e70] to-transparent opacity-5 rounded-full transform translate-x-16 -translate-y-16"></div>
+//             <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-gray-800 to-transparent opacity-5 rounded-full transform -translate-x-12 translate-y-12"></div>
+            
+//             <div className="relative z-10">
+//               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+//                 Start a conversation with us
+//               </h3>
+//               <p className="text-gray-600 text-center mb-8 text-sm sm:text-base">
+//                 Let's discuss your architectural vision and transform it into reality
+//               </p>
+              
+//               <div className="space-y-8">
+//                 {/* Name Field */}
+//                 <div className="relative group">
+//                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2 transition-all duration-300">
+//                     <User className={`w-5 h-5 ${focusedField === 'name' || formData.name ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+//                   </div>
+//                   <input
+//                     type="text"
+//                     name="name"
+//                     placeholder="Your Full Name*"
+//                     value={formData.name}
+//                     onChange={handleChange}
+//                     onFocus={() => handleFocus('name')}
+//                     onBlur={handleBlur}
+//                     className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] outline-none bg-transparent text-gray-700 placeholder-gray-500 transition-all duration-300 hover:border-gray-300"
+//                   />
+//                   <div className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+//                     Tell us who we'll be working with on this architectural journey
+//                   </div>
+//                 </div>
+
+//                 {/* Email Field */}
+//                 <div className="relative group">
+//                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2 transition-all duration-300">
+//                     <Mail className={`w-5 h-5 ${focusedField === 'email' || formData.email ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+//                   </div>
+//                   <input
+//                     type="email"
+//                     name="email"
+//                     placeholder="Your Email Address*"
+//                     value={formData.email}
+//                     onChange={handleChange}
+//                     onFocus={() => handleFocus('email')}
+//                     onBlur={handleBlur}
+//                     className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] outline-none bg-transparent text-gray-700 placeholder-gray-500 transition-all duration-300 hover:border-gray-300"
+//                   />
+//                   <div className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+//                     We'll send you project updates and design inspirations
+//                   </div>
+//                 </div>
+
+//                 {/* Phone Field */}
+//                 <div className="relative group">
+//                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2 transition-all duration-300">
+//                     <Phone className={`w-5 h-5 ${focusedField === 'phone' || formData.phone ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+//                   </div>
+//                   <input
+//                     type="tel"
+//                     name="phone"
+//                     placeholder="Your Phone Number*"
+//                     value={formData.phone}
+//                     onChange={handleChange}
+//                     onFocus={() => handleFocus('phone')}
+//                     onBlur={handleBlur}
+//                     className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] outline-none bg-transparent text-gray-700 placeholder-gray-500 transition-all duration-300 hover:border-gray-300"
+//                   />
+//                   <div className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+//                     For quick consultations and site visit coordination
+//                   </div>
+//                 </div>
+
+//                 {/* Message Field */}
+//                 <div className="relative group">
+//                   <div className="absolute left-4 top-6 transition-all duration-300">
+//                     <MessageSquare className={`w-5 h-5 ${focusedField === 'message' || formData.message ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+//                   </div>
+//                   <textarea
+//                     name="message"
+//                     placeholder="Tell us about your architectural vision, project requirements, budget range, and timeline*"
+//                     value={formData.message}
+//                     onChange={handleChange}
+//                     onFocus={() => handleFocus('message')}
+//                     onBlur={handleBlur}
+//                     rows={4}
+//                     className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] outline-none bg-transparent text-gray-700 placeholder-gray-500 transition-all duration-300 resize-none hover:border-gray-300"
+//                   />
+//                   <div className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+//                     Share your dreams - residential, commercial, or innovative spaces
+//                   </div>
+//                 </div>
+
+//                 {/* Submit Button */}
+//                 <div className="pt-6">
+//                   <button
+//                     type="submit"
+//                     className="w-full bg-[#c99e70] hover:bg-[#b8916a] text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 relative overflow-hidden group"
+//                   >
+//                     <span className="relative z-10 flex items-center justify-center space-x-2">
+//                       <Building className="w-5 h-5" />
+//                       <span>START BUILDING TOGETHER</span>
+//                     </span>
+//                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+//                   </button>
+//                   <p className="text-xs text-gray-500 text-center mt-3">
+//                     We typically respond within 24 hours with initial concepts
+//                   </p>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ContactForm;
+
+import React, { useState } from 'react';
+import { Instagram, Facebook, Linkedin, Twitter, Mail, Phone, User, Building, MessageSquare } from 'lucide-react';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
+    companyName: '',
     email: '',
     phone: '',
     message: ''
   });
 
+  const [focusedField, setFocusedField] = useState('');
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert('Thank you for your message!');
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    console.log('Form submitted:', formData);
+    // Handle form submission here
+  };
+
+  const handleFocus = (fieldName) => {
+    setFocusedField(fieldName);
+  };
+
+  const handleBlur = () => {
+    setFocusedField('');
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br bg-gray-200 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-gray-300  opacity-100 "></div>
-      {/* <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-gray-300 opacity-100"></div> */}
+    <div className="min-h-screen bg-gray-200 relative overflow-hidden">
+      {/* Decorative background elements - responsive sizes */}
+      <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-gray-300 opacity-100 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
+      <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-gray-300 opacity-100 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
+      {/* Header */}
+      <div className="text-center py-8 md:py-12">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#c99e70] mb-2"> 
+          Contact us
+        </h1>
+      </div>
 
-      <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[calc(100vh-6rem)]">
-        <div className="w-full max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <div className="flex flex-col lg:flex-row">
-              {/* Form container */}
-              <div className="w-full lg:w-1/2 p-8 sm:p-10">
-                <div className="mb-8 text-center lg:text-left">
-                  <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 uppercase mb-3 tracking-tight">
-                    CONTACT US
-                  </h1>
-                  <p className="text-gray-600 text-sm sm:text-base">
-                    Get in touch with us and we'll collaborate to turn your vision into reality.
-                  </p>
-                </div>
-                
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="relative">
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 text-sm sm:text-base border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#b39069] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  
-                  <div className="relative">
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 text-sm sm:text-base border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#b39069] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                      placeholder="Your email"
-                    />
-                  </div>
-
-                  <div className="relative">
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 text-sm sm:text-base border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#b39069] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                      placeholder="Your phone number"
-                    />
-                  </div>
-                  
-                  <div className="relative">
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows="4"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 text-sm sm:text-base border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#b39069] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                      placeholder="Type your message..."
-                    ></textarea>
-                  </div>
-                  
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      className="w-full py-3 px-6 text-sm sm:text-base border border-transparent rounded-lg font-medium text-white bg-[#b39069] hover:bg-[#9a7b55] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#b39069] transition-all duration-300 uppercase tracking-wider shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-                    >
-                      LET'S TALK
-                    </button>
-                  </div>
-                </form>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          
+          {/* Left Section - Company Info */}
+          <div className="space-y-8">
+            <div>
+              <div className="relative">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6 leading-tight relative z-10">
+                  <span className="block mb-2 text-gray-700 font-light italic text-lg sm:text-xl md:text-2xl">
+                    "Architecture is a visual art, and the buildings speak for themselves."
+                  </span>
+                  <span className="block text-gray-800 font-bold">
+                    We don't just design structures;{' '}
+                  </span>
+                  <span className="text-[#c99e70] font-extrabold bg-gradient-to-r from-[#c99e70] to-[#d4a876] bg-clip-text text-transparent">
+                    we craft legacies
+                  </span>
+                  <br />
+                  <span className="text-gray-600 font-medium text-xl sm:text-2xl md:text-3xl mt-2 block">
+                    that inspire generations.
+                  </span>
+                </h2>
+                {/* Decorative line element */}
+                <div className="absolute -left-4 top-1/2 transform -translate-y-1/2 w-1 h-16 bg-gradient-to-b from-[#c99e70] to-transparent opacity-60"></div>
+                {/* Decorative quote mark */}
+                <div className="absolute -top-2 -left-2 text-[#c99e70] text-6xl opacity-20 font-serif">"</div>
               </div>
+            </div>
 
-              {/* Decorative right side */}
-              <div className="hidden lg:block lg:w-1/2 bg-[#2d2a2a] relative">
-                <div className="absolute inset-0 flex items-center justify-center p-12">
-                  <div className="text-center">
-                    <div className="mb-6">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-[#b39069]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-800 mb-3">Let's Build Something Amazing</h3>
-                    <p className="text-white  mb-6">Our team is ready to help you bring your ideas to life.</p>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-center space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#b39069]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                        <span className="text-white">+1 (555) 123-4567</span>
-                      </div>
-                      <div className="flex items-center justify-center space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#b39069]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        <span className="text-white">contact@example.com</span>
-                      </div>
-                    </div>
+            {/* Social Media Icons */}
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+              <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+                <Instagram className="w-6 h-6 text-white" />
+              </div>
+              <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+                <Facebook className="w-6 h-6 text-white" />
+              </div>
+              <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+                <Linkedin className="w-6 h-6 text-white" />
+              </div>
+              <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+                <Twitter className="w-6 h-6 text-white" />
+              </div>
+            </div>
+
+            {/* Contact Info */}
+            <div className="bg-gray-800 rounded-2xl p-6 sm:p-8 text-white space-y-6 shadow-2xl">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-[#c99e70] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Mail className="w-8 h-8 text-white" />
+                </div>
+                <p className="text-base sm:text-lg mb-6">
+                  Our team is ready to help you bring your ideas to life.
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex items-center justify-center space-x-3 hover:bg-gray-700 p-3 rounded-lg transition-colors duration-200">
+                  <Phone className="w-5 h-5 text-[#c99e70]" />
+                  <span className="text-base sm:text-lg">+1 (555) 123-4567</span>
+                </div>
+                <div className="flex items-center justify-center space-x-3 hover:bg-gray-700 p-3 rounded-lg transition-colors duration-200">
+                  <Mail className="w-5 h-5 text-[#c99e70]" />
+                  <span className="text-base sm:text-lg">contact@example.com</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Section - Contact Form */}
+          <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 md:p-10 relative overflow-hidden">
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#c99e70] to-transparent opacity-5 rounded-full transform translate-x-16 -translate-y-16"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-gray-800 to-transparent opacity-5 rounded-full transform -translate-x-12 translate-y-12"></div>
+            
+            <div className="relative z-10">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                Start a conversation with us
+              </h3>
+              <p className="text-gray-600 text-center mb-8 text-sm sm:text-base">
+                Let's discuss your architectural vision and transform it into reality
+              </p>
+              
+              <div className="space-y-8">
+                {/* Name Field */}
+                <div className="relative group">
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 transition-all duration-300">
+                    <User className={`w-5 h-5 ${focusedField === 'name' || formData.name ? 'text-[#c99e70]' : 'text-gray-400'}`} />
                   </div>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Full Name*"
+                    value={formData.name}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('name')}
+                    onBlur={handleBlur}
+                    className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] outline-none bg-transparent text-gray-700 placeholder-gray-500 transition-all duration-300 hover:border-gray-300"
+                  />
+                  <div className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Tell us who we'll be working with on this architectural journey
+                  </div>
+                </div>
+
+                {/* Email Field */}
+                <div className="relative group">
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 transition-all duration-300">
+                    <Mail className={`w-5 h-5 ${focusedField === 'email' || formData.email ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+                  </div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Your Email Address*"
+                    value={formData.email}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('email')}
+                    onBlur={handleBlur}
+                    className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] outline-none bg-transparent text-gray-700 placeholder-gray-500 transition-all duration-300 hover:border-gray-300"
+                  />
+                  <div className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    We'll send you project updates and design inspirations
+                  </div>
+                </div>
+
+                {/* Phone Field */}
+                <div className="relative group">
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 transition-all duration-300">
+                    <Phone className={`w-5 h-5 ${focusedField === 'phone' || formData.phone ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+                  </div>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Your Phone Number*"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('phone')}
+                    onBlur={handleBlur}
+                    className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] outline-none bg-transparent text-gray-700 placeholder-gray-500 transition-all duration-300 hover:border-gray-300"
+                  />
+                  <div className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    For quick consultations and site visit coordination
+                  </div>
+                </div>
+
+                {/* Message Field */}
+                <div className="relative group">
+                  <div className="absolute left-4 top-6 transition-all duration-300">
+                    <MessageSquare className={`w-5 h-5 ${focusedField === 'message' || formData.message ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+                  </div>
+                  <textarea
+                    name="message"
+                    placeholder="Tell us about your architectural vision, project requirements, budget range, and timeline*"
+                    value={formData.message}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('message')}
+                    onBlur={handleBlur}
+                    rows={4}
+                    className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] outline-none bg-transparent text-gray-700 placeholder-gray-500 transition-all duration-300 resize-none hover:border-gray-300"
+                  />
+                  <div className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Share your dreams - residential, commercial, or innovative spaces
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-6">
+                  <button
+                    type="submit"
+                    className="w-full bg-[#c99e70] hover:bg-[#b8916a] text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 relative overflow-hidden group"
+                  >
+                    <span className="relative z-10 flex items-center justify-center space-x-2">
+                      <Building className="w-5 h-5" />
+                      <span>START BUILDING TOGETHER</span>
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                  </button>
+                  <p className="text-xs text-gray-500 text-center mt-3">
+                    We typically respond within 24 hours with initial concepts
+                  </p>
                 </div>
               </div>
             </div>
