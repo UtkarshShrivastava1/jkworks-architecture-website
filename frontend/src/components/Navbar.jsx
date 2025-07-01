@@ -44,7 +44,8 @@ function NavBar({ projectRef }) {
     { to: "/project", label: "Projects", onClick: handleProjectsClick },
     { to: "/about", label: "About" },
     { to: "/blog", label: "Blogs" },
-    { to: "/courses", label: "My Courses" },
+    // { to: "/courses", label: "My Courses" },
+    // { to: "/login", label: "Login" },
     { to: "/contact", label: "Contact" },
   ];
 

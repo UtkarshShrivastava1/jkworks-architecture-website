@@ -145,6 +145,7 @@ const HeroSection = ({ projectRef }) => {
           </motion.div>
         </div>
       </div>
+            
     </section>
   );
 };
