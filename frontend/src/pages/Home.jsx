@@ -5,6 +5,7 @@ import NavBar from "../components/Navbar";
 import Letstalk from "../components/Letstalk";
 import Project from "../components/Project";
 import video from "../assets/try.mp4";
+import FormPage from "../components/FormPage";
 
 const Home = () => {
   const projectRef = useRef(null);
@@ -15,7 +16,8 @@ const Home = () => {
       <div ref={projectRef}>
         <Project />
       </div>
-      <Letstalk />
+      {/* <Letstalk /> */}
+      <FormPage />
     </div>
   );
 };
