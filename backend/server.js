@@ -25,6 +25,7 @@ mongoose.connect(config.dbUri, {
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 const blogRoutes = require('./routes/blogs');
+const faqRoutes = require('./routes/faqRoutes');
 const contactRoutes = require('./routes/contact');
 
 
@@ -33,6 +34,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/projects', projectRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/blogs', blogRoutes);
+app.use('/api/faqs', faqRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running...');
