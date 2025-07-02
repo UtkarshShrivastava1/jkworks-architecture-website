@@ -260,13 +260,18 @@ const ContactForm = () => {
   return (
     <div className="min-h-screen bg-gray-200 relative overflow-hidden">
       {/* Decorative background elements - responsive sizes */}
-      <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-gray-300 opacity-100 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
+      <div className="absolute bottom-50 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-gray-300 opacity-100 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
       <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-gray-300 opacity-100 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
       {/* Header */}
       <div className="text-center py-8 md:py-12">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#c99e70] mb-2"> 
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#a77744] mb-2"> 
           Contact us
         </h1>
+        <span className="block mb-2 text-gray-700 font-light italic text-lg sm:text-xl md:text-2xl">
+                    "Architecture is a visual art, and the buildings speak for themselves."
+                  </span>
+                  <div className="w-24 h-1 bg-gradient-to-r from-[#d59653] to-[#d07310] mx-auto mt-8 rounded-full"></div>
+
       </div>
 
       {/* Main Content */}
@@ -278,9 +283,7 @@ const ContactForm = () => {
             <div>
               <div className="relative">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6 leading-tight relative z-10">
-                  <span className="block mb-2 text-gray-700 font-light italic text-lg sm:text-xl md:text-2xl">
-                    "Architecture is a visual art, and the buildings speak for themselves."
-                  </span>
+                   
                   <span className="block text-gray-800 font-bold">
                     We don't just design structures;{' '}
                   </span>

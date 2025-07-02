@@ -8,6 +8,7 @@ import Letstalk from './components/Letstalk';
 import ContactPage from './pages/Contact'; 
 import Project from './components/Project';
 import FormPage  from './components/FormPage';
+import Cservices  from './components/C_services';
 import Interior from './pages/Interior';
 import Exterior from './pages/Exterior';
 import Design from './pages/Design';
@@ -46,6 +47,7 @@ function AppContent() {
         <Route path="/designs" element={<Design />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/form" element={<FormPage />} />
+        <Route path="/services" element={<Cservices/>} />
         <Route path="/about_com" element={<About_com />} />
         <Route path="/login" element={<Login />} />
         <Route path="/mycourses" element={<MyCourses />} />
