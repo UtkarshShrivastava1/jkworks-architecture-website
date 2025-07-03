@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Palette, Calendar, Hammer, Users, ArrowRight } from 'lucide-react';
+import { ChevronRight, Palette, Calendar, Hammer, Users } from 'lucide-react';
 
-const ArchitectureServices = () => {
+const BMWProcessComponent = () => {  
   const [activeCard, setActiveCard] = useState(null);
-
   const services = [
     {
       id: 1,
@@ -11,8 +10,7 @@ const ArchitectureServices = () => {
       description: "We create innovative architectural solutions that blend aesthetics with functionality. Our design philosophy embraces sustainable practices, modern technology, and timeless elegance to deliver spaces that inspire and endure.",
       icon: <Palette className="w-6 h-6" />,
       bgImage: "/src/assets/design.jpg",
-      color: "from-blue-600 to-purple-600",
-      accentColor: "bg-blue-500"
+      category: "Design Excellence"
     },
     {
       id: 2,
@@ -20,8 +18,7 @@ const ArchitectureServices = () => {
       description: "Strategic planning forms the foundation of every successful project. We provide comprehensive planning services including feasibility studies, zoning analysis, permit coordination, and timeline development to ensure seamless project execution.",
       icon: <Calendar className="w-6 h-6" />,
       bgImage: "/src/assets/planning.jpg",
-      color: "from-emerald-600 to-teal-600",
-      accentColor: "bg-emerald-500"
+      category: "Precision Planning"
     },
     {
       id: 3,
@@ -29,8 +26,7 @@ const ArchitectureServices = () => {
       description: "Our construction management expertise ensures quality delivery within budget and schedule. We oversee all construction phases, coordinate with contractors, manage resources, and maintain the highest standards of craftsmanship and safety.",
       icon: <Hammer className="w-6 h-6" />,
       bgImage: "/src/assets/construction.jpg",
-      color: "from-orange-600 to-red-600",
-      accentColor: "bg-orange-500"
+      category: "Quality Construction"
     },
     {
       id: 4,
@@ -38,105 +34,75 @@ const ArchitectureServices = () => {
       description: "End-to-end project management that transforms visions into reality. We coordinate all stakeholders, manage timelines and budgets, ensure compliance with regulations, and deliver exceptional results that exceed client expectations.",
       icon: <Users className="w-6 h-6" />,
       bgImage: "/src/assets/management.jpg",
-      color: "from-slate-700 to-gray-900",
-      accentColor: "bg-slate-600"
+      category: "Comprehensive Management"
     }
   ];
 
-  const handleCardInteraction = (serviceId) => {
-    setActiveCard(activeCard === serviceId ? null : serviceId);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-200 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="bg-gray-200 min-h-screen p-6 lg:p-12 relative overflow-hidden">
       {/* Decorative background elements */}
-      <div className="absolute bottom-50 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-gray-300 opacity-100 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
-      <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-gray-300 opacity-100 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
-      
-      <div className="max-w-full mx-auto relative z-10">
+      <div className="absolute bottom-50 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-white/10 opacity-30 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
+      <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-white/10 opacity-30 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header Section */}
-        <div className="text-center mb-20"> 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-gray-900">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6  text-[#a77744] ">
             What we 
-            <span className="bg-[#a77744]  bg-clip-text text-transparent"> Deliver?</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#d59653] to-[#d07310]"> Deliver</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl text-gray-700 font-light italic mx-auto leading-relaxed">
-            "Comprehensive architectural services from concept to completion, delivering exceptional spaces that inspire and endure"
+          <p className="block mb-2 text-gray-700 font-light italic text-lg sm:text-xl md:text-2xl">
+            "Comprehensive architectural services from concept to completion<br/> delivering exceptional spaces that inspire and endure"
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-[#d59653] to-[#d07310] mx-auto mt-8 rounded-full"></div>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
-          {services.map((service, index) => (
-            <div
-              key={service.id}
-              className={`group relative overflow-hidden rounded-2xl shadow-xl transition-all duration-700 transform h-auto cursor-pointer
-                ${activeCard === service.id ? 
-                  'shadow-2xl -translate-y-2 scale-105' : 
-                  'hover:shadow-2xl hover:-translate-y-2 hover:scale-105'
-                }`}
+        {/* Process Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {services.map((item, index) => (
+            <div 
+              key={item.id} 
+              className="group relative cursor-pointer"
+              onMouseEnter={() => setActiveCard(item.id)}
+              onMouseLeave={() => setActiveCard(null)}
               style={{
-                animationDelay: `${index * 150}ms`
+                animation: `slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.15}s forwards`,
+                opacity: 0,
+                transform: 'translateX(-120px)'
               }}
-              onClick={() => handleCardInteraction(service.id)}
-              onTouchStart={() => handleCardInteraction(service.id)}
             >
-              {/* Full Background Image */}
-              <img 
-                src={service.bgImage}
-                alt={service.title}
-                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 
-                  ${activeCard === service.id ? 'scale-110' : 'group-hover:scale-110'}`}
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'block';
-                }}
-              />
-              {/* Fallback gradient background */}
-              <div 
-                className={`absolute inset-0 bg-gradient-to-br ${service.color} hidden`}
-              ></div>
-              
-              {/* Dark Overlay for text readability */}
-              <div className={`absolute inset-0 transition-all duration-500 
-                ${activeCard === service.id ? 
-                  'bg-black/30' : 
-                  'bg-black/40 group-hover:bg-black/30'
-                }`}></div>
+              <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
+              <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2">
+                <div className="w-full h-[500px] bg-gradient-to-br from-gray-300 to-gray-500 rounded-lg overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-xl relative">
+                  <img
+                    src={item.bgImage}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
+                  
+                  {/* Premium Shine Effect */}
+                  <div className={`absolute inset-0 rounded-2xl transition-opacity duration-700 pointer-events-none 
+                    ${activeCard === item.id ? 
+                      'opacity-100' : 
+                      'opacity-0 group-hover:opacity-100'
+                    }`}>
+                    <div className={`absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 transition-transform duration-1000 
+                      ${activeCard === item.id ? 
+                        'translate-x-[200%]' : 
+                        'translate-x-[-200%] group-hover:translate-x-[200%]'
+                      }`}></div>
+                  </div>
 
-              {/* Content Container - Flexible Height */}
-              <div className="relative z-10 h-full flex flex-col justify-end p-6 sm:p-8 min-h-[400px] sm:min-h-[450px] lg:min-h-[500px]">
-                {/* Service Title - Flexible to content */}
-                <h3 className={`text-xl sm:text-2xl lg:text-3xl font-bold mb-4 tracking-wide transition-colors duration-300 leading-tight 
-                  ${activeCard === service.id ? 
-                    'text-yellow-100' : 
-                    'text-white group-hover:text-yellow-100'
-                  }`}>
-                  {service.title}
-                </h3>
-
-                {/* Description - Flexible height */}
-                <p className={`leading-relaxed text-sm sm:text-base transition-all duration-300 
-                  ${activeCard === service.id ? 
-                    'text-white' : 
-                    'text-white/90 group-hover:text-white'
-                  }`}>
-                  {service.description}
-                </p>
-              </div>
-
-              {/* Premium Shine Effect */}
-              <div className={`absolute inset-0 rounded-2xl transition-opacity duration-700 pointer-events-none 
-                ${activeCard === service.id ? 
-                  'opacity-100' : 
-                  'opacity-0 group-hover:opacity-100'
-                }`}>
-                <div className={`absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 transition-transform duration-1000 
-                  ${activeCard === service.id ? 
-                    'translate-x-[200%]' : 
-                    'translate-x-[-200%] group-hover:translate-x-[200%]'
-                  }`}></div>
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 flex flex-col justify-end"> 
+                    <h3 className="text-white font-bold text-xl leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-white/90 text-sm mt-3 line-clamp-13">
+                      {item.description}
+                    </p> 
+                  </div>
+                </div>
               </div>
             </div>
           ))}
@@ -151,29 +117,48 @@ const ArchitectureServices = () => {
             { number: "25+", label: "Industry Awards" }
           ].map((stat, index) => (
             <div key={index} className="text-center group">
-              <div className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors duration-300">
+              <div className="text-3xl sm:text-4xl font-bold  text-[#a77744] mb-2 group-hover:text-[#d59653] transition-colors duration-300">
                 {stat.number}
               </div>
-              <div className="text-gray-600 text-sm sm:text-base">
+              <div className=" text-[#a77744] text-sm sm:text-base">
                 {stat.label}
               </div>
             </div>
           ))}
         </div> 
+
+        {/* Additional Info Section */}
+        <div className="mt-16 pt-8 border-t border-white/20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className=" text-[#a77744]">
+              <h4 className="font-semibold mb-2">Design Philosophy</h4>
+              <p className="text-sm">BMW's design language combines aesthetics with aerodynamic efficiency</p>
+            </div>
+            <div className=" text-[#a77744]">
+              <h4 className="font-semibold mb-2">Engineering Precision</h4>
+              <p className="text-sm">Meticulous planning ensures performance and reliability</p>
+            </div>
+            <div className=" text-[#a77744]">
+              <h4 className="font-semibold mb-2">Quality Assurance</h4>
+              <p className="text-sm">Rigorous testing at every stage of production</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Custom Styles */}
-      <style jsx>{`
-        .line-clamp-4 {
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        
-        @media (max-width: 640px) {
-          .line-clamp-4 {
-            -webkit-line-clamp: 3;
+      <style jsx global>{`
+        @keyframes slideInFromLeft {
+          0% {
+            opacity: 0;
+            transform: translateX(-120px);
+          }
+          60% {
+            opacity: 0.8;
+            transform: translateX(10px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
           }
         }
       `}</style>
@@ -181,7 +166,4 @@ const ArchitectureServices = () => {
   );
 };
 
-export default ArchitectureServices;
-
-
- 
+export default BMWProcessComponent;
