@@ -6,6 +6,8 @@ import NavBar from "../components/Navbar";
 import Project from "../components/Project";
 import video from "../assets/try.mp4";
 import FormPage from "../components/FormPage";
+import Cservices  from '../components/C_services';
+
 
 const Home = () => {
   const projectRef = useRef(null);
@@ -18,6 +20,7 @@ const Home = () => {
       </div>
       {/* <Letstalk /> */}
       <FormPage />
+      <Cservices/>
     </div>
   );
 };
