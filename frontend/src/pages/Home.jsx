@@ -19,8 +19,9 @@ const Home = () => {
         <Project />
       </div>
       {/* <Letstalk /> */}
-      <FormPage />
       <Cservices/>
+      <FormPage />
+      
     </div>
   );
 };

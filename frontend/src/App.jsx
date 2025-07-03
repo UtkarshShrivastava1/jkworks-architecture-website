@@ -52,7 +52,7 @@ function AppContent() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/form" element={<FormPage />} />
         <Route path="/services" element={<Cservices/>} />
-        <Route path="/about_com" element={<About_com />} />
+        {/* <Route path="/about_com" element={<About_com />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/faqs" element={<FAQs />} />
