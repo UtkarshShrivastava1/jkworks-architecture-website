@@ -11,7 +11,7 @@ import FormPage  from './components/FormPage';
 import Interior from './pages/Interior';
 import Exterior from './pages/Exterior';
 import Design from './pages/Design';
-import About_com from './components/About_com';
+// import About_com from './components/About_com';
 import ProjectDetails from './pages/ProjectDetails';
 import Blog from './pages/Blog';
 import Login from './pages/Login';
@@ -50,7 +50,7 @@ function AppContent() {
         <Route path="/designs" element={<Design />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/form" element={<FormPage />} />
-        <Route path="/about_com" element={<About_com />} />
+        {/* <Route path="/about_com" element={<About_com />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/faqs" element={<FAQs />} />

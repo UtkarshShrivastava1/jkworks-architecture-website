@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import NavBar from "../components/Navbar";
-import Letstalk from "../components/Letstalk";
+// import Letstalk from "../components/Letstalk";
 import Project from "../components/Project";
 import video from "../assets/try.mp4";
 import FormPage from "../components/FormPage";
