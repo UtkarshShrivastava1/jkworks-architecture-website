@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronRight, Palette, Calendar, Hammer, Users } from "lucide-react";
+import { Palette, Calendar, Hammer, Users } from "lucide-react";
 
 // Import images at the top
 import DesignImg from "../assets/design.jpg";
@@ -115,6 +115,7 @@ const BMWProcessComponent = () => {
 
                   {/* Content Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 flex flex-col justify-end">
+                  <div className="mb-2">{item.icon}</div>
                     <h3 className="text-white font-bold text-xl leading-tight">
                       {item.title}
                     </h3>
