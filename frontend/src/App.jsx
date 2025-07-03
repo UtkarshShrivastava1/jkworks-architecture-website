@@ -18,6 +18,7 @@ import Blog from './pages/Blog';
 import Login from './pages/Login';
 import MyCourses from './pages/MyCourses';
 import Dashboard from './pages/Dashboard';
+import FAQs from './pages/Faq';
 
 // New Admin Pages
 import AdminBlog from './Dashboard/AdminBlog';
@@ -26,6 +27,9 @@ import EditBlog from './Dashboard/EditBlog';
 import AdminProject from './Dashboard/AdminProject';
 import CreateProject from './Dashboard/CreateProject';
 import EditProject from './Dashboard/EditProject';
+import AdminFAQ from './Dashboard/AdminFAQ';
+import CreateFAQ from './Dashboard/CreateFAQ';
+import EditFAQ from './Dashboard/EditFAQ';
 
 function AppContent() {
   const location = useLocation();
@@ -51,6 +55,7 @@ function AppContent() {
         <Route path="/about_com" element={<About_com />} />
         <Route path="/login" element={<Login />} />
         <Route path="/mycourses" element={<MyCourses />} />
+        <Route path="/faqs" element={<FAQs />} />
 
         {/* Dashboard & Admin Routes */}
         <Route path="/dashboard" element={<Dashboard />} />
@@ -60,6 +65,9 @@ function AppContent() {
         <Route path="/dashboard/projects" element={<AdminProject />} />
         <Route path="/dashboard/projects/create" element={<CreateProject />} />
         <Route path="/dashboard/projects/edit/:id" element={<EditProject />} />
+        <Route path="/dashboard/faqs" element={<AdminFAQ />} />
+        <Route path="/dashboard/faqs/create" element={<CreateFAQ />} />
+        <Route path="/dashboard/faqs/edit/:id" element={<EditFAQ />} />
 
         <Route path="*" element={<Login />} />
       </Routes>

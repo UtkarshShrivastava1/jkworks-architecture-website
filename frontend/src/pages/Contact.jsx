@@ -42,7 +42,6 @@ const ContactPage = () => {
         setStatus('Message sent!');
         setForm({
           name: '',
-          companyName: '',
           email: '',
           phone: '',
           message: ''
@@ -56,7 +55,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full justify-start items-center relative">
+    <div className="flex min-h-screen w-full justify-center md:justify-start items-center relative px-4 sm:px-6">
       {/* Background Image */}
       <div
         className="w-full h-full bg-cover bg-center absolute z-0"
@@ -64,16 +63,16 @@ const ContactPage = () => {
       />
 
       {/* Contact Form Panel */}
-      <div className="bg-[#eeecec] w-[calc(35rem)] #1E1E1E p-10 flex flex-col justify-between shadow-xl z-10 ml-[2.5cm] mt-[2cm] mb-[1cm]">
+      <div className="bg-[#eeecec] w-[calc(35rem)] p-6 sm:p-8 md:p-10 flex flex-col justify-between shadow-xl z-10 mt-16 mb-8 md:ml-[2.5cm]">
         <div>
-          <h1 className="text-4xl font-sans mb-4">CONTACT US</h1>
-          <p className="mb-8 font-sans ">
+          <h1 className="text-3xl md:text-4xl font-sans mb-4">CONTACT US</h1>
+          <p className="mb-8 font-sans text-sm md:text-base">
             Get in touch with us and we'll collaborate to turn your vision into reality.
           </p>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label className="block mb-2">Name</label>
+              <label className="block mb-2 text-sm">Name</label>
               <input
                 type="text"
                 name="name"
@@ -83,9 +82,8 @@ const ContactPage = () => {
                 required
               />
             </div>
-           
             <div>
-              <label className="block mb-2">Email</label>
+              <label className="block mb-2 text-sm">Email</label>
               <input
                 type="email"
                 name="email"
@@ -96,7 +94,7 @@ const ContactPage = () => {
               />
             </div>
             <div>
-              <label className="block mb-2">Phone</label>
+              <label className="block mb-2 text-sm">Phone</label>
               <input
                 type="tel"
                 name="phone"
@@ -106,7 +104,7 @@ const ContactPage = () => {
               />
             </div>
             <div>
-              <label className="block mb-2">Message</label>
+              <label className="block mb-2 text-sm">Message</label>
               <textarea
                 name="message"
                 className="w-full border border-black p-2 h-32"
@@ -118,7 +116,7 @@ const ContactPage = () => {
             </div>
             <button
               type="submit"
-              className="w-50 h-12 bg-[#b39069] text-black py-3 px-6 hover:bg-black hover:text-white"
+              className="w-full md:w-auto h-12 bg-[#b39069] text-black py-3 px-6 hover:bg-black hover:text-white transition-colors"
             >
               LET'S TALK
             </button>
@@ -129,16 +127,15 @@ const ContactPage = () => {
         </div>
 
         {/* Logo Section */}
-        <div className="mt-12">
-          <div className="flex flex-col justify-end items-start">
-            <div className="text-7xl font-extrabold leading-none">JK</div>
-            <div className="text-8xl font-extrabold tracking-wider flex items-center">
+        <div className="mt-10 md:mt-12">
+          <div className="flex flex-col md:flex-row md:justify-end items-start md:items-center">
+            <div className="text-5xl md:text-7xl font-extrabold leading-none">JK</div>
+            <div className="text-6xl md:text-8xl font-extrabold tracking-wider flex items-center mt-2 md:mt-0 md:ml-4">
               <span className="mr-1">W</span>
-              {/* Animated "O" */}
               <div className="relative inline-flex items-center justify-center mx-2">
-                <div className="w-16 h-16 border-[6px] border-black rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 md:w-16 md:h-16 border-[6px] border-black rounded-full flex items-center justify-center">
                   <div
-                    className="w-10 h-10 border-[6px] border-black rounded-full"
+                    className="w-8 h-8 md:w-10 md:h-10 border-[6px] border-black rounded-full"
                     style={{ transform: `rotate(${rotation}deg)` }}
                   ></div>
                 </div>

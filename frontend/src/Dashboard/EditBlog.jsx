@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getBlogById, updateBlog } from '../services/blogService';
 import { useNavigate, useParams } from 'react-router-dom';
+import AdminSidebar from '../components/AdminSidebar';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
@@ -13,22 +14,22 @@ const EditBlog = () => {
   const [newImage, setNewImage] = useState(null);
   const [preview, setPreview] = useState('');
   const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(true); // <-- Move here!
+  const [fetching, setFetching] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-useEffect(() => {
-  const fetchBlog = async () => {
-    const blog = await getBlogById(id);
-    console.log('Fetched blog:', blog); // Add this line
-    setTitle(blog.title || '');
-    setCategory(blog.category || '');
-    setDescription(blog.description || blog.content || '');
-    setImage(blog.image || '');
-    setPreview(blog.image ? `${API_URL}/uploads/${blog.image}` : '');
-    setFetching(false);
-  };
-  fetchBlog();
-}, [id]);
+  useEffect(() => {
+    const fetchBlog = async () => {
+      const blog = await getBlogById(id);
+      setTitle(blog.title || '');
+      setCategory(blog.category || '');
+      setDescription(blog.description || blog.content || '');
+      setImage(blog.image || '');
+      setPreview(blog.image ? `${API_URL}/uploads/${blog.image}` : '');
+      setFetching(false);
+    };
+    fetchBlog();
+  }, [id]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -57,76 +58,123 @@ useEffect(() => {
     }
   };
 
+  const handleSidebarNavigate = (path) => {
+    setSidebarOpen(false);
+    navigate(path);
+  };
+
   if (fetching) {
-    return <div className="text-center mt-10">Loading blog...</div>;
+    return <div className="text-center mt-10 text-white">Loading blog...</div>;
   }
 
   return (
-    <div className="max-w-xl mx-auto mt-10 bg-white p-8 rounded shadow">
-         <div className="flex justify-between items-center mb-6">
-      <h2 className="text-2xl font-bold">Edit Blog</h2>
-      <button
-        onClick={() => navigate('/dashboard/blogs')}
-        className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
-      >
-        Back
-      </button>
-    </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block mb-1 font-medium">Title</label>
-          <input
-            className="w-full border rounded px-3 py-2"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Category</label>
-          <input
-            className="w-full border rounded px-3 py-2"
-            value={category}
-            onChange={e => setCategory(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Description</label>
-          <textarea
-            className="w-full border rounded px-3 py-2"
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-            rows={4}
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Blog Image</label>
-          {preview && (
-            <img
-              src={preview}
-              alt="Blog"
-              className="w-40 h-32 object-cover rounded mb-2 border"
-            />
-          )}
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="block"
-          />
-        </div>
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-900">
+      {/* Mobile Sidebar Toggle */}
+      <div className="md:hidden flex items-center justify-between p-4 bg-slate-900 shadow z-20">
+        <h1 className="text-xl font-bold text-white">Edit Blog</h1>
         <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-          disabled={loading}
+          className="text-white focus:outline-none"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Open sidebar"
         >
-          {loading ? "Updating..." : "Update"}
+          <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            {sidebarOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
         </button>
-      </form>
+      </div>
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed inset-0 z-30 transition-transform duration-300 md:static md:translate-x-0
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          md:translate-x-0 md:block h-full w-72 flex-shrink-0 bg-slate-900
+        `}
+        style={{ maxWidth: "18rem" }}
+      >
+        <div className="h-full overflow-y-auto">
+          <AdminSidebar onNavigate={handleSidebarNavigate} onLogout={() => navigate('/login')} />
+        </div>
+      </div>
+      {/* Overlay for mobile sidebar */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-40 z-20 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      {/* Main Content */}
+      <main className="flex-1 h-full overflow-y-auto bg-gradient-to-br from-slate-800/90 to-slate-900/90 p-4 md:p-8">
+        <div className="max-w-xl mx-auto bg-slate-800/90 p-8 rounded-2xl shadow-2xl min-h-[80vh]">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white">Edit Blog</h2>
+            <button
+              onClick={() => navigate('/dashboard/blogs')}
+              className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
+            >
+              Back
+            </button>
+          </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block mb-1 font-medium text-gray-200">Title</label>
+              <input
+                className="w-full border border-slate-700 rounded px-3 py-2 bg-slate-900 text-white"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1 font-medium text-gray-200">Category</label>
+              <input
+                className="w-full border border-slate-700 rounded px-3 py-2 bg-slate-900 text-white"
+                value={category}
+                onChange={e => setCategory(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1 font-medium text-gray-200">Description</label>
+              <textarea
+                className="w-full border border-slate-700 rounded px-3 py-2 bg-slate-900 text-white"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                rows={4}
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1 font-medium text-gray-200">Blog Image</label>
+              {preview && (
+                <img
+                  src={preview}
+                  alt="Blog"
+                  className="w-40 h-32 object-cover rounded mb-2 border"
+                />
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="block w-full text-gray-200 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-slate-700 file:text-gray-200 hover:file:bg-slate-800 transition"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
+              disabled={loading}
+            >
+              {loading ? "Updating..." : "Update"}
+            </button>
+          </form>
+        </div>
+      </main>
     </div>
   );
 };
 
-export default EditBlog;             
+export default EditBlog;

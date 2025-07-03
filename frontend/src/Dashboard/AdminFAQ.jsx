@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react';
-import { getProjects, deleteProject } from '../services/projectService';
+import { getFAQs, deleteFAQ } from '../services/faqService';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 
-const AdminProject = () => {
-  const [projects, setProjects] = useState([]);
+const AdminFAQ = () => {
+  const [faqs, setFAQs] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      const res = await getProjects();
-      setProjects(Array.isArray(res.data) ? res.data : []);
-    };
-    fetchProjects();
+    getFAQs().then(res => setFAQs(res.data));
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this project?")) {
-      await deleteProject(id);
-      setProjects(projects.filter(p => p._id !== id));
+    if (window.confirm("Delete this FAQ?")) {
+      await deleteFAQ(id);
+      setFAQs(faqs.filter(faq => faq._id !== id));
     }
   };
 
@@ -32,7 +28,7 @@ const AdminProject = () => {
     <div className="min-h-screen flex flex-col md:flex-row bg-slate-900">
       {/* Mobile Sidebar Toggle */}
       <div className="md:hidden flex items-center justify-between p-4 bg-slate-900 shadow z-20">
-        <h1 className="text-xl font-bold text-white">Manage Projects</h1>
+        <h1 className="text-xl font-bold text-white">Manage FAQs</h1>
         <button
           className="text-white focus:outline-none"
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -70,8 +66,8 @@ const AdminProject = () => {
       {/* Main Content */}
       <main className="flex-1 h-full overflow-y-auto bg-gradient-to-br from-slate-800/90 to-slate-900/90 p-4 md:p-8">
         <div className="max-w-4xl mx-auto bg-slate-800/90 p-6 md:p-10 rounded-2xl shadow-2xl min-h-[80vh]">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-white">Manage Projects</h2>
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl font-bold text-white">Manage FAQs</h2>
             <div className="flex gap-2">
               <button
                 onClick={() => navigate('/dashboard')}
@@ -80,44 +76,38 @@ const AdminProject = () => {
                 Back
               </button>
               <button
-                onClick={() => navigate('/dashboard/projects/create')}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                onClick={() => navigate('/dashboard/faqs/create')}
+                className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
               >
-                + Create Project
+                + Create FAQ
               </button>
             </div>
           </div>
-          {projects.length === 0 ? (
-            <div className="text-slate-400 text-center py-8">No projects found.</div>
+          {faqs.length === 0 ? (
+            <div className="text-slate-400 text-center py-8">No FAQs found.</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {projects.map(project => (
-                <div
-                  key={project._id}
-                  className="bg-slate-900 border border-slate-700 rounded-lg p-5 flex flex-col shadow hover:shadow-lg transition"
-                >
-                  {project.image && (
-                    <img
-                      src={`${import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000'}/uploads/${project.image}`}
-                      alt={project.title}
-                      className="w-full h-40 object-cover rounded mb-3 border"
-                    />
-                  )}
-                  <h3 className="text-lg font-semibold text-white mb-2">{project.title}</h3>
-                  <p className="text-sm text-slate-300 mb-4 break-words line-clamp-2">{project.description?.slice(0, 80)}...</p>
-                  <div className="mt-auto flex gap-2">
-                    <button
-                      onClick={() => navigate(`/dashboard/projects/edit/${project._id}`)}
-                      className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(project._id)}
-                      className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-                    >
-                      Delete
-                    </button>
+            <div className="space-y-6">
+              {faqs.map(faq => (
+                <div key={faq._id} className="bg-slate-900 border border-slate-700 rounded-lg p-5 flex flex-col shadow hover:shadow-lg transition">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-2">{faq.question}</h3>
+                      <p className="text-slate-300">{faq.answer}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => navigate(`/dashboard/faqs/edit/${faq._id}`)}
+                        className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(faq._id)}
+                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -126,7 +116,7 @@ const AdminProject = () => {
         </div>
       </main>
     </div>
-    );
+  );
 };
 
-export default AdminProject;
+export default AdminFAQ;
