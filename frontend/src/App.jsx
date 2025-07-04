@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import NavBar from './components/Navbar';
-import CustomCursor from './components/CustomCursor';
+// import CustomCursor from './components/CustomCursor';
 import Home from './pages/Home';
 import About from './pages/About';
 import Footer from './components/Footer';
@@ -38,7 +38,7 @@ function AppContent() {
   return (
     <>
       {!hideNavAndFooter && <NavBar />}
-      <CustomCursor />
+      {/* <CustomCursor /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/project" element={<Project />} />

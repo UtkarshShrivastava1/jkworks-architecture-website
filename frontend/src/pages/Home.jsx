@@ -108,7 +108,7 @@ const HeroSection = ({ projectRef }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              {/* You can add a main heading here if needed */}
+              {/* area for main heading here if needed */}
             </motion.h1>
             <motion.p
               className="text-lg md:text-xl lg:text-7xl text-[#c99e70]"
@@ -117,7 +117,7 @@ const HeroSection = ({ projectRef }) => {
               transition={{ delay: 0.3, duration: 0.6 }}
             >
               {text}
-              <Cursor cursorColor="#facc15" />
+              {/* <Cursor/> */}
             </motion.p>
           </div>
         </div>
