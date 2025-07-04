@@ -58,6 +58,11 @@ const BMWProcessComponent = () => {
         {/* Header Section */}
         <div className="text-center mb-20">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6  text-[#a77744] ">
+            What we
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#d59653] to-[#d07310]">
+              {" "}
+              Deliver
+            </span>
             What We 
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#d59653] to-[#d07310]"> Deliver</span>
           </h2>
