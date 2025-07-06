@@ -3,6 +3,8 @@ import { getProjects, deleteProject } from '../services/projectService';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 
+const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
+
 const AdminProject = () => {
   const [projects, setProjects] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -96,14 +98,22 @@ const AdminProject = () => {
                   key={project._id}
                   className="bg-slate-900 border border-slate-700 rounded-lg p-5 flex flex-col shadow hover:shadow-lg transition"
                 >
-                  {project.image && (
-                    <img
-                      src={`${import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000'}/uploads/${project.image}`}
-                      alt={project.title}
-                      className="w-full h-40 object-cover rounded mb-3 border"
-                    />
+                  {/* Show all images */}
+                  {project.images && project.images.length > 0 && (
+                    <div className="flex gap-2 mb-3 flex-wrap">
+                      {project.images.map((img, idx) => (
+                        <img
+                          key={idx}
+                          src={`${API_URL}/uploads/${img}`}
+                          alt={project.title}
+                          className="w-24 h-20 object-cover rounded border"
+                        />
+                      ))}
+                    </div>
                   )}
                   <h3 className="text-lg font-semibold text-white mb-2">{project.title}</h3>
+                  <div className="text-sm text-slate-300 mb-1">Carpet Area: {project.carpetArea || '-'}</div>
+                  <div className="text-sm text-slate-300 mb-1">Construction Area: {project.constructionArea || '-'}</div>
                   <p className="text-sm text-slate-300 mb-4 break-words line-clamp-2">{project.description?.slice(0, 80)}...</p>
                   <div className="mt-auto flex gap-2">
                     <button

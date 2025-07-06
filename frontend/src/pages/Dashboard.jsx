@@ -71,19 +71,27 @@ const Dashboard = () => {
       {/* Mobile Sidebar Toggle */}
       <div className="md:hidden flex items-center justify-between p-4 bg-slate-900 shadow z-20">
         <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
-        <button
-          className="text-white focus:outline-none"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label="Open sidebar"
-        >
-          <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            {sidebarOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm"
+            onClick={() => navigate("/")}
+          >
+            Back to Home
+          </button>
+          <button
+            className="text-white focus:outline-none"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label="Open sidebar"
+          >
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              {sidebarOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
       {/* Sidebar */}
       <div
@@ -110,7 +118,15 @@ const Dashboard = () => {
       <main className="flex-1 h-full overflow-y-auto bg-gradient-to-br from-slate-800/90 to-slate-900/90 p-2 sm:p-4 md:p-8 transition-all duration-300">
         <div className="max-w-6xl mx-auto bg-slate-800/90 rounded-2xl shadow-2xl p-3 sm:p-6 md:p-10 min-h-[90vh]">
           {/* Only show heading on md+ screens, on mobile it's in the topbar */}
-          <h1 className="hidden md:block text-3xl font-bold mb-8 text-white">Admin Dashboard</h1>
+          <div className="hidden md:flex items-center justify-between mb-8">
+            <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
+            <button
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              onClick={() => navigate("/")}
+            >
+              Back to Home
+            </button>
+          </div>
           {error && <p className="text-red-400 mb-4">{error}</p>}
 
           {/* Stats */}
