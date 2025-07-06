@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Palette, Calendar, Hammer, Users } from "lucide-react";
+import { ChevronRight, Palette, Calendar, Hammer, Users } from "lucide-react";
 
 // Import images at the top
 import DesignImg from "../assets/design.jpg";
@@ -51,8 +51,8 @@ const BMWProcessComponent = () => {
   return (
     <div className="bg-gray-200 min-h-screen p-6 lg:p-12 relative overflow-hidden">
       {/* Decorative background elements */}
-      <div className="absolute bottom-50 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-gray-300 opacity-100 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
-      <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full  bg-gray-300 opacity-100 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
+      <div className="absolute bottom-50 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-white/10 opacity-30 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
+      <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-white/10 opacity-30 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header Section */}
@@ -63,8 +63,6 @@ const BMWProcessComponent = () => {
               {" "}
               Deliver
             </span>
-            What We 
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#d59653] to-[#d07310]"> Deliver</span>
           </h2>
           <p className="block mb-2 text-gray-700 font-light italic text-lg sm:text-xl md:text-2xl">
             "Comprehensive architectural services from concept to completion
@@ -74,7 +72,7 @@ const BMWProcessComponent = () => {
         </div>
 
         {/* Process Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {services.map((item, index) => (
             <div
               key={item.id}
@@ -89,9 +87,8 @@ const BMWProcessComponent = () => {
                 transform: "translateX(-120px)",
               }}
             >
-              <div className="absolute inset-0   opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
-              {/* <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2"> */}
-              <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2 group-hover:scale-120 group-hover:z-10">
+              <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
+              <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2">
                 <div className="w-full h-[500px] bg-gradient-to-br from-gray-300 to-gray-500 rounded-lg overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-xl relative">
                   <img
                     src={item.bgImage}
@@ -120,7 +117,6 @@ const BMWProcessComponent = () => {
 
                   {/* Content Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 flex flex-col justify-end">
-                  <div className="mb-2">{item.icon}</div>
                     <h3 className="text-white font-bold text-xl leading-tight">
                       {item.title}
                     </h3>
