@@ -131,12 +131,13 @@ const BMWProcessComponent = () => {
         </div>
 
         {/* Statistics Section */}
-        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="mt-24 grid grid-cols-2 md:grid-cols-3 gap-8">
           {[
-            { number: "500+", label: "Projects Delivered" },
-            { number: "15+", label: "Years of Excellence" },
+            { number: "50+", label: "Projects Delivered" },
+            { number: "7+", label: "Years of Excellence" },
             { number: "95%", label: "Client Retention" },
-            { number: "25+", label: "Industry Awards" },
+            // { number: "25+", label: "Industry Awards" },
+            
           ].map((stat, index) => (
             <div key={index} className="text-center group">
               <div className="text-3xl sm:text-4xl font-bold  text-[#a77744] mb-2 group-hover:text-[#d59653] transition-colors duration-300">
@@ -155,7 +156,7 @@ const BMWProcessComponent = () => {
             <div className=" text-[#a77744]">
               <h4 className="font-semibold mb-2">Design Philosophy</h4>
               <p className="text-sm">
-                BMW's design language combines aesthetics with aerodynamic
+                design language combines aesthetics with 
                 efficiency
               </p>
             </div>
