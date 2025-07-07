@@ -1,49 +1,27 @@
-import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
+import api from "./api";
 
-export const getFAQs = () => axios.get(`${API_URL}/api/faqs`);
+export const getFAQs = () => api.get("/faqs");
 
 export const getFAQById = async (id) => {
-  const token = localStorage.getItem("token");
-  const response = await axios.get(
-    `${API_URL}/api/faqs/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return response.data;
+  const res = await api.get(`/faqs/${id}`);
+  return res.data;
 };
 
 export const createFAQ = (faq) =>
-  axios.post(`${API_URL}/api/faqs`, faq, {
-    headers: { 
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+  api.post("/faqs", faq, {
+    headers: {
+      "Content-Type": "application/json",
     },
   });
 
 export const updateFAQ = async (id, data) => {
-  const token = localStorage.getItem("token");
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json',
-  };
-  const response = await axios.put(
-    `${API_URL}/api/faqs/${id}`,
-    data,
-    { headers }
-  );
-  return response.data;
+  const res = await api.put(`/faqs/${id}`, data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res.data;
 };
 
-export const deleteFAQ = (id) => {
-  const token = localStorage.getItem("token");
-  return axios.delete(`${API_URL}/api/faqs/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      },
-  });
-};
+export const deleteFAQ = (id) => api.delete(`/faqs/${id}`);

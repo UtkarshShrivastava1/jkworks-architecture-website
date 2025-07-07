@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../middlewares/multer'); // <-- use your shared multer config
+const upload = require('../middlewares/multer'); 
 
 const {
   getProjects,

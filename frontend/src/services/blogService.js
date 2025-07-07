@@ -1,44 +1,25 @@
-import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+import api from "./api";
 
-export const getBlogs = () =>
-  axios.get(`${API_URL}/api/blogs`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+export const getBlogs = () => api.get("/blogs");
 
 export const getBlogById = async (id) => {
-  const res = await axios.get(`${API_URL}/api/blogs/${id}`);
-  return res.data; // <-- Only return the blog object, not the whole response
+  const res = await api.get(`/blogs/${id}`);
+  return res.data;
 };
 
 export const createBlog = (formData) =>
-  axios.post(`${API_URL}/api/blogs`, formData, {
+  api.post("/blogs", formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "multipart/form-data",
     },
   });
 
 export const updateBlog = (id, data, isFormData = false) =>
-  axios.put(
-    `${API_URL}/api/blogs/${id}`,
-    data,
-    {
-      headers: {
-        ...(isFormData
-          ? { 'Content-Type': 'multipart/form-data' }
-          : { 'Content-Type': 'application/json' }),
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
-
-export const deleteBlog = (id) =>
-  axios.delete(`${API_URL}/api/blogs/${id}`, {
+  api.put(`/blogs/${id}`, data, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": isFormData ? "multipart/form-data" : "application/json",
     },
   });
+
+export const deleteBlog = (id) => api.delete(`/blogs/${id}`);
