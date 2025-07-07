@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,37 +7,36 @@ const config = require('./config/config');
 
 const app = express();
 
-//  CORS Configuration
-const allowedOrigins = [
-  'https://jkworks-architecture-website.vercel.app', // frontend domain
-];
+// --------- Logging Helper ---------
+const log = (...args) => {
+  console.log(`[${new Date().toISOString()}]`, ...args);
+};
 
+// --------- Middleware ---------
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed from this origin'));
-    }
-  },
+  origin: ['https://your-vercel-domain.vercel.app'], // ✅ Replace with your Vercel frontend domain
   credentials: true,
 }));
-
-//  Body parser
 app.use(express.json());
 
-//  Connect to MongoDB
+// Optional: simple request logger (for dev/debug)
+app.use((req, res, next) => {
+  log(`[${req.method}] ${req.originalUrl}`);
+  next();
+});
+
+// --------- MongoDB Connection ---------
 mongoose.connect(config.dbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('Connected to MongoDB'))
+.then(() => log('✅ Connected to MongoDB'))
 .catch((err) => {
-  console.error('Failed to connect to MongoDB', err);
+  log('❌ Failed to connect to MongoDB:', err);
   process.exit(1);
 });
 
-//  Routes
+// --------- Routes ---------
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 const blogRoutes = require('./routes/blogs');
@@ -50,11 +50,12 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/faqs', faqRoutes);
 
+// Health check + auto-wake endpoint
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  res.send('✅ API is running...');
 });
 
-// Start server........
+// --------- Start Server ---------
 app.listen(config.port, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${config.port}`);
+  log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${config.port}`);
 });
