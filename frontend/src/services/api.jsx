@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 
 const base =
   import.meta.env.VITE_NODE_ENV === "production"
-    ? `${import.meta.env.VITE_PRODUCTION_URL}/api`
-    : `${import.meta.env.VITE_DEVELOPMENT_URL}/api`;
+    ? import.meta.env.VITE_PRODUCTION_URL
+    : import.meta.env.VITE_DEVELOPMENT_URL;
 
     // Clean trailing slash (very important)
 const API_URL = `${base.replace(/\/$/, "")}/api`; // ✅ clean and safe
