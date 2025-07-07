@@ -1,17 +1,10 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-<<<<<<< HEAD
 const base =
-=======
-// Clean base URLs
-const cleanUrl = (url) => url?.replace(/\/+$/, "");
-
-const API_URL =
->>>>>>> 2b6ce5b (api-call-fix)
   import.meta.env.VITE_NODE_ENV === "production"
-    ? `${cleanUrl(import.meta.env.VITE_PRODUCTION_URL)}/api`
-    : `${cleanUrl(import.meta.env.VITE_DEVELOPMENT_URL)}/api`;
+    ? `${import.meta.env.VITE_PRODUCTION_URL}/api`
+    : `${import.meta.env.VITE_DEVELOPMENT_URL}/api`;
 
     // Clean trailing slash (very important)
 const API_URL = `${base.replace(/\/$/, "")}/api`; // ✅ clean and safe
@@ -20,7 +13,7 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-// Attach token
+// Request Interceptor (Attach JWT token)
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -32,11 +25,12 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Toast errors
+// Response Interceptor (Toast for errors)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     const { response } = error;
+
     if (!response) {
       toast.error("Network error! Please check your connection.");
     } else if (response.status === 403) {
@@ -48,6 +42,7 @@ api.interceptors.response.use(
     } else {
       toast.error(response?.data?.message || "Something went wrong.");
     }
+
     return Promise.reject(error);
   }
 );
