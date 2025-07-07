@@ -51,23 +51,6 @@ function NavBar({ projectRef }) {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-[#2d2a2a]/95 backdrop-blur-md shadow-lg">
-      {/* Custom cursor animation - follows mouse/touch */}
-      <motion.div
-        className="fixed w-6 h-6 rounded-full bg-[#f4a079]/60 pointer-events-none z-50 mix-blend-screen"
-        style={{
-          left: cursorPosition.x - 12,
-          top: cursorPosition.y - 12,
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.6, 0.8, 0.6],
-        }}
-        transition={{ 
-          duration: 2,
-          repeat: Infinity,
-          repeatType: "loop"
-        }}
-      />
 
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-white">
         {/* Logo */}

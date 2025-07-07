@@ -7,17 +7,19 @@ const CreateProject = () => {
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
   const [category, setCategory] = useState('interior');
-  const [preview, setPreview] = useState(null);
+  const [carpetArea, setCarpetArea] = useState('');
+  const [constructionArea, setConstructionArea] = useState('');
+  const [images, setImages] = useState([]);
+  const [previews, setPreviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-    setPreview(file ? URL.createObjectURL(file) : null);
+  const handleImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages(prev => [...prev, ...files]);
+    setPreviews(prev => [...prev, ...files.map(file => URL.createObjectURL(file))]);
   };
 
   const handleSubmit = async (e) => {
@@ -27,8 +29,10 @@ const CreateProject = () => {
     formData.append('title', title);
     formData.append('address', address);
     formData.append('description', description);
-    formData.append('image', image);
     formData.append('category', category);
+    formData.append('carpetArea', carpetArea);
+    formData.append('constructionArea', constructionArea);
+    images.forEach(img => formData.append('images', img));
     await createProject(formData);
     setLoading(false);
     navigate('/dashboard/projects');
@@ -98,7 +102,7 @@ const CreateProject = () => {
                 placeholder="Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 bg-slate-900 text-white transition"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-white"
                 required
               />
             </div>
@@ -109,7 +113,7 @@ const CreateProject = () => {
                 placeholder="Address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 bg-slate-900 text-white transition"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-white"
                 required
               />
             </div>
@@ -119,33 +123,53 @@ const CreateProject = () => {
                 placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 bg-slate-900 text-white transition"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-white"
                 rows={4}
                 required
               />
             </div>
             <div>
-              <label className="block mb-2 font-medium text-gray-200">Project Image</label>
+              <label className="block mb-2 font-medium text-gray-200">Carpet Area (sq. ft.)</label>
+              <input
+                type="text"
+                placeholder="Carpet Area"
+                value={carpetArea}
+                onChange={e => setCarpetArea(e.target.value)}
+                className="w-full border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-white"
+              />
+            </div>
+            <div>
+              <label className="block mb-2 font-medium text-gray-200">Construction Area (sq. ft.)</label>
+              <input
+                type="text"
+                placeholder="Construction Area"
+                value={constructionArea}
+                onChange={e => setConstructionArea(e.target.value)}
+                className="w-full border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-white"
+              />
+            </div>
+            <div>
+              <label className="block mb-2 font-medium text-gray-200">Project Images (up to 5)</label>
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
+                multiple
+                onChange={handleImagesChange}
                 className="block w-full text-gray-200 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-slate-700 file:text-gray-200 hover:file:bg-slate-800 transition"
+                required // Make at least one image required
               />
-              {preview && (
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="w-44 h-32 object-cover rounded-xl mt-4 border border-slate-700 shadow"
-                />
-              )}
+              <div className="flex gap-2 mt-2 flex-wrap">
+                {previews.map((src, i) => (
+                  <img key={i} src={src} alt="Preview" className="w-24 h-20 object-cover rounded border" />
+                ))}
+              </div>
             </div>
             <div>
               <label className="block mb-2 font-medium text-gray-200">Category</label>
               <select
                 value={category}
                 onChange={e => setCategory(e.target.value)}
-                className="w-full border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-white focus:outline-none focus:border-blue-500 transition"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-white"
                 required
               >
                 <option value="interior">Interior</option>

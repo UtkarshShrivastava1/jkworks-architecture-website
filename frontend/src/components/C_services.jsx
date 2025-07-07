@@ -51,8 +51,8 @@ const BMWProcessComponent = () => {
   return (
     <div className="bg-gray-200 min-h-screen p-6 lg:p-12 relative overflow-hidden">
       {/* Decorative background elements */}
-      <div className="absolute bottom-50 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-gray-300 opacity-100 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
-      <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full  bg-gray-300 opacity-100 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
+      <div className="absolute bottom-50 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 rounded-full bg-white/10 opacity-30 transform translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 lg:translate-x-16 lg:translate-y-16"></div>
+      <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-white/10 opacity-30 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header Section */}
@@ -72,7 +72,7 @@ const BMWProcessComponent = () => {
         </div>
 
         {/* Process Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {services.map((item, index) => (
             <div
               key={item.id}
@@ -87,9 +87,8 @@ const BMWProcessComponent = () => {
                 transform: "translateX(-120px)",
               }}
             >
-              <div className="absolute inset-0   opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
-              {/* <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2"> */}
-              <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2 group-hover:scale-120 group-hover:z-10">
+              <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
+              <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2">
                 <div className="w-full h-[500px] bg-gradient-to-br from-gray-300 to-gray-500 rounded-lg overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-xl relative">
                   <img
                     src={item.bgImage}
@@ -132,12 +131,13 @@ const BMWProcessComponent = () => {
         </div>
 
         {/* Statistics Section */}
-        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="mt-24 grid grid-cols-2 md:grid-cols-3 gap-8">
           {[
-            { number: "500+", label: "Projects Delivered" },
-            { number: "15+", label: "Years of Excellence" },
+            { number: "50+", label: "Projects Delivered" },
+            { number: "7+", label: "Years of Excellence" },
             { number: "95%", label: "Client Retention" },
-            { number: "25+", label: "Industry Awards" },
+            // { number: "25+", label: "Industry Awards" },
+            
           ].map((stat, index) => (
             <div key={index} className="text-center group">
               <div className="text-3xl sm:text-4xl font-bold  text-[#a77744] mb-2 group-hover:text-[#d59653] transition-colors duration-300">
@@ -156,7 +156,7 @@ const BMWProcessComponent = () => {
             <div className=" text-[#a77744]">
               <h4 className="font-semibold mb-2">Design Philosophy</h4>
               <p className="text-sm">
-                BMW's design language combines aesthetics with aerodynamic
+                design language combines aesthetics with 
                 efficiency
               </p>
             </div>

@@ -1,34 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
+const upload = require('../middlewares/multer'); 
+
 const {
   getProjects,
   getProjectById,
-  getProjectsByCategory, // <-- use controller
+  getProjectsByCategory,
   createProject,
   updateProject,
   deleteProject,
 } = require('../controllers/projectController');
 
-// Multer storage config
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Save to /uploads
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
-  }
-});
-const upload = multer({ storage: storage });
-
-// multer for project creation and update
-router.post('/', upload.single('image'), createProject);
+// Use the shared upload middleware
+router.post('/', upload.array('images', 5), createProject);
+router.put('/:id', upload.array('images', 5), updateProject);
 
 router.get('/', getProjects);
-router.get('/category/:category', getProjectsByCategory); // <-- use controller
+router.get('/category/:category', getProjectsByCategory);
 router.get('/:id', getProjectById);
-router.put('/:id', upload.single('image'), updateProject); // <-- allow image update
 router.delete('/:id', deleteProject);
 
 module.exports = router;

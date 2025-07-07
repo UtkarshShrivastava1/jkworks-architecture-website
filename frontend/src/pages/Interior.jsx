@@ -1,6 +1,5 @@
-
 import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Hero from '../assets/I_hero.jpg';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -9,17 +8,18 @@ const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
 
 const Interior = () => {
   const [rotation, setRotation] = useState(0);
-  const [activeProject, setActiveProject] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
-  
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   // References for scroll animations
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
-  
+
   // Transform values based on scroll
   const headerOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
   const logoScale = useTransform(scrollYProgress, [0, 0.15], [0.8, 1]);
@@ -29,7 +29,7 @@ const Interior = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/projects/category/interior`);
-          setProjects(Array.isArray(response.data) ? response.data : []);
+        setProjects(Array.isArray(response.data) ? response.data : []);
         setIsLoaded(true);
       } catch (error) {
         console.error('Error fetching projects:', error);
@@ -40,33 +40,65 @@ const Interior = () => {
 
     // Initial page load animation
     setTimeout(() => fetchProjects(), 500);
-    
+
     // Rotating logo animation
     const interval = setInterval(() => {
       setRotation(prev => (prev + 1) % 360);
     }, 50);
-    
+
     return () => clearInterval(interval);
   }, []);
 
-  // Mouse parallax effect for project images
-  const handleMouseMove = (e, id) => {
-    if (activeProject === id) {
-      const card = document.getElementById(`project-${id}`);
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const xPercent = (x / rect.width - 0.5) * 10;
-      const yPercent = (y / rect.height - 0.5) * 10;
-      
-      card.style.transform = `perspective(1000px) rotateX(${-yPercent}deg) rotateY(${xPercent}deg) scale3d(1.02, 1.02, 1.02)`;
+  // Auto-rotate images in expanded card
+  useEffect(() => {
+    if (expandedIndex !== null && projects[expandedIndex]?.images?.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prev) =>
+          prev === projects[expandedIndex].images.length - 1 ? 0 : prev + 1
+        );
+      }, 2500);
+      return () => clearInterval(interval);
     }
-  };
-  
-  const handleMouseLeave = (id) => {
-    const card = document.getElementById(`project-${id}`);
-    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+  }, [expandedIndex, projects]);
+
+  // Helper for coverflow effect
+  const getImageStyle = (idx, current, total) => {
+    if (idx === current) {
+      return {
+        zIndex: 2,
+        scale: 1.1,
+        x: 0,
+        filter: "brightness(1)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+      };
+    }
+    if (idx === (current - 1 + total) % total) {
+      return {
+        zIndex: 1,
+        scale: 0.9,
+        x: -120,
+        filter: "brightness(0.7)",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+      };
+    }
+    if (idx === (current + 1) % total) {
+      return {
+        zIndex: 1,
+        scale: 0.9,
+        x: 120,
+        filter: "brightness(0.7)",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+      };
+    }
+    // Hide other images
+    return {
+      zIndex: 0,
+      scale: 0.7,
+      x: idx < current ? -220 : 220,
+      filter: "brightness(0.4)",
+      opacity: 0,
+      pointerEvents: "none"
+    };
   };
 
   return (
@@ -110,7 +142,7 @@ const Interior = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
         >
-          <div className="text-6xl md:text-8xl font-bold tracking-tighter text-center">
+          <div className="text-4xl xs:text-5xl sm:text-6xl md:text-8xl font-bold tracking-tighter text-center">
             INTERIOR<br/>EXCELLENCE
           </div>
         </motion.div>
@@ -119,23 +151,23 @@ const Interior = () => {
       {/* Header Section with Scroll Animation */}
       <motion.div 
         style={{ opacity: headerOpacity }}
-        className="w-full bg-gray-300 py-16 px-8 md:px-16 flex flex-col md:flex-row justify-between items-start md:items-center sticky top-0 z-30"
+        className="w-full bg-gray-300 py-10 px-4 sm:py-16 sm:px-8 md:px-16 flex flex-col md:flex-row justify-between items-start md:items-center sticky top-0 z-30"
       >
         {/* Left Side: "HOMES WE'VE DESIGNED" */}
         <motion.div 
-          className="mb-10 md:mb-0"
+          className="mb-8 md:mb-0"
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-none">
+          <h1 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-none">
             HOMES WE'VE<br />DESIGNED
           </h1>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link to="/v" className="inline-block mt-6 bg-black text-white px-8 py-3 font-medium transition-all duration-300 hover:bg-gray-800">
+            <Link to="/v" className="inline-block mt-6 bg-black text-white px-6 py-2 sm:px-8 sm:py-3 font-medium transition-all duration-300 hover:bg-gray-800 rounded">
               VIEW PROJECTS
             </Link>
           </motion.div>
@@ -143,14 +175,14 @@ const Interior = () => {
 
         {/* Right Side: JK WORKS Logo with Animation */}
         <motion.div 
-          className="flex flex-col items-end ml-8"
+          className="flex flex-col items-end ml-0 md:ml-8"
           style={{ scale: logoScale }}
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter">JK</div>
-          <div className="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter flex items-center">
+          <div className="text-4xl xs:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter">JK</div>
+          <div className="text-5xl xs:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter flex items-center">
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -162,9 +194,9 @@ const Interior = () => {
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <div className="w-16 h-16 md:w-20 md:h-20 border-4 md:border-[6px] border-black rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 xs:w-12 xs:h-12 md:w-20 md:h-20 border-4 md:border-[6px] border-black rounded-full flex items-center justify-center">
                 <motion.div
-                  className="w-10 h-10 md:w-12 md:h-12 border-4 md:border-[6px] border-black rounded-full"
+                  className="w-6 h-6 xs:w-8 xs:h-8 md:w-12 md:h-12 border-4 md:border-[6px] border-black rounded-full"
                   style={{ transform: `rotate(${rotation}deg)` }}
                   animate={{ 
                     boxShadow: ["0px 0px 0px rgba(0,0,0,0.2)", "0px 0px 15px rgba(0,0,0,0.2)", "0px 0px 0px rgba(0,0,0,0.2)"]
@@ -185,84 +217,210 @@ const Interior = () => {
         </motion.div>
       </motion.div>
 
-      {/* Project Sections */}
-      
-      {/* <pre>{JSON.stringify(projects, null, 2)}</pre>r */}
+{/*Project Grid with Expandable Card */}
+<div className="max-w-7xl mx-auto py-8 px-2 sm:px-4 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 relative">
+  {projects.map((project, index) => {
+    if (expandedIndex === index) {
+      const total = project.images?.length || 1;
+      // Reset image index if out of bounds
+      if (currentImageIndex >= total) setCurrentImageIndex(0);
 
-      {projects.map((project, index) => (
-  <div key={project._id || index} className="relative">
-    {/* Project Image */}
-    <motion.div 
-      className="w-full h-[80vh] overflow-hidden cursor-pointer"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8 }}
-      onMouseEnter={() => setActiveProject(project._id)}
-      onMouseLeave={() => {
-        setActiveProject(null);
-        handleMouseLeave(project._id);
-      }}
-      onMouseMove={(e) => handleMouseMove(e, project._id)}
-      id={`project-${project._id}`}
-    >
-      <motion.img
-        src={`${API_URL}/uploads/${project.image}`}
-        alt={project.title}
-        className="w-full h-full object-cover transition-transform duration-500"
-        initial={{ scale: 1.1 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2 }}
-        whileHover={{ scale: 1.05 }}
-      />
-    </motion.div>
-
-    {/* Card-like section below the image */}
-    <div className="w-full bg-gray-300 flex flex-col md:flex-row items-stretch px-8 py-12 md:py-16 md:px-16 gap-8">
-      {/* Title on the left */}
-      <div className="flex-1 flex items-center">
-        <div className="text-4xl font-bold text-black">{project.title}</div>
-      </div>
-      {/* Description in the center */}
-      <div className="flex-1 flex items-center">
-        <div
-          className="text-lg md:text-xl text-black leading-relaxed whitespace-pre-line break-words"
-          style={{ wordBreak: "break-word" }}
+      return (
+        <motion.div
+          key={project._id || index}
+          className="col-span-1 xs:col-span-2 md:col-span-3 xl:col-span-4 bg-white rounded-2xl shadow-2xl flex flex-col items-center p-0 xs:p-0 mb-6 relative z-10"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          style={{ gridColumn: "1 / -1" }}
         >
-          {project.description}
-        </div>
-      </div>
-      {/* Button on the right */}
-        <div className="flex-1 flex items-center justify-end">
-        <div className="text-lg md:text-xl text-gray-700 font-medium text-right break-words">
-          {project.address}
-        </div>
-      </div>
-    </div>
+          {/* Close Button */}
+          <button
+            className="absolute top-4 right-6 text-3xl text-gray-600 hover:text-black z-10"
+            onClick={() => setExpandedIndex(null)}
+            aria-label="Close"
+          >
+            &times;
+          </button>
+          {/* Coverflow Carousel */}
+          <div className="w-full flex justify-center items-center bg-white pt-8 pb-4 transition-all duration-500 relative min-h-[340px]">
+            {project.images && project.images.length > 0 && (
+              <div className="relative flex items-center justify-center w-full max-w-5xl mx-auto overflow-hidden" style={{height: "340px"}}>
+                {/* Left Arrow */}
+                {project.images.length > 1 && (
+                  <button
+                    className="absolute left-2 z-30 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg"
+                    onClick={e => {
+                      e.stopPropagation();
+                      setCurrentImageIndex((prev) =>
+                        prev === 0 ? project.images.length - 1 : prev - 1
+                      );
+                    }}
+                    aria-label="Previous image"
+                  >
+                    <span className="text-3xl font-bold">&#60;</span>
+                  </button>
+                )}
+                {/* Images with coverflow effect */}
+                <div className="relative w-full flex items-center justify-center overflow-visible" style={{height: "340px"}}>
+                  {project.images.map((img, idx) => {
+                    const total = project.images.length;
+                    const isActive = idx === currentImageIndex;
+                    const isPrev = idx === (currentImageIndex - 1 + total) % total;
+                    const isNext = idx === (currentImageIndex + 1) % total;
 
-    {/* Animated separator line */}
-    {index < projects.length - 1 && (
+                    let style = {
+                      position: "absolute",
+                      top: 0,
+                      left: "50%",
+                      height: "320px",
+                      width: isActive ? "100%" : "60%",
+                      boxShadow: isActive
+                        ? "0 8px 32px rgba(0,0,0,0.25)"
+                        : "0 2px 12px rgba(0,0,0,0.15)",
+                      zIndex: isActive ? 3 : (isPrev || isNext ? 2 : 1),
+                      opacity: isActive ? 1 : 0.7,
+                      transition: "all 0.5s cubic-bezier(.4,2,.3,1)",
+                      cursor: isActive ? "default" : "pointer",
+                      filter: isActive ? "brightness(1)" : "brightness(0.7)",
+                      transform: "",
+                    };
+
+                    if (isActive) {
+                      style.transform = "translateX(-50%) scale(1.05)";
+                    } else if (isPrev) {
+                      style.transform = "translateX(-70%) scale(0.92) rotateY(-18deg)";
+                    } else if (isNext) {
+                      style.transform = "translateX(-30%) scale(0.92) rotateY(18deg)";
+                    } else {
+                      style.opacity = 0;
+                      style.pointerEvents = "none";
+                      style.transform = idx < currentImageIndex
+                        ? "translateX(-200%) scale(0.7)"
+                        : "translateX(100%) scale(0.7)";
+                    }
+
+                    return (
+                      <motion.img
+                        key={img}
+                        src={`${API_URL}/uploads/${img}`}
+                        alt={project.title}
+                        style={style}
+                        onClick={e => {
+                          if (!isActive) {
+                            e.stopPropagation();
+                            setCurrentImageIndex(idx);
+                          }
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+                {/* Right Arrow */}
+                {project.images.length > 1 && (
+                  <button
+                    className="absolute right-2 z-30 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg"
+                    onClick={e => {
+                      e.stopPropagation();
+                      setCurrentImageIndex((prev) =>
+                        prev === project.images.length - 1 ? 0 : prev + 1
+                      );
+                    }}
+                    aria-label="Next image"
+                  >
+                    <span className="text-3xl font-bold">&#62;</span>
+                  </button>
+                )}
+              </div>
+            )}
+            {/* If no images */}
+            {(!project.images || project.images.length === 0) && (
+              <div className="text-gray-400">No images</div>
+            )}
+          </div>
+          {/* Details and Actions below image */}
+          <div className="w-full bg-[#f5f5f5] rounded-b-2xl flex flex-col px-6 py-8">
+            <div className="font-bold text-lg md:text-xl mb-2 text-gray-900 leading-tight">
+              {project.title}
+            </div>
+            <div className="text-base text-gray-600 mb-2">
+              {project.category}
+            </div>
+            <div className="text-base text-gray-700 mb-2">
+              {project.address}
+            </div>
+            <div className="text-base md:text-lg text-gray-800 whitespace-pre-line break-words mb-4">
+              {project.description}
+            </div>
+            <div className="w-full">
+              <div className="font-semibold text-lg text-gray-900 mb-3">Key Details</div>
+              <div className="text-base text-gray-700 mb-2">
+                <span className="font-medium">Carpet Area:</span>{" "}
+                {project.carpetArea ? project.carpetArea : "-"}
+              </div>
+              <div className="text-base text-gray-700">
+                <span className="font-medium">Construction Area:</span>{" "}
+                {project.constructionArea ? project.constructionArea : "-"}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      );
+
+    }
+
+    // Normal Card
+    return (
       <motion.div 
-        className="w-0 h-[1px] bg-gray-400 mx-auto"
-        initial={{ width: "0%" }}
-        whileInView={{ width: "80%" }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-      />
-    )}
-  </div>
-))}
+        key={project._id || index} 
+        className={`relative col-span-1 ${expandedIndex !== null ? 'opacity-50 hover:opacity-70' : ''}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: expandedIndex !== null ? 0.5 : 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={() => setExpandedIndex(index)}
+      >
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-300 cursor-pointer h-full">
+          <div className="flex items-center justify-end px-4 pt-4">
+            {project.isNew && (
+              <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded font-semibold">
+                New
+              </span>
+            )}
+          </div>
+          {/* Show first image only in card */}
+          <img
+            src={
+              project.images && project.images.length > 0
+                ? `${API_URL}/uploads/${project.images[0]}`
+                : ""
+            }
+            alt={project.title}
+            className="w-full h-40 xs:h-48 object-cover rounded-tl-2xl rounded-tr-2xl"
+          />
+          <div className="px-4 xs:px-6 pb-4 xs:pb-6 flex-1 flex flex-col">
+            <h3 className="font-bold text-base xs:text-lg mb-2 text-gray-900 leading-tight">
+              {project.title}
+            </h3>
+            <p className="text-xs xs:text-sm text-gray-700 mb-2 line-clamp-2">
+              {project.address}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  })}
+</div>
+
       {/* Footer CTA Section */}
       <motion.div 
-        className="w-full py-24 px-8 md:px-16 bg-gradient-to-r from-neutral-900 via-gray-800 to-black text-white text-center"
+        className="w-full py-16 xs:py-24 px-4 xs:px-8 md:px-16 bg-gradient-to-r from-neutral-900 via-gray-800 to-black text-white text-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
         <motion.h2 
-          className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6"
+          className="text-2xl xs:text-3xl md:text-5xl font-extrabold tracking-tight mb-4 xs:mb-6"
           initial={{ y: 40 }}
           whileInView={{ y: 0 }}
           transition={{ duration: 0.6 }}
@@ -271,7 +429,7 @@ const Interior = () => {
         </motion.h2>
         
         <motion.p 
-          className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10"
+          className="text-base xs:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-6 xs:mb-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
@@ -286,7 +444,7 @@ const Interior = () => {
         >
           <Link 
             to="/contact" 
-            className="inline-block bg-white text-black px-10 py-4 text-lg font-semibold tracking-wide rounded-full transition-colors duration-300 hover:bg-yellow-400 hover:text-black shadow-md"
+            className="inline-block bg-white text-black px-6 xs:px-10 py-3 xs:py-4 text-base xs:text-lg font-semibold tracking-wide rounded-full transition-colors duration-300 hover:bg-yellow-400 hover:text-black shadow-md"
           >
             START YOUR PROJECT
           </Link>

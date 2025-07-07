@@ -32,12 +32,20 @@ exports.getProjectsByCategory = async (req, res) => {
   }
 };
 
-// Create a new project
+// Create a new project (supports multiple images and key details)
 exports.createProject = async (req, res) => {
   try {
-    const { title, address, description, category } = req.body; // <-- add address here
-    const image = req.file ? req.file.filename : null;
-    const project = new Project({ title, address, description, category, image }); // <-- add address here
+    const { title, address, description, category, carpetArea, constructionArea } = req.body;
+    const images = req.files ? req.files.map(file => file.filename) : [];
+    const project = new Project({
+      title,
+      address,
+      description,
+      category,
+      carpetArea,
+      constructionArea,
+      images,
+    });
     await project.save();
     res.status(201).json(project);
   } catch (err) {
@@ -45,25 +53,31 @@ exports.createProject = async (req, res) => {
   }
 };
 
-// Update a project
+// Update a project (supports multiple images and key details)
 exports.updateProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ error: 'Project not found' });
 
-    // If a new image is uploaded, delete the old one
-    if (req.file) {
-      if (project.image) {
-        const oldImagePath = path.join(__dirname, '..', 'uploads', project.image);
-        if (fs.existsSync(oldImagePath)) fs.unlinkSync(oldImagePath);
+    // If new images are uploaded, delete old images and update
+    if (req.files && req.files.length > 0) {
+      // Delete old images from disk
+      if (project.images && Array.isArray(project.images)) {
+        project.images.forEach(img => {
+          const imgPath = path.join(__dirname, '..', 'uploads', img);
+          if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+        });
       }
-      project.image = req.file.filename;
+      project.images = req.files.map(file => file.filename);
     }
 
     // Update other fields
     project.title = req.body.title || project.title;
+    project.address = req.body.address || project.address;
     project.description = req.body.description || project.description;
     project.category = req.body.category || project.category;
+    project.carpetArea = req.body.carpetArea || project.carpetArea;
+    project.constructionArea = req.body.constructionArea || project.constructionArea;
 
     await project.save();
     res.json(project);
@@ -72,16 +86,18 @@ exports.updateProject = async (req, res) => {
   }
 };
 
-// Delete a project
+// Delete a project (delete all images)
 exports.deleteProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ error: 'Project not found' });
 
-    // Delete image file if exists
-    if (project.image) {
-      const imagePath = path.join(__dirname, '..', 'uploads', project.image);
-      if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
+    // Delete all images from disk
+    if (project.images && Array.isArray(project.images)) {
+      project.images.forEach(img => {
+        const imgPath = path.join(__dirname, '..', 'uploads', img);
+        if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+      });
     }
 
     await project.deleteOne();
