@@ -1,11 +1,13 @@
-// src/services/api.jsx
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_URL =
+const base =
   import.meta.env.VITE_NODE_ENV === "production"
     ? `${import.meta.env.VITE_PRODUCTION_URL}/api`
     : `${import.meta.env.VITE_DEVELOPMENT_URL}/api`;
+
+    // Clean trailing slash (very important)
+const API_URL = `${base.replace(/\/$/, "")}/api`; // ✅ clean and safe
 
 const api = axios.create({
   baseURL: API_URL,
