@@ -6,20 +6,19 @@ import NavBar from "../components/Navbar";
 import Project from "../components/Project";
 import video from "../assets/try.mp4";
 import FormPage from "../components/FormPage";
-import Cservices  from '../components/C_services';
-
+import Cservices from '../components/C_services';
 
 const Home = () => {
   const projectRef = useRef(null);
   return (
     <div className="relative">
-      <NavBar projectRef={projectRef}/>
-      <HeroSection  />
+      <NavBar projectRef={projectRef} />
+      <HeroSection />
       <div ref={projectRef}>
         <Project />
       </div>
       {/* <Letstalk /> */}
-      <Cservices/>
+      <Cservices />
       <FormPage />
       
     </div>
@@ -30,36 +29,6 @@ const HeroSection = ({ projectRef }) => {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  // Horizontal scroll animation
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const sections = [
-    { id: "01", title: "Digital Design", subtitle: "For all Disciplines" },
-    { id: "02", title: "BIM Management", subtitle: "Quality & Efficiency" },
-    { id: "03", title: "Implementation", subtitle: "Professional Services" },
-    { id: "04", title: "Consulting", subtitle: "Complete Solutions" }
-  ];
-
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", `-${(sections.length - 1) * 100}%`]
-  );
-
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (latest) => {
-      const newIndex = Math.min(
-        Math.floor(latest * sections.length),
-        sections.length - 1
-      );
-      setActiveIndex(newIndex);
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress, sections.length]);
 
   // Video autoplay
   useEffect(() => {
@@ -97,61 +66,54 @@ const HeroSection = ({ projectRef }) => {
         <div className="absolute inset-0 bg-[#2d2a2a]/88 bg-opacity-5"></div>
       </div>
 
-      {/* Content Container */}
-      <div className="relative z-10 h-full flex flex-col">
-        {/* Header */}
-        <div className="h-[40vh] flex items-center justify-center px-4">
-          <div className="text-center max-w-3xl">
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              {/* area for main heading here if needed */}
-            </motion.h1>
-            <motion.p
-              className="text-lg md:text-xl lg:text-7xl text-[#c99e70]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-            >
-              {text}
-              {/* <Cursor/> */}
-            </motion.p>
-          </div>
-        </div>
-
-        {/* Horizontal Scroller */}
-        <div className="h-[40vh] flex items-center pb-8">
+      {/* Centered Content Container */}
+      <div className="relative z-10 h-full flex items-center justify-center px-4">
+        <div className="text-center max-w-5xl mx-auto">
           <motion.div
-            className="flex items-center h-full"
-            style={{ x }}
+            className="relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
           >
-            {sections.map((section) => (
-              <div
-                key={section.id}
-                className="w-screen px-6 md:px-12 flex-shrink-0 opacity-100"
-              >
-                <div className="flex items-center max-w-4xl mx-auto">
-                  <span className="text-2xl md:text-3xl text-[#c99e70] mr-6">
-                    {section.id}
-                  </span>
-                  <div>
-                    <h2 className="text-xl md:text-2xl font-bold text-white">
-                      {section.title}
-                    </h2>
-                    <p className="text-base text-gray-300 mt-1">
-                      {section.subtitle}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+            {/* Glowing Background Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#c99e70]/20 to-[#facc15]/20 blur-3xl rounded-full transform scale-150"></div>
+            
+            {/* Typewriter Text */}
+            <div className="relative z-10">
+              <p className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#c99e70] via-[#facc15] to-[#c99e70] leading-tight">
+                {text}
+                <Cursor 
+                  cursorColor="#facc15" 
+                  cursorStyle="|"
+                  cursorBlinking={true}
+                />
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Subtitle */}
+          <motion.p
+            className="text-lg md:text-xl lg:text-2xl text-gray-300 mt-8 max-w-2xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+          >
+            Where creativity meets technology to build exceptional digital experiences
+          </motion.p>
+
+          {/* Decorative Elements */}
+          <motion.div
+            className="flex justify-center items-center mt-12 space-x-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+          >
+            <div className="w-16 h-0.5 bg-gradient-to-r from-transparent to-[#c99e70]"></div>
+            <div className="w-3 h-3 bg-[#facc15] rounded-full animate-pulse"></div>
+            <div className="w-16 h-0.5 bg-gradient-to-l from-transparent to-[#c99e70]"></div>
           </motion.div>
         </div>
       </div>
-            
     </section>
   );
 };
