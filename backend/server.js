@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// Start server....
+// Start server........
 app.listen(config.port, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${config.port}`);
 });
