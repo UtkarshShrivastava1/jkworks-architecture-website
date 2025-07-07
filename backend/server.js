@@ -6,19 +6,9 @@ const config = require('./config/config');
 
 const app = express();
 
-// ✅ CORS Configuration
-const allowedOrigins = [
-  'https://jkworks-architecture-website.vercel.app', // ✅ Your frontend domain
-];
-
+// ✅ CORS FIX: Allow Vercel frontend domain
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed from this origin'));
-    }
-  },
+  origin: 'https://jkworks-architecture-website.vercel.app',
   credentials: true,
 }));
 
@@ -30,11 +20,11 @@ mongoose.connect(config.dbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('Connected to MongoDB'))
-.catch((err) => {
-  console.error('Failed to connect to MongoDB', err);
-  process.exit(1);
-});
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB', err);
+    process.exit(1);
+  });
 
 // ✅ Routes
 const authRoutes = require('./routes/auth');
@@ -50,6 +40,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/faqs', faqRoutes);
 
+// ✅ Test route
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
