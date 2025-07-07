@@ -6,11 +6,26 @@ const config = require('./config/config');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+//  CORS Configuration
+const allowedOrigins = [
+  'https://jkworks-architecture-website.vercel.app', // frontend domain
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed from this origin'));
+    }
+  },
+  credentials: true,
+}));
+
+//  Body parser
 app.use(express.json());
 
-// Connect to MongoDB
+//  Connect to MongoDB
 mongoose.connect(config.dbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,13 +36,12 @@ mongoose.connect(config.dbUri, {
   process.exit(1);
 });
 
-// Routes
+//  Routes
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 const blogRoutes = require('./routes/blogs');
 const faqRoutes = require('./routes/faqRoutes');
 const contactRoutes = require('./routes/contact');
-
 
 app.use('/api/auth', authRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
