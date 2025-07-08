@@ -4,7 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const compression = require("compression");
 const helmet = require("helmet");
-require("dotenv").config(); // Load .env variables
+require("dotenv").config();
 
 const app = express();
 
@@ -19,17 +19,35 @@ const isProduction = NODE_ENV === "production";
 const DB_URI = isProduction ? process.env.PROD_DB_URI : process.env.DEV_DB_URI;
 const PORT = process.env.PORT || 5000;
 
-// --------- CORS Configuration ---------
-const allowedOrigins = process.env.FRONTEND_URL
-  ? process.env.FRONTEND_URL.split(",").map((origin) => origin.trim())
-  : [];
+// --------- CORS Configuration (UPDATED) ---------
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173", // Vite dev server
+  "https://jkworks-architecture-website.vercel.app",
+];
+
+// Add additional origins from environment variable
+if (process.env.FRONTEND_URL) {
+  const envOrigins = process.env.FRONTEND_URL.split(",").map((origin) =>
+    origin.trim()
+  );
+  allowedOrigins.push(...envOrigins);
+}
+
+// Remove duplicates
+const uniqueOrigins = [...new Set(allowedOrigins)];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
+
+      if (uniqueOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        log("❌ CORS Rejected:", origin);
+        log("✅ Allowed Origins:", uniqueOrigins);
         callback(new Error("❌ CORS Not Allowed: " + origin));
       }
     },
@@ -43,6 +61,7 @@ app.use(
 app.use(express.json());
 app.use(compression());
 app.use(helmet());
+
 app.use((req, res, next) => {
   log(`[${req.method}] ${req.originalUrl} | Origin: ${req.headers.origin}`);
   next();
@@ -76,10 +95,22 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --------- Health Check ---------
 app.get("/", (req, res) => {
-  res.status(200).send("✅ API is running...");
+  res.status(200).json({
+    message: "✅ API is running...",
+    environment: NODE_ENV,
+    timestamp: new Date().toISOString(),
+    allowedOrigins: uniqueOrigins,
+  });
+});
+
+// --------- Error Handling ---------
+app.use((err, req, res, next) => {
+  log("❌ Error:", err.message);
+  res.status(500).json({ error: "Something went wrong!" });
 });
 
 // --------- Start Server ---------
 app.listen(PORT, () => {
   log(`🚀 Server running in ${NODE_ENV} mode on port ${PORT}`);
+  log(`✅ Allowed Origins:`, uniqueOrigins);
 });
