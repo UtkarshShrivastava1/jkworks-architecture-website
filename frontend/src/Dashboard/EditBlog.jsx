@@ -1,18 +1,16 @@
-import { useState, useEffect } from 'react';
-import { getBlogById, updateBlog } from '../services/blogService';
-import { useNavigate, useParams } from 'react-router-dom';
-import AdminSidebar from '../components/AdminSidebar';
-
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+import { useState, useEffect } from "react";
+import api, { API_URL } from "../services/api"; // <-- Import api and API_URL
+import { useNavigate, useParams } from "react-router-dom";
+import AdminSidebar from "../components/AdminSidebar";
 
 const EditBlog = () => {
   const { id } = useParams();
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
   const [newImage, setNewImage] = useState(null);
-  const [preview, setPreview] = useState('');
+  const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,12 +18,14 @@ const EditBlog = () => {
 
   useEffect(() => {
     const fetchBlog = async () => {
-      const blog = await getBlogById(id);
-      setTitle(blog.title || '');
-      setCategory(blog.category || '');
-      setDescription(blog.description || blog.content || '');
-      setImage(blog.image || '');
-      setPreview(blog.image ? `${API_URL}/uploads/${blog.image}` : '');
+      // Use api.get instead of getBlogById
+      const res = await api.get(`/blogs/${id}`);
+      const blog = res.data;
+      setTitle(blog.title || "");
+      setCategory(blog.category || "");
+      setDescription(blog.description || blog.content || "");
+      setImage(blog.image || "");
+      setPreview(blog.image ? `${API_URL}/uploads/${blog.image}` : "");
       setFetching(false);
     };
     fetchBlog();
@@ -34,7 +34,13 @@ const EditBlog = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setNewImage(file);
-    setPreview(file ? URL.createObjectURL(file) : (image ? `${API_URL}/uploads/${image}` : ''));
+    setPreview(
+      file
+        ? URL.createObjectURL(file)
+        : image
+        ? `${API_URL}/uploads/${image}`
+        : ""
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -44,15 +50,19 @@ const EditBlog = () => {
       let formData;
       if (newImage) {
         formData = new FormData();
-        formData.append('title', title);
-        formData.append('category', category);
-        formData.append('description', description);
-        formData.append('image', newImage);
+        formData.append("title", title);
+        formData.append("category", category);
+        formData.append("description", description);
+        formData.append("image", newImage);
+        // Use api.put for multipart/form-data
+        await api.put(`/blogs/${id}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       } else {
         formData = { title, category, description };
+        await api.put(`/blogs/${id}`, formData);
       }
-      await updateBlog(id, formData, !!newImage);
-      navigate('/dashboard/blogs');
+      navigate("/dashboard/blogs");
     } finally {
       setLoading(false);
     }
@@ -77,11 +87,25 @@ const EditBlog = () => {
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Open sidebar"
         >
-          <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <svg
+            className="w-7 h-7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
             {sidebarOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             )}
           </svg>
         </button>
@@ -96,7 +120,10 @@ const EditBlog = () => {
         style={{ maxWidth: "18rem" }}
       >
         <div className="h-full overflow-y-auto">
-          <AdminSidebar onNavigate={handleSidebarNavigate} onLogout={() => navigate('/login')} />
+          <AdminSidebar
+            onNavigate={handleSidebarNavigate}
+            onLogout={() => navigate("/login")}
+          />
         </div>
       </div>
       {/* Overlay for mobile sidebar */}
@@ -112,7 +139,7 @@ const EditBlog = () => {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-white">Edit Blog</h2>
             <button
-              onClick={() => navigate('/dashboard/blogs')}
+              onClick={() => navigate("/dashboard/blogs")}
               className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
             >
               Back
@@ -120,35 +147,43 @@ const EditBlog = () => {
           </div>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block mb-1 font-medium text-gray-200">Title</label>
+              <label className="block mb-1 font-medium text-gray-200">
+                Title
+              </label>
               <input
                 className="w-full border border-slate-700 rounded px-3 py-2 bg-slate-900 text-white"
                 value={title}
-                onChange={e => setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
                 required
               />
             </div>
             <div>
-              <label className="block mb-1 font-medium text-gray-200">Category</label>
+              <label className="block mb-1 font-medium text-gray-200">
+                Category
+              </label>
               <input
                 className="w-full border border-slate-700 rounded px-3 py-2 bg-slate-900 text-white"
                 value={category}
-                onChange={e => setCategory(e.target.value)}
+                onChange={(e) => setCategory(e.target.value)}
                 required
               />
             </div>
             <div>
-              <label className="block mb-1 font-medium text-gray-200">Description</label>
+              <label className="block mb-1 font-medium text-gray-200">
+                Description
+              </label>
               <textarea
                 className="w-full border border-slate-700 rounded px-3 py-2 bg-slate-900 text-white"
                 value={description}
-                onChange={e => setDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
                 rows={4}
                 required
               />
             </div>
             <div>
-              <label className="block mb-1 font-medium text-gray-200">Blog Image</label>
+              <label className="block mb-1 font-medium text-gray-200">
+                Blog Image
+              </label>
               {preview && (
                 <img
                   src={preview}
