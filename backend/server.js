@@ -6,27 +6,38 @@ const config = require('./config/config');
 
 const app = express();
 
-// ✅ CORS FIX: Allow Vercel frontend domain
+//  CORS Configuration
+const allowedOrigins = [
+  'https://jkworks-architecture-website.vercel.app', // production frontend domain
+  'http://localhost:5173', //  local frontend domain
+];
+
 app.use(cors({
-  origin: 'https://jkworks-architecture-website.vercel.app',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed from this origin'));
+    }
+  },
   credentials: true,
 }));
 
-// ✅ Body parser
+//  Body parser
 app.use(express.json());
 
-// ✅ Connect to MongoDB
+//  Connect to MongoDB
 mongoose.connect(config.dbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB', err);
-    process.exit(1);
-  });
+.then(() => console.log('Connected to MongoDB'))
+.catch((err) => {
+  console.error('Failed to connect to MongoDB', err);
+  process.exit(1);
+});
 
-// ✅ Routes
+//  Routes
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 const blogRoutes = require('./routes/blogs');
@@ -40,12 +51,11 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/faqs', faqRoutes);
 
-// ✅ Test route
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// ✅ Start server
+// Start server........
 app.listen(config.port, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${config.port}`);
 });
