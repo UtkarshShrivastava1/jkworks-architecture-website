@@ -19,25 +19,12 @@ const isProduction = NODE_ENV === "production";
 const DB_URI = isProduction ? process.env.PROD_DB_URI : process.env.DEV_DB_URI;
 const PORT = process.env.PORT || 5000;
 
-/// --------- CORS Configuration (IMMEDIATE FIX) ---------
-const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:5173",
-  "https://jkworks-architecture-website.vercel.app",
-];
+/// --------- CORS Configuration (PRODUCTION SAFE) ---------
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",").map(origin => origin.trim())
+  : [];
 
-// Add environment variable origins if they exist
-if (process.env.FRONTEND_URL) {
-  const envOrigins = process.env.FRONTEND_URL.split(",").map((origin) =>
-    origin.trim()
-  );
-  allowedOrigins.push(...envOrigins);
-}
-
-// Remove duplicates
-const uniqueOrigins = [...new Set(allowedOrigins)];
-
-console.log("🔍 CORS Debug - Allowed Origins:", uniqueOrigins);
+console.log("🔍 CORS Debug - Allowed Origins:", allowedOrigins);
 
 app.use(
   cors({
@@ -46,17 +33,12 @@ app.use(
 
       // Allow requests with no origin (mobile apps, curl, etc.)
       if (!origin) {
-        console.log("✅ CORS Allow - No origin (mobile/curl)");
         return callback(null, true);
       }
 
-      if (uniqueOrigins.includes(origin)) {
-        console.log("✅ CORS Allow - Origin found in allowed list");
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.log("❌ CORS Reject - Origin not in allowed list");
-        console.log("❌ Rejected Origin:", origin);
-        console.log("✅ Allowed Origins:", uniqueOrigins);
         callback(new Error("❌ CORS Not Allowed: " + origin));
       }
     },
