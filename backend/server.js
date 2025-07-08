@@ -14,23 +14,37 @@ const log = (...args) => {
 
 // --------- Env Variables ---------
 const NODE_ENV = process.env.NODE_ENV || "development";
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 const DB_URI =
   NODE_ENV === "production" ? process.env.PROD_DB_URI : process.env.DEV_DB_URI;
 const PORT =
   NODE_ENV === "production"
     ? process.env.PROD_PORT || process.env.PORT || 5000
     : process.env.PORT || 5000;
+
+// ✅ Allowed frontend origins for CORS
+const allowedOrigins = [
+  "http://localhost:5173", // Local dev
+  "https://jkworks-architecture-website.vercel.app", // Deployed Vercel frontend
+];
+
 // --------- CORS Setup ---------
 const corsOptions = {
-  origin: FRONTEND_URL, // or [FRONTEND_URL] if array expected
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like curl or mobile apps)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("❌ CORS Not Allowed: " + origin));
+    }
+  },
+  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions)); // ✅ Enable CORS globally
+app.options("*", cors(corsOptions)); // ✅ Preflight requests
 
 // --------- Middleware ---------
 app.use(express.json());
