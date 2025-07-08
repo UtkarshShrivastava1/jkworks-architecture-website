@@ -58,7 +58,7 @@ const BMWProcessComponent = () => {
         {/* Header Section */}
         <div className="text-center mb-20">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6  text-[#a77744] ">
-            What we
+            What We
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#d59653] to-[#d07310]">
               {" "}
               Deliver
@@ -87,7 +87,7 @@ const BMWProcessComponent = () => {
                 transform: "translateX(-120px)",
               }}
             >
-              <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
+              <div className="absolute inset-0   opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
               <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2">
                 <div className="w-full h-[500px] bg-gradient-to-br from-gray-300 to-gray-500 rounded-lg overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-xl relative">
                   <img

@@ -23,6 +23,11 @@ const Footer = () => {
     });
   };
 
+  // Combined click handler for footer links
+  const handleFooterLinkClick = () => {
+    scrollToTop();
+  };
+
   return (
     <footer className="bg-[#2d2a2a] text-white w-full">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
@@ -46,11 +51,11 @@ const Footer = () => {
               <div>
                 <h3 className="font-semibold text-xl sm:text-2xl mb-3">About Us</h3>
                 <ul className="text-xs sm:text-sm space-y-2">
-                  <li><Link to="/interior" className="hover:text-teal-600 transition-colors">Interior</Link></li>
-                  <li><Link to="/exterior" className="hover:text-teal-600 transition-colors">Exterior</Link></li>
-                  <li><Link to="/designs" className="hover:text-teal-600 transition-colors">Design</Link></li>
-                  <li><Link to="/mycourses" className="hover:text-teal-600 transition-colors">My Courses</Link></li>
-                  <li><Link to="/login" className="hover:text-teal-600 transition-colors">Admin</Link></li>
+                  <li><Link to="/interior" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Interior</Link></li>
+                  <li><Link to="/exterior" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Exterior</Link></li>
+                  <li><Link to="/designs" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Design</Link></li>
+                  <li><Link to="/mycourses" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">My Courses</Link></li>
+                  <li><Link to="/login" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Admin</Link></li>
                 </ul>
               </div>
 
@@ -58,10 +63,10 @@ const Footer = () => {
               <div>
                 <h3 className="font-semibold text-xl sm:text-2xl mb-3">Support</h3>
                 <ul className="text-xs sm:text-sm space-y-2">
-                  <li><Link to="/contact" className="hover:text-teal-600 transition-colors">Contact us</Link></li>
-                  <li><Link to="/faqs" className="hover:text-teal-600 transition-colors">FAQ's</Link></li>
-                  <li><Link to="/care-guide" className="hover:text-teal-600 transition-colors">Material Care Guide</Link></li>
-                  <li><Link to="/trade-support" className="hover:text-teal-600 transition-colors">Trade Professional Support</Link></li>
+                  <li><Link to="/contact" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Contact us</Link></li>
+                  <li><Link to="/faqs" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">FAQ's</Link></li>
+                  <li><Link to="/care-guide" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Material Care Guide</Link></li>
+                  <li><Link to="/trade-support" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Trade Professional Support</Link></li>
                 </ul>
               </div>
 
