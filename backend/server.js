@@ -8,7 +8,8 @@ const app = express();
 
 //  CORS Configuration
 const allowedOrigins = [
-  'https://jkworks-architecture-website.vercel.app', // frontend domain
+  'https://jkworks-architecture-website.vercel.app', // production frontend domain
+  'http://localhost:5173', //  local frontend domain
 ];
 
 app.use(cors({

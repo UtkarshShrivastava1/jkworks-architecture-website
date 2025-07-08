@@ -1,13 +1,14 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-// Clean base URLs
-const cleanUrl = (url) => url?.replace(/\/+$/, "");
 
-const API_URL =
+const base =
   import.meta.env.VITE_NODE_ENV === "production"
-    ? `${cleanUrl(import.meta.env.VITE_PRODUCTION_URL)}/api`
-    : `${cleanUrl(import.meta.env.VITE_DEVELOPMENT_URL)}/api`;
+    ? import.meta.env.VITE_PRODUCTION_URL
+    : import.meta.env.VITE_DEVELOPMENT_URL;
+
+// Clean trailing slash and add /api
+const API_URL = `${base.replace(/\/$/, "")}/api`;
 
 const api = axios.create({
   baseURL: API_URL,

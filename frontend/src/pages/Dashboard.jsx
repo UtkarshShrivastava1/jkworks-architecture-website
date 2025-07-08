@@ -67,7 +67,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col md:flex-row bg-slate-900">
+    <div className="h-screen flex flex-col md:flex-row bg-slate-900 ">
       {/* Mobile Sidebar Toggle */}
       <div className="md:hidden flex items-center justify-between p-4 bg-slate-900 shadow z-20">
         <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>

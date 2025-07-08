@@ -106,18 +106,19 @@ const Login = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-300">Password</label>
-                  <div className="relative">
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:bg-white/10 transition-all duration-300"
-                      placeholder="admin123"
-                    />
-                  </div>
-                </div>
+               <label className="text-sm font-medium text-slate-300" htmlFor="password">
+                    Password
+                </label>
+              <div className="relative">
+                <input id="password" type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+               required autoComplete="current-password"
+              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:bg-white/10 transition-all duration-300"
+              placeholder="admin123"
+               />
+             </div>
+             </div>
 
                 <button
                   type="submit"
