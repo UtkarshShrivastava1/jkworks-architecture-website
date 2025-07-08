@@ -1,17 +1,18 @@
+// server.js
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-require("dotenv").config();
+require("dotenv").config(); // Load .env variables at top
 
 const app = express();
 
-// --------- Logging ---------
+// --------- Logging Helper ---------
 const log = (...args) => {
   console.log(`[${new Date().toISOString()}]`, ...args);
 };
 
-// --------- Env Setup ---------
+// --------- Env Variables ---------
 const NODE_ENV = process.env.NODE_ENV || "development";
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 const DB_URI =
@@ -20,22 +21,21 @@ const PORT =
   NODE_ENV === "production"
     ? process.env.PROD_PORT || process.env.PORT || 5000
     : process.env.PORT || 5000;
-
-// --------- CORS Setup (FIXED) ---------
+// --------- CORS Setup ---------
 const corsOptions = {
-  origin: FRONTEND_URL,
-  credentials: true,
+  origin: FRONTEND_URL, // or [FRONTEND_URL] if array expected
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // 🔥 Preflight support
+app.use(cors(corsOptions)); // ✅ Enable CORS globally
 
 // --------- Middleware ---------
 app.use(express.json());
 
-// Optional: Log request origin for debugging
+// Optional: Log request origin and method
 app.use((req, res, next) => {
   log(`[${req.method}] ${req.originalUrl} | Origin: ${req.headers.origin}`);
   next();
@@ -49,7 +49,7 @@ mongoose
   })
   .then(() => log("✅ Connected to MongoDB"))
   .catch((err) => {
-    log("❌ MongoDB connection failed:", err);
+    log("❌ Failed to connect to MongoDB:", err);
     process.exit(1);
   });
 
