@@ -21,23 +21,23 @@ const PORT =
     ? process.env.PROD_PORT || process.env.PORT || 5000
     : process.env.PORT || 5000;
 
-// --------- CORS Setup ---------
-app.use(
-  cors({
-    origin: FRONTEND_URL, // ✅ MUST be specific
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// --------- CORS Setup (FIXED) ---------
+const corsOptions = {
+  origin: FRONTEND_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-// ✅ Handle OPTIONS preflight explicitly (important for CORS)
-app.options("*", cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // 🔥 Preflight support
 
 // --------- Middleware ---------
 app.use(express.json());
+
+// Optional: Log request origin for debugging
 app.use((req, res, next) => {
-  log(`[${req.method}] ${req.originalUrl}`);
+  log(`[${req.method}] ${req.originalUrl} | Origin: ${req.headers.origin}`);
   next();
 });
 
