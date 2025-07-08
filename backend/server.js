@@ -1,9 +1,10 @@
-// server.js
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-require("dotenv").config(); // Load .env variables at top
+const compression = require("compression");
+const helmet = require("helmet");
+require("dotenv").config(); // Load .env variables
 
 const app = express();
 
@@ -12,44 +13,39 @@ const log = (...args) => {
   console.log(`[${new Date().toISOString()}]`, ...args);
 };
 
-// --------- Env Variables ---------
+// --------- Environment Setup ---------
 const NODE_ENV = process.env.NODE_ENV || "development";
-const DB_URI =
-  NODE_ENV === "production" ? process.env.PROD_DB_URI : process.env.DEV_DB_URI;
-const PORT =
-  NODE_ENV === "production"
-    ? process.env.PROD_PORT || process.env.PORT || 5000
-    : process.env.PORT || 5000;
+const isProduction = NODE_ENV === "production";
+const DB_URI = isProduction ? process.env.PROD_DB_URI : process.env.DEV_DB_URI;
+const PORT = process.env.PORT || 5000;
 
-// ✅ Allowed frontend origins for CORS
+// --------- CORS Configuration ---------
 const allowedOrigins = [
-  "http://localhost:5173", // Local dev
-  "https://jkworks-architecture-website.vercel.app", // Deployed Vercel frontend
+  "http://localhost:5173",
+  "https://jkworks-architecture-website.vercel.app",
 ];
 
-// --------- CORS Setup ---------
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like curl or mobile apps)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("❌ CORS Not Allowed: " + origin));
-    }
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  optionsSuccessStatus: 200,
-};
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("❌ CORS Not Allowed: " + origin));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
-app.use(cors(corsOptions)); // ✅ Enable CORS globally
-app.options("*", cors(corsOptions)); // ✅ Preflight requests
+app.options("*", cors()); // Preflight support
 
 // --------- Middleware ---------
 app.use(express.json());
-
-// Optional: Log request origin and method
+app.use(compression());
+app.use(helmet());
 app.use((req, res, next) => {
   log(`[${req.method}] ${req.originalUrl} | Origin: ${req.headers.origin}`);
   next();
@@ -63,7 +59,7 @@ mongoose
   })
   .then(() => log("✅ Connected to MongoDB"))
   .catch((err) => {
-    log("❌ Failed to connect to MongoDB:", err);
+    log("❌ MongoDB connection error:", err);
     process.exit(1);
   });
 
@@ -75,11 +71,11 @@ const faqRoutes = require("./routes/faqRoutes");
 const contactRoutes = require("./routes/contact");
 
 app.use("/api/auth", authRoutes);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/projects", projectRoutes);
-app.use("/api/contact", contactRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/faqs", faqRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --------- Health Check ---------
 app.get("/", (req, res) => {
