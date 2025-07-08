@@ -20,10 +20,9 @@ const DB_URI = isProduction ? process.env.PROD_DB_URI : process.env.DEV_DB_URI;
 const PORT = process.env.PORT || 5000;
 
 // --------- CORS Configuration ---------
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://jkworks-architecture-website.vercel.app",
-];
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",").map((origin) => origin.trim())
+  : [];
 
 app.use(
   cors({
@@ -39,8 +38,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-app.options("*", cors()); // Preflight support
 
 // --------- Middleware ---------
 app.use(express.json());
