@@ -105,6 +105,12 @@ app.get("/", (req, res) => {
 
 // --------- Error Handling ---------
 app.use((err, req, res, next) => {
+  // Always set CORS headers on error responses
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+
   log("❌ Error:", err.message);
   res.status(500).json({ error: "Something went wrong!" });
 });
