@@ -20,7 +20,6 @@ const Home = () => {
       {/* <Letstalk /> */}
       <Cservices />
       <FormPage />
-      
     </div>
   );
 };
