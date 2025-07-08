@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import ContactImage from '../assets/CONT.webp';
+import React, { useEffect, useState } from "react";
+import ContactImage from "../assets/CONT.webp";
+import api from "../services/api"; // <-- Import the configured axios instance
 
 const ContactPage = () => {
   const [rotation, setRotation] = useState(0);
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   });
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     const animateO = () => {
-      setRotation(prev => (prev + 1) % 360);
+      setRotation((prev) => (prev + 1) % 360);
       requestAnimationFrame(animateO);
     };
 
@@ -21,36 +22,30 @@ const ContactPage = () => {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('Sending...');
+    setStatus("Sending...");
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000'}/api/contact`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form),
-        }
-      );
-      const data = await res.json();
+      // Use api.post instead of fetch
+      const res = await api.post("/contact", form);
+      const data = res.data;
       if (data.success) {
-        setStatus('Message sent!');
+        setStatus("Message sent!");
         setForm({
-          name: '',
-          email: '',
-          phone: '',
-          message: ''
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
         });
       } else {
-        setStatus(data.message || 'Failed to send.');
+        setStatus(data.message || "Failed to send.");
       }
     } catch {
-      setStatus('Failed to send.');
+      setStatus("Failed to send.");
     }
   };
 
@@ -67,7 +62,8 @@ const ContactPage = () => {
         <div>
           <h1 className="text-3xl md:text-4xl font-sans mb-4">CONTACT US</h1>
           <p className="mb-8 font-sans text-sm md:text-base">
-            Get in touch with us and we'll collaborate to turn your vision into reality.
+            Get in touch with us and we'll collaborate to turn your vision into
+            reality.
           </p>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -121,7 +117,9 @@ const ContactPage = () => {
               LET'S TALK
             </button>
             {status && (
-              <div className="mt-2 text-sm text-center text-gray-700">{status}</div>
+              <div className="mt-2 text-sm text-center text-gray-700">
+                {status}
+              </div>
             )}
           </form>
         </div>
@@ -129,7 +127,9 @@ const ContactPage = () => {
         {/* Logo Section */}
         <div className="mt-10 md:mt-12">
           <div className="flex flex-col md:flex-row md:justify-end items-start md:items-center">
-            <div className="text-5xl md:text-7xl font-extrabold leading-none">JK</div>
+            <div className="text-5xl md:text-7xl font-extrabold leading-none">
+              JK
+            </div>
             <div className="text-6xl md:text-8xl font-extrabold tracking-wider flex items-center mt-2 md:mt-0 md:ml-4">
               <span className="mr-1">W</span>
               <div className="relative inline-flex items-center justify-center mx-2">

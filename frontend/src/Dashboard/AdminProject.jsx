@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
-import { getProjects, deleteProject } from '../services/projectService';
-import { useNavigate } from 'react-router-dom';
-import AdminSidebar from '../components/AdminSidebar';
-
-const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
+import { useEffect, useState } from "react";
+import { getProjects, deleteProject } from "../services/projectService";
+import { useNavigate } from "react-router-dom";
+import AdminSidebar from "../components/AdminSidebar";
+import { API_URL } from "../services/api"; // <-- Import API_URL
 
 const AdminProject = () => {
   const [projects, setProjects] = useState([]);
@@ -21,7 +20,7 @@ const AdminProject = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this project?")) {
       await deleteProject(id);
-      setProjects(projects.filter(p => p._id !== id));
+      setProjects(projects.filter((p) => p._id !== id));
     }
   };
 
@@ -40,11 +39,25 @@ const AdminProject = () => {
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Open sidebar"
         >
-          <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <svg
+            className="w-7 h-7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
             {sidebarOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             )}
           </svg>
         </button>
@@ -59,7 +72,10 @@ const AdminProject = () => {
         style={{ maxWidth: "18rem" }}
       >
         <div className="h-full overflow-y-auto">
-          <AdminSidebar onNavigate={handleSidebarNavigate} onLogout={() => navigate('/login')} />
+          <AdminSidebar
+            onNavigate={handleSidebarNavigate}
+            onLogout={() => navigate("/login")}
+          />
         </div>
       </div>
       {/* Overlay for mobile sidebar */}
@@ -76,13 +92,13 @@ const AdminProject = () => {
             <h2 className="text-2xl font-bold text-white">Manage Projects</h2>
             <div className="flex gap-2">
               <button
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate("/dashboard")}
                 className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
               >
                 Back
               </button>
               <button
-                onClick={() => navigate('/dashboard/projects/create')}
+                onClick={() => navigate("/dashboard/projects/create")}
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
               >
                 + Create Project
@@ -90,10 +106,12 @@ const AdminProject = () => {
             </div>
           </div>
           {projects.length === 0 ? (
-            <div className="text-slate-400 text-center py-8">No projects found.</div>
+            <div className="text-slate-400 text-center py-8">
+              No projects found.
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {projects.map(project => (
+              {projects.map((project) => (
                 <div
                   key={project._id}
                   className="bg-slate-900 border border-slate-700 rounded-lg p-5 flex flex-col shadow hover:shadow-lg transition"
@@ -111,13 +129,23 @@ const AdminProject = () => {
                       ))}
                     </div>
                   )}
-                  <h3 className="text-lg font-semibold text-white mb-2">{project.title}</h3>
-                  <div className="text-sm text-slate-300 mb-1">Carpet Area: {project.carpetArea || '-'}</div>
-                  <div className="text-sm text-slate-300 mb-1">Construction Area: {project.constructionArea || '-'}</div>
-                  <p className="text-sm text-slate-300 mb-4 break-words line-clamp-2">{project.description?.slice(0, 80)}...</p>
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    {project.title}
+                  </h3>
+                  <div className="text-sm text-slate-300 mb-1">
+                    Carpet Area: {project.carpetArea || "-"}
+                  </div>
+                  <div className="text-sm text-slate-300 mb-1">
+                    Construction Area: {project.constructionArea || "-"}
+                  </div>
+                  <p className="text-sm text-slate-300 mb-4 break-words line-clamp-2">
+                    {project.description?.slice(0, 80)}...
+                  </p>
                   <div className="mt-auto flex gap-2">
                     <button
-                      onClick={() => navigate(`/dashboard/projects/edit/${project._id}`)}
+                      onClick={() =>
+                        navigate(`/dashboard/projects/edit/${project._id}`)
+                      }
                       className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
                     >
                       Edit
@@ -136,7 +164,7 @@ const AdminProject = () => {
         </div>
       </main>
     </div>
-    );
+  );
 };
 
 export default AdminProject;
