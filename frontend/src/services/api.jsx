@@ -1,11 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-// Clean base URLs
+// Clean trailing slashes
 const cleanUrl = (url) => url?.replace(/\/+$/, "");
 
+// Use Vite's built-in MODE for env switching
 const API_URL =
-  import.meta.env.VITE_NODE_ENV === "production"
+  import.meta.env.MODE === "production"
     ? `${cleanUrl(import.meta.env.VITE_PRODUCTION_URL)}/api`
     : `${cleanUrl(import.meta.env.VITE_DEVELOPMENT_URL)}/api`;
 
@@ -13,7 +14,7 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-// Attach token
+// Attach token if exists
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -25,7 +26,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Toast errors
+// Handle global errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
