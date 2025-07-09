@@ -63,21 +63,27 @@ exports.updateBlog = async (req, res) => {
 exports.deleteBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
+
     if (!blog) {
-      return res.status(404).json({ error: 'Blog not found' });
+      return res.status(404).json({ error: "Blog not found" });
     }
 
     if (blog.image) {
       const imagePath = `uploads/${blog.image}`;
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
+      try {
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+      } catch (err) {
+        console.error("Error deleting image file:", err);
+        // Don't fail the whole request just because image is missing
       }
     }
 
     await blog.deleteOne();
-    res.json({ message: 'Deleted successfully' });
+    res.json({ message: "Deleted successfully" });
   } catch (err) {
-    console.error("Delete Error:", err);
-    res.status(500).json({ error: 'Server error while deleting blog' });
+    console.error("Delete error:", err);
+    res.status(500).json({ error: "Server error while deleting blog" });
   }
 };
