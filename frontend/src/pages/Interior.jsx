@@ -28,7 +28,7 @@ const Interior = () => {
     // Fetch projects from backend
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/projects/category/interior`);
+        const response = await axios.get(`${API_URL}/projects/category/interior`);
         setProjects(Array.isArray(response.data) ? response.data : []);
         setIsLoaded(true);
       } catch (error) {

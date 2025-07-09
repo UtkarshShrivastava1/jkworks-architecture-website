@@ -180,7 +180,8 @@ const Dashboard = () => {
                   >
                     {project.images?.length > 0 && (
                         <img
-                           src={`${API_URL}/uploads/${project.images[0]}`}
+                        // src={`${API_URL}/uploads/${project.images[0]}`}
+                           src={`${API_URL.replace("/api", "")}/uploads/${project.images[0]}`}
                              alt={project.title}
                              className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
                               />

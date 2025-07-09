@@ -28,7 +28,7 @@ const Design = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/projects/category/design`
+          `${API_URL}/projects/category/design`
         );
         setProjects(Array.isArray(response.data) ? response.data : []);
         setIsLoaded(true);
