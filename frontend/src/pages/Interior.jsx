@@ -4,7 +4,7 @@ import Hero from '../assets/I_hero.jpg';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
+import { API_URL } from "../services/api";
 
 const Interior = () => {
   const [rotation, setRotation] = useState(0);

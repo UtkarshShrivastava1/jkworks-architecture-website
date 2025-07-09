@@ -65,7 +65,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col md:flex-row bg-slate-900">
+    <div className="h-screen flex flex-col md:flex-row bg-slate-900 ">
       {/* Mobile Sidebar Toggle */}
       <div className="md:hidden flex items-center justify-between p-4 bg-slate-900 shadow z-20">
         <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
@@ -178,13 +178,14 @@ const Dashboard = () => {
                     key={project._id}
                     className="bg-slate-800 p-3 sm:p-4 rounded-lg shadow hover:shadow-lg transition duration-200 flex flex-col"
                   >
-                    {project.image && (
-                      <img
-                        src={`${API_URL}/uploads/${project.image}`}
-                        alt={project.title}
-                        className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
-                      />
-                    )}
+                    {project.images?.length > 0 && (
+                        <img
+                           src={`${API_URL}/uploads/${project.images[0]}`}
+                             alt={project.title}
+                             className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
+                              />
+                              )}
+
                     <h3 className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2">
                       {project.title}
                     </h3>
