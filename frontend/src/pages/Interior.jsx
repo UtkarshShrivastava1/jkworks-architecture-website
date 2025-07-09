@@ -303,7 +303,7 @@ const Interior = () => {
                     return (
                       <motion.img
                         key={img}
-                        src={`${API_URL}/uploads/${img}`}
+                        src={`${API_URL.replace("/api", "")}/uploads/${img}`}
                         alt={project.title}
                         style={style}
                         onClick={e => {
@@ -391,7 +391,7 @@ const Interior = () => {
           <img
             src={
               project.images && project.images.length > 0
-                ? `${API_URL}/uploads/${project.images[0]}`
+              ? `${API_URL.replace("/api", "")}/uploads/${project.images[0]}`
                 : ""
             }
             alt={project.title}

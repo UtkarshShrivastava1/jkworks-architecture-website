@@ -31,9 +31,7 @@ const EditProject = () => {
       setCarpetArea(project.carpetArea || "");
       setConstructionArea(project.constructionArea || "");
       setExistingImages(project.images || []);
-      setPreviews(
-        (project.images || []).map((img) => `${API_URL}/uploads/${img}`)
-      );
+      setPreviews((project.images || []).map((img) => `${API_URL.replace("/api", "")}/uploads/${img}`));
       setFetching(false);
     };
     fetchProject();
@@ -181,14 +179,15 @@ const EditProject = () => {
                         className="w-24 h-20 object-cover rounded border"
                       />
                     ))
-                  : existingImages.map((img, i) => (
-                      <img
-                        key={i}
-                        src={`${API_URL}/uploads/${img}`}
-                        alt="Existing"
-                        className="w-24 h-20 object-cover rounded border"
-                      />
-                    ))}
+                 : existingImages.map((img, i) => (
+                  <img
+                   key={i}
+                   src={`${API_URL.replace("/api", "")}/uploads/${img}`}
+                    alt="Existing"
+                  className="w-24 h-20 object-cover rounded border"
+                  />
+                  ))
+                  }
               </div>
             </div>
             <div>
