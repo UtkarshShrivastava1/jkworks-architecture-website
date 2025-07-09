@@ -71,64 +71,65 @@ const BMWProcessComponent = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-[#d59653] to-[#d07310] mx-auto mt-8 rounded-full"></div>
         </div>
 
-        {/* Process Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {services.map((item, index) => (
+        {/* Process Grid */} 
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+  {services.map((item, index) => (
+    <div
+      key={item.id}
+      className="group relative cursor-pointer"
+      onMouseEnter={() => setActiveCard(item.id)}
+      onMouseLeave={() => setActiveCard(null)}
+      style={{
+        animation: `slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${
+          index * 0.15
+        }s forwards`,
+        opacity: 0,
+        transform: "translateX(-120px)",
+      }}
+    >
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
+      {/* for enlarge div */}
+      <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2 group-hover:scale-110">
+        <div className="w-full h-[500px] bg-gradient-to-br from-gray-300 to-gray-500 rounded-lg overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-xl relative">
+          <img
+            src={item.bgImage}
+            alt={item.title}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out"
+          />
+
+          {/* Premium Shine Effect */}
+          <div
+            className={`absolute inset-0 rounded-2xl transition-opacity duration-700 pointer-events-none 
+            ${
+              activeCard === item.id
+                ? "opacity-100"
+                : "opacity-0 group-hover:opacity-100"
+            }`}
+          >
             <div
-              key={item.id}
-              className="group relative cursor-pointer"
-              onMouseEnter={() => setActiveCard(item.id)}
-              onMouseLeave={() => setActiveCard(null)}
-              style={{
-                animation: `slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${
-                  index * 0.15
-                }s forwards`,
-                opacity: 0,
-                transform: "translateX(-120px)",
-              }}
-            >
-              <div className="absolute inset-0   opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg -z-10"></div>
-              <div className="h-full transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-x-3 group-hover:-translate-y-2">
-                <div className="w-full h-[500px] bg-gradient-to-br from-gray-300 to-gray-500 rounded-lg overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-xl relative">
-                  <img
-                    src={item.bgImage}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                  />
+              className={`absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 transition-transform duration-1000 
+              ${
+                activeCard === item.id
+                  ? "translate-x-[200%]"
+                  : "translate-x-[-200%] group-hover:translate-x-[200%]"
+              }`}
+            ></div>
+          </div>
 
-                  {/* Premium Shine Effect */}
-                  <div
-                    className={`absolute inset-0 rounded-2xl transition-opacity duration-700 pointer-events-none 
-                    ${
-                      activeCard === item.id
-                        ? "opacity-100"
-                        : "opacity-0 group-hover:opacity-100"
-                    }`}
-                  >
-                    <div
-                      className={`absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 transition-transform duration-1000 
-                      ${
-                        activeCard === item.id
-                          ? "translate-x-[200%]"
-                          : "translate-x-[-200%] group-hover:translate-x-[200%]"
-                      }`}
-                    ></div>
-                  </div>
-
-                  {/* Content Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 flex flex-col justify-end">
-                    <h3 className="text-white font-bold text-xl leading-tight">
-                      {item.title}
-                    </h3>
-                    <p className="text-white/90 text-sm mt-3 line-clamp-13">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+          {/* Content Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 flex flex-col justify-end">
+            <h3 className="text-white font-bold text-xl leading-tight">
+              {item.title}
+            </h3>
+            <p className="text-white/90 text-sm mt-3 line-clamp-13">
+              {item.description}
+            </p>
+          </div>
         </div>
+      </div>
+    </div>
+  ))}
+</div>
 
         {/* Statistics Section */}
         <div className="mt-24 grid grid-cols-2 md:grid-cols-3 gap-8">
