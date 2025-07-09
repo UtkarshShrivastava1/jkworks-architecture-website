@@ -41,7 +41,7 @@ const ProjectsShowcase = () => {
         {/* Section header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#a77744]  mb-4">Our Projects</h2> 
-          <p className="text-gray-600 mt-6 text-xl text-gray-700 font-light italic max-w-2xl mx-auto">
+          <p className="mt-6 text-xl text-gray-700 font-light italic max-w-2xl mx-auto">
             "Bringing your vision to life through innovative design and expert craftsmanship"
           </p>
                               <div className="w-24 h-1 bg-gradient-to-r from-[#d59653] to-[#d07310] mx-auto mt-8 rounded-full"></div>
