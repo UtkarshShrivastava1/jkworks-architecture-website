@@ -25,7 +25,7 @@ const EditBlog = () => {
       setCategory(blog.category || "");
       setDescription(blog.description || blog.content || "");
       setImage(blog.image || "");
-      setPreview(blog.image ? `${API_URL}/uploads/${blog.image}` : "");
+      setPreview(blog.image ? `${API_URL.replace('/api', '')}/uploads/${blog.image}` : "");
       setFetching(false);
     };
     fetchBlog();

@@ -122,7 +122,7 @@ const AdminProject = () => {
                       {project.images.map((img, idx) => (
                         <img
                           key={idx}
-                          src={`${API_URL}/uploads/${img}`}
+                          src={`${API_URL.replace('/api', '')}/uploads/${img}`}
                           alt={project.title}
                           className="w-24 h-20 object-cover rounded border"
                         />

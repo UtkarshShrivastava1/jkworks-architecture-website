@@ -75,7 +75,7 @@ const BlogGridHeader = () => {
                 {/* Blog image */}
                 {blog.image && (
                   <img
-                    src={`${API_URL}/uploads/${blog.image}`}
+                    src={`${API_URL.replace("/api", "")}/uploads/${blog.image}`}
                     alt={blog.title}
                     className="w-full h-full object-cover"
                   />

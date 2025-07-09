@@ -118,7 +118,7 @@ const AdminBlog = () => {
                 >
                   {blog.image && (
                     <img
-                      src={`${API_URL}/uploads/${blog.image}`}
+                      src={`${API_URL.replace('/api', '')}/uploads/${blog.image}`}
                       alt={blog.title}
                       className="w-full h-40 object-cover rounded mb-3 border"
                     />
