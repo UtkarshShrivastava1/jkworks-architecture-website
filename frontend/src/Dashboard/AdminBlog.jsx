@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { getBlogs, deleteBlog } from '../services/blogService';
-import { useNavigate } from 'react-router-dom';
-import AdminSidebar from '../components/AdminSidebar';
+import { useEffect, useState } from "react";
+import { getBlogs, deleteBlog } from "../services/blogService";
+import { useNavigate } from "react-router-dom";
+import AdminSidebar from "../components/AdminSidebar";
+import { API_URL } from "../services/api"; // <-- Import API_URL
 
 const AdminBlog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -16,12 +17,18 @@ const AdminBlog = () => {
     fetchBlogs();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this blog?")) {
+ const handleDelete = async (id) => {
+  if (window.confirm("Are you sure you want to delete this blog?")) {
+    try {
       await deleteBlog(id);
-      setBlogs(blogs.filter(blog => blog._id !== id));
+      setBlogs(blogs.filter((blog) => blog._id !== id));
+    } catch (error) {
+      console.error("Delete failed:", error);
+      alert("Failed to delete blog. Please check server logs.");
     }
-  };
+  }
+};
+
 
   const handleSidebarNavigate = (path) => {
     setSidebarOpen(false);
@@ -38,11 +45,25 @@ const AdminBlog = () => {
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Open sidebar"
         >
-          <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <svg
+            className="w-7 h-7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
             {sidebarOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             )}
           </svg>
         </button>
@@ -57,7 +78,10 @@ const AdminBlog = () => {
         style={{ maxWidth: "18rem" }}
       >
         <div className="h-full overflow-y-auto">
-          <AdminSidebar onNavigate={handleSidebarNavigate} onLogout={() => navigate('/login')} />
+          <AdminSidebar
+            onNavigate={handleSidebarNavigate}
+            onLogout={() => navigate("/login")}
+          />
         </div>
       </div>
       {/* Overlay for mobile sidebar */}
@@ -74,13 +98,13 @@ const AdminBlog = () => {
             <h2 className="text-2xl font-bold text-white">Manage Blogs</h2>
             <div className="flex gap-2">
               <button
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate("/dashboard")}
                 className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
               >
                 Back
               </button>
               <button
-                onClick={() => navigate('/dashboard/blogs/create')}
+                onClick={() => navigate("/dashboard/blogs/create")}
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
               >
                 + Create Blog
@@ -88,17 +112,19 @@ const AdminBlog = () => {
             </div>
           </div>
           {blogs.length === 0 ? (
-            <div className="text-slate-400 text-center py-8">No blogs found.</div>
+            <div className="text-slate-400 text-center py-8">
+              No blogs found.
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogs.map(blog => (
+              {blogs.map((blog) => (
                 <div
                   key={blog._id}
                   className="bg-slate-900 border border-slate-700 rounded-lg p-5 flex flex-col shadow hover:shadow-lg transition"
                 >
                   {blog.image && (
                     <img
-                      src={`${import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000'}/uploads/${blog.image}`}
+                      src={`${API_URL.replace('/api', '')}/uploads/${blog.image}`}
                       alt={blog.title}
                       className="w-full h-40 object-cover rounded mb-3 border"
                     />
@@ -108,11 +134,17 @@ const AdminBlog = () => {
                     <span className="mx-1">|</span>
                     <span>{blog.author || "Admin"}</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{blog.title}</h3>
-                  <p className="text-sm text-slate-300 mb-4 flex-grow">{blog.content?.slice(0, 100)}...</p>
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    {blog.title}
+                  </h3>
+                  <p className="text-sm text-slate-300 mb-4 flex-grow">
+                    {blog.content?.slice(0, 100)}...
+                  </p>
                   <div className="flex items-center justify-between mt-auto gap-2">
                     <button
-                      onClick={() => navigate(`/dashboard/blogs/edit/${blog._id}`)}
+                      onClick={() =>
+                        navigate(`/dashboard/blogs/edit/${blog._id}`)
+                      }
                       className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
                     >
                       Edit

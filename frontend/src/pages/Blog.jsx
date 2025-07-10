@@ -1,7 +1,7 @@
- 
-import React, { useEffect, useState } from 'react';
+ import React, { useEffect, useState } from 'react';
+ import { Link } from 'react-router-dom';
+import api, { API_URL } from "../services/api"; 
 
-const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
 
 export default function IntegratedBlogComponent() {
   const [activeTab, setActiveTab] = useState('Article');
@@ -10,21 +10,21 @@ export default function IntegratedBlogComponent() {
   const [loading, setLoading] = useState(true);
 
   // Fetch blogs from API
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/blogs`);
-        const data = await res.json();
-        setBlogs(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error('Error fetching blogs:', err);
-        setBlogs([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBlogs();
-  }, []);
+useEffect(() => {
+  const fetchBlogs = async () => {
+    try {
+      const res = await api.get("/blogs"); // ✅ Use Axios instance with base URL
+      const data = res.data;
+      setBlogs(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Error fetching blogs:", err);
+      setBlogs([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchBlogs();
+}, []);
 
   const categories = [
     'Residential Design', 'Commercial Architecture', 'Interior Design', 'Landscape Architecture', 'Sustainable Design', 
@@ -42,7 +42,7 @@ export default function IntegratedBlogComponent() {
     id: blog._id || index,
     title: blog.title || 'Untitled',
     subtitle: blog.description || 'No description available',
-    image: blog.image ? `${API_URL}/uploads/${blog.image}` : '/api/placeholder/400/300',
+    image: blog.image ? `${API_URL.replace("/api", "")}/uploads/${blog.image}` : '/api/placeholder/400/300',
     categories: ['Architecture'], // Default category
     type: blog.category || blog.type || 'Article', // Use category or type from API
     author: blog.author || 'Admin',
@@ -83,7 +83,7 @@ export default function IntegratedBlogComponent() {
   }, [activeTab]);
 
   // Pagination logic
-  const postsPerPage = 9;
+  const postsPerPage = 6;
   const totalPages = Math.ceil(filteredBlogs.length / postsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
   
@@ -219,9 +219,9 @@ export default function IntegratedBlogComponent() {
                         </div>
 
                         {/* Read More Hover Overlay */}
-                        <div className="absolute inset-0 bg-black/50 text-3xl text-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-30"> 
-                            Read more 
-                        </div>
+                        <Link to={`/blogs/${post.id}`} className="absolute inset-0 z-30 flex items-center justify-center bg-black/50 text-3xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Read more
+                        </Link>
                       </div>
                     </div>
                   </div>

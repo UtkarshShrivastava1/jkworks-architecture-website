@@ -4,7 +4,7 @@ import Hero from '../assets/I_hero.jpg';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
+import { API_URL } from "../services/api";
 
 const Interior = () => {
   const [rotation, setRotation] = useState(0);
@@ -28,7 +28,7 @@ const Interior = () => {
     // Fetch projects from backend
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/projects/category/interior`);
+        const response = await axios.get(`${API_URL}/projects/category/interior`);
         setProjects(Array.isArray(response.data) ? response.data : []);
         setIsLoaded(true);
       } catch (error) {
@@ -303,7 +303,7 @@ const Interior = () => {
                     return (
                       <motion.img
                         key={img}
-                        src={`${API_URL}/uploads/${img}`}
+                        src={`${API_URL.replace("/api", "")}/uploads/${img}`}
                         alt={project.title}
                         style={style}
                         onClick={e => {
@@ -391,7 +391,7 @@ const Interior = () => {
           <img
             src={
               project.images && project.images.length > 0
-                ? `${API_URL}/uploads/${project.images[0]}`
+              ? `${API_URL.replace("/api", "")}/uploads/${project.images[0]}`
                 : ""
             }
             alt={project.title}

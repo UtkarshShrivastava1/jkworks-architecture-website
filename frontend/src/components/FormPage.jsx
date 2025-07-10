@@ -1,59 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  Instagram, Facebook, Linkedin, Twitter,
-  Mail, Phone, User, Building, MessageSquare
-} from 'lucide-react';
-
-const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
+  Instagram,
+  Facebook,
+  Linkedin,
+  Twitter,
+  Mail,
+  Phone,
+  User,
+  Building,
+  MessageSquare,
+} from "lucide-react";
+import api from "../services/api"; // <-- Import the configured axios instance
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    companyName: '',
-    email: '',
-    phone: '',
-    message: ''
+    name: "",
+    companyName: "",
+    email: "",
+    phone: "",
+    message: "",
   });
-  const [focusedField, setFocusedField] = useState('');
-  const [status, setStatus] = useState('');
+  const [focusedField, setFocusedField] = useState("");
+  const [status, setStatus] = useState("");
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('Sending...');
+    setStatus("Sending...");
     try {
-      const res = await fetch(`${API_URL}/api/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
+      // Use api.post instead of fetch
+      const res = await api.post("/contact", formData);
+      const data = res.data;
       if (data.success) {
-        setStatus('Message sent!');
+        setStatus("Message sent!");
         setFormData({
-          name: '',
-          companyName: '',
-          email: '',
-          phone: '',
-          message: ''
+          name: "",
+          companyName: "",
+          email: "",
+          phone: "",
+          message: "",
         });
       } else {
-        setStatus(data.message || 'Failed to send.');
+        setStatus(data.message || "Failed to send.");
       }
     } catch (err) {
       console.error(err);
-      setStatus('Failed to send.');
+      setStatus("Failed to send.");
     }
   };
 
   const handleFocus = (fieldName) => setFocusedField(fieldName);
-  const handleBlur = () => setFocusedField('');
+  const handleBlur = () => setFocusedField("");
 
   return (
     <div className="min-h-screen bg-gray-200 relative overflow-hidden">
@@ -61,11 +64,12 @@ const ContactForm = () => {
       <div className="absolute top-10 left-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-gray-300 opacity-100 transform -translate-x-4 -translate-y-4 sm:-translate-x-6 sm:-translate-y-6 lg:-translate-x-8 lg:-translate-y-8"></div>
 
       <div className="text-center py-8 md:py-12">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#a77744] mb-2"> 
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#a77744] mb-2">
           Contact us
         </h1>
         <span className="block mb-2 text-gray-700 font-light italic text-lg sm:text-xl md:text-2xl">
-          "Architecture is a visual art, and the buildings speak for themselves."
+          "Architecture is a visual art, and the buildings speak for
+          themselves."
         </span>
         <div className="w-24 h-1 bg-gradient-to-r from-[#d59653] to-[#d07310] mx-auto mt-8 rounded-full"></div>
       </div>
@@ -77,7 +81,7 @@ const ContactForm = () => {
               <div className="relative">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6 leading-tight relative z-10">
                   <span className="block text-gray-800 font-bold">
-                    We don't just design structures; 
+                    We don't just design structures;
                   </span>
                   <span className="font-extrabold bg-gradient-to-r from-[#c99e70] to-[#d4a876] bg-clip-text text-transparent">
                     we craft legacies
@@ -88,13 +92,18 @@ const ContactForm = () => {
                   </span>
                 </h2>
                 <div className="absolute -left-4 top-1/2 transform -translate-y-1/2 w-1 h-16 bg-gradient-to-b from-[#c99e70] to-transparent opacity-60"></div>
-                <div className="absolute -top-2 -left-2 text-[#c99e70] text-6xl opacity-20 font-serif">"</div>
+                <div className="absolute -top-2 -left-2 text-[#c99e70] text-6xl opacity-20 font-serif">
+                  "
+                </div>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
               {[Instagram, Facebook, Linkedin, Twitter].map((Icon, i) => (
-                <div key={i} className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg">
+                <div
+                  key={i}
+                  className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg"
+                >
                   <Icon className="w-6 h-6 text-white" />
                 </div>
               ))}
@@ -117,7 +126,9 @@ const ContactForm = () => {
                 </div>
                 <div className="flex items-center justify-center space-x-3 hover:bg-gray-700 p-3 rounded-lg transition-colors duration-200">
                   <Mail className="w-5 h-5 text-[#c99e70]" />
-                  <span className="text-base sm:text-lg">contact@example.com</span>
+                  <span className="text-base sm:text-lg">
+                    contact@example.com
+                  </span>
                 </div>
               </div>
             </div>
@@ -129,14 +140,21 @@ const ContactForm = () => {
                 Start a conversation with us
               </h3>
               <p className="text-gray-600 text-center mb-8 text-sm sm:text-base">
-                Let's discuss your architectural vision and transform it into reality
+                Let's discuss your architectural vision and transform it into
+                reality
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Name Field */}
                 <div className="relative group">
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                    <User className={`w-5 h-5 ${focusedField === 'name' || formData.name ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+                    <User
+                      className={`w-5 h-5 ${
+                        focusedField === "name" || formData.name
+                          ? "text-[#c99e70]"
+                          : "text-gray-400"
+                      }`}
+                    />
                   </div>
                   <input
                     type="text"
@@ -144,7 +162,7 @@ const ContactForm = () => {
                     placeholder="Your Full Name*"
                     value={formData.name}
                     onChange={handleChange}
-                    onFocus={() => handleFocus('name')}
+                    onFocus={() => handleFocus("name")}
                     onBlur={handleBlur}
                     required
                     className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] bg-transparent"
@@ -154,7 +172,13 @@ const ContactForm = () => {
                 {/* Company Name */}
                 <div className="relative group">
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                    <Building className={`w-5 h-5 ${focusedField === 'companyName' || formData.companyName ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+                    <Building
+                      className={`w-5 h-5 ${
+                        focusedField === "companyName" || formData.companyName
+                          ? "text-[#c99e70]"
+                          : "text-gray-400"
+                      }`}
+                    />
                   </div>
                   <input
                     type="text"
@@ -162,7 +186,7 @@ const ContactForm = () => {
                     placeholder="Your Company Name"
                     value={formData.companyName}
                     onChange={handleChange}
-                    onFocus={() => handleFocus('companyName')}
+                    onFocus={() => handleFocus("companyName")}
                     onBlur={handleBlur}
                     className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] bg-transparent"
                   />
@@ -171,7 +195,13 @@ const ContactForm = () => {
                 {/* Email */}
                 <div className="relative group">
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                    <Mail className={`w-5 h-5 ${focusedField === 'email' || formData.email ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+                    <Mail
+                      className={`w-5 h-5 ${
+                        focusedField === "email" || formData.email
+                          ? "text-[#c99e70]"
+                          : "text-gray-400"
+                      }`}
+                    />
                   </div>
                   <input
                     type="email"
@@ -179,7 +209,7 @@ const ContactForm = () => {
                     placeholder="Your Email Address*"
                     value={formData.email}
                     onChange={handleChange}
-                    onFocus={() => handleFocus('email')}
+                    onFocus={() => handleFocus("email")}
                     onBlur={handleBlur}
                     required
                     className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] bg-transparent"
@@ -189,7 +219,13 @@ const ContactForm = () => {
                 {/* Phone */}
                 <div className="relative group">
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                    <Phone className={`w-5 h-5 ${focusedField === 'phone' || formData.phone ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+                    <Phone
+                      className={`w-5 h-5 ${
+                        focusedField === "phone" || formData.phone
+                          ? "text-[#c99e70]"
+                          : "text-gray-400"
+                      }`}
+                    />
                   </div>
                   <input
                     type="tel"
@@ -197,7 +233,7 @@ const ContactForm = () => {
                     placeholder="Your Phone Number*"
                     value={formData.phone}
                     onChange={handleChange}
-                    onFocus={() => handleFocus('phone')}
+                    onFocus={() => handleFocus("phone")}
                     onBlur={handleBlur}
                     required
                     className="w-full pl-12 pr-4 py-4 border-b-2 border-gray-200 focus:border-[#c99e70] bg-transparent"
@@ -207,14 +243,20 @@ const ContactForm = () => {
                 {/* Message */}
                 <div className="relative group">
                   <div className="absolute left-4 top-6">
-                    <MessageSquare className={`w-5 h-5 ${focusedField === 'message' || formData.message ? 'text-[#c99e70]' : 'text-gray-400'}`} />
+                    <MessageSquare
+                      className={`w-5 h-5 ${
+                        focusedField === "message" || formData.message
+                          ? "text-[#c99e70]"
+                          : "text-gray-400"
+                      }`}
+                    />
                   </div>
                   <textarea
                     name="message"
                     placeholder="Tell us about your project*"
                     value={formData.message}
                     onChange={handleChange}
-                    onFocus={() => handleFocus('message')}
+                    onFocus={() => handleFocus("message")}
                     onBlur={handleBlur}
                     rows={4}
                     required
@@ -231,11 +273,12 @@ const ContactForm = () => {
                     START BUILDING TOGETHER
                   </button>
                   {status && (
-                    <p className="text-sm text-center mt-3 text-gray-700">{status}</p>
+                    <p className="text-sm text-center mt-3 text-gray-700">
+                      {status}
+                    </p>
                   )}
                 </div>
               </form>
-
             </div>
           </div>
         </div>

@@ -115,15 +115,19 @@ const CreateBlog = () => {
             </div>
             <div>
               <label className="block mb-2 font-medium text-gray-200">Category</label>
-              <input
-                type="text"
-                name="category"
-                value={form.category}
-                onChange={handleChange}
-                placeholder="Category"
-                className="w-full border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 bg-slate-900 text-white transition"
-                required
-              />
+              <select
+              name="category"
+             value={form.category}
+              onChange={handleChange}
+             className="w-full border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 bg-slate-900 text-white transition"
+            required
+            >
+           <option value="" disabled>Select a category</option>
+           <option value="article">Article</option>
+           <option value="news">News</option>
+           <option value="youtube">YouTube</option>
+           </select>
+
             </div>
             <div>
               <label className="block mb-2 font-medium text-gray-200">Description</label>

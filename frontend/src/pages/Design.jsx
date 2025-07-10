@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Hero from '../assets/I_hero.jpg';
-
-const API_URL = import.meta.env.VITE_DEVELOPMENT_URL || 'http://localhost:5000';
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Hero from "../assets/I_hero.jpg";
+import { API_URL } from "../services/api";
 
 const Design = () => {
   const [rotation, setRotation] = useState(0);
@@ -17,7 +16,7 @@ const Design = () => {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
   // Transform values based on scroll
@@ -28,7 +27,9 @@ const Design = () => {
     // Fetch projects from backend
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/projects/category/design`);
+        const response = await axios.get(
+          `${API_URL}/projects/category/design`
+        );
         setProjects(Array.isArray(response.data) ? response.data : []);
         setIsLoaded(true);
       } catch (error) {
@@ -41,7 +42,7 @@ const Design = () => {
 
     // Rotating logo animation
     const interval = setInterval(() => {
-      setRotation(prev => (prev + 1) % 360);
+      setRotation((prev) => (prev + 1) % 360);
     }, 50);
 
     return () => clearInterval(interval);
@@ -95,12 +96,12 @@ const Design = () => {
       x: idx < current ? -220 : 220,
       filter: "brightness(0.4)",
       opacity: 0,
-      pointerEvents: "none"
+      pointerEvents: "none",
     };
   };
 
   return (
-    <motion.div 
+    <motion.div
       ref={containerRef}
       className="w-full overflow-hidden"
       initial={{ opacity: 0 }}
@@ -108,7 +109,7 @@ const Design = () => {
       transition={{ duration: 1 }}
     >
       {/* Hero Banner with Reveal Animation */}
-      <motion.div 
+      <motion.div
         className="w-full h-screen bg-gray-200 relative overflow-hidden"
         initial={{ height: "100vh" }}
         animate={{ height: isLoaded ? "100vh" : "0vh" }}
@@ -125,7 +126,7 @@ const Design = () => {
             alt="Design Hero"
             className="w-full h-full object-cover"
           />
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-black"
             initial={{ opacity: 0.5 }}
             animate={{ opacity: 0 }}
@@ -133,60 +134,68 @@ const Design = () => {
           />
         </motion.div>
         {/* Floating text overlay */}
-        <motion.div 
+        <motion.div
           className="absolute inset-0 flex items-center justify-center text-white"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
         >
           <div className="text-6xl md:text-8xl font-bold tracking-tighter text-center">
-            DESIGN<br/>EXCELLENCE
+            DESIGN
+            <br />
+            EXCELLENCE
           </div>
         </motion.div>
       </motion.div>
 
       {/* Header Section with Scroll Animation */}
-      <motion.div 
+      <motion.div
         style={{ opacity: headerOpacity }}
         className="w-full bg-gray-300 py-16 px-8 md:px-16 flex flex-col md:flex-row justify-between items-start md:items-center sticky top-0 z-30"
       >
         {/* Left Side: "HOMES WE'VE DESIGNED" */}
-        <motion.div 
+        <motion.div
           className="mb-10 md:mb-0"
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-none">
-            HOMES WE'VE<br />DESIGNED
+            HOMES WE'VE
+            <br />
+            DESIGNED
           </h1>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link to="/v" className="inline-block mt-6 bg-black text-white px-8 py-3 font-medium transition-all duration-300 hover:bg-gray-800 rounded">
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/v"
+              className="inline-block mt-6 bg-black text-white px-8 py-3 font-medium transition-all duration-300 hover:bg-gray-800 rounded"
+            >
               VIEW PROJECTS
             </Link>
           </motion.div>
         </motion.div>
 
         {/* Right Side: JK WORKS Logo with Animation */}
-        <motion.div 
+        <motion.div
           className="flex flex-col items-end ml-8"
           style={{ scale: logoScale }}
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter">JK</div>
+          <div className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter">
+            JK
+          </div>
           <div className="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter flex items-center">
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-            >W</motion.span>
+            >
+              W
+            </motion.span>
             {/* Enhanced Animated "O" */}
-            <motion.div 
+            <motion.div
               className="relative inline-flex items-center justify-center mx-1"
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -195,12 +204,16 @@ const Design = () => {
                 <motion.div
                   className="w-10 h-10 md:w-12 md:h-12 border-4 md:border-[6px] border-black rounded-full"
                   style={{ transform: `rotate(${rotation}deg)` }}
-                  animate={{ 
-                    boxShadow: ["0px 0px 0px rgba(0,0,0,0.2)", "0px 0px 15px rgba(0,0,0,0.2)", "0px 0px 0px rgba(0,0,0,0.2)"]
+                  animate={{
+                    boxShadow: [
+                      "0px 0px 0px rgba(0,0,0,0.2)",
+                      "0px 0px 15px rgba(0,0,0,0.2)",
+                      "0px 0px 0px rgba(0,0,0,0.2)",
+                    ],
                   }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    duration: 2 
+                  transition={{
+                    repeat: Infinity,
+                    duration: 2,
                   }}
                 ></motion.div>
               </div>
@@ -209,7 +222,9 @@ const Design = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.8 }}
-            >RKS</motion.span>
+            >
+              RKS
+            </motion.span>
           </div>
         </motion.div>
       </motion.div>
@@ -242,12 +257,15 @@ const Design = () => {
                 {/* Coverflow Carousel */}
                 <div className="w-full flex justify-center items-center bg-white pt-8 pb-4 transition-all duration-500 relative min-h-[340px]">
                   {project.images && project.images.length > 0 && (
-                    <div className="relative flex items-center justify-center w-full max-w-5xl mx-auto overflow-hidden" style={{height: "340px"}}>
+                    <div
+                      className="relative flex items-center justify-center w-full max-w-5xl mx-auto overflow-hidden"
+                      style={{ height: "340px" }}
+                    >
                       {/* Left Arrow */}
                       {project.images.length > 1 && (
                         <button
                           className="absolute left-2 z-30 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg"
-                          onClick={e => {
+                          onClick={(e) => {
                             e.stopPropagation();
                             setCurrentImageIndex((prev) =>
                               prev === 0 ? project.images.length - 1 : prev - 1
@@ -259,14 +277,24 @@ const Design = () => {
                         </button>
                       )}
                       {/* Images with coverflow effect */}
-                      <div className="relative w-full flex items-center justify-center overflow-hidden" style={{height: "340px"}}>
+                      <div
+                        className="relative w-full flex items-center justify-center overflow-hidden"
+                        style={{ height: "340px" }}
+                      >
                         {project.images.map((img, idx) => {
                           const total = project.images.length;
-                          const style = getImageStyle(idx, currentImageIndex, total);
+                          const style = getImageStyle(
+                            idx,
+                            currentImageIndex,
+                            total
+                          );
                           return (
                             <motion.img
                               key={img}
-                              src={`${API_URL}/uploads/${img}`}
+                              src={`${API_URL.replace(
+                                "/api",
+                                ""
+                              )}/uploads/${img}`}
                               alt={project.title}
                               style={{
                                 position: "absolute",
@@ -276,14 +304,20 @@ const Design = () => {
                                 width: style.scale === 1.1 ? "100%" : "60%",
                                 boxShadow: style.boxShadow,
                                 zIndex: style.zIndex,
-                                opacity: style.opacity !== undefined ? style.opacity : 1,
+                                opacity:
+                                  style.opacity !== undefined
+                                    ? style.opacity
+                                    : 1,
                                 transition: "all 0.5s cubic-bezier(.4,2,.3,1)",
-                                cursor: style.scale === 1.1 ? "default" : "pointer",
+                                cursor:
+                                  style.scale === 1.1 ? "default" : "pointer",
                                 filter: style.filter,
-                                transform: `translateX(-50%) scale(${style.scale}) translateX(${style.x || 0}px)`,
+                                transform: `translateX(-50%) scale(${
+                                  style.scale
+                                }) translateX(${style.x || 0}px)`,
                                 pointerEvents: style.pointerEvents,
                               }}
-                              onClick={e => {
+                              onClick={(e) => {
                                 if (style.scale !== 1.1) {
                                   e.stopPropagation();
                                   setCurrentImageIndex(idx);
@@ -297,7 +331,7 @@ const Design = () => {
                       {project.images.length > 1 && (
                         <button
                           className="absolute right-2 z-30 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg"
-                          onClick={e => {
+                          onClick={(e) => {
                             e.stopPropagation();
                             setCurrentImageIndex((prev) =>
                               prev === project.images.length - 1 ? 0 : prev + 1
@@ -330,14 +364,18 @@ const Design = () => {
                     {project.description}
                   </div>
                   <div className="w-full">
-                    <div className="font-semibold text-lg text-gray-900 mb-3">Key Details</div>
+                    <div className="font-semibold text-lg text-gray-900 mb-3">
+                      Key Details
+                    </div>
                     <div className="text-base text-gray-700 mb-2">
                       <span className="font-medium">Carpet Area:</span>{" "}
                       {project.carpetArea ? project.carpetArea : "-"}
                     </div>
                     <div className="text-base text-gray-700">
                       <span className="font-medium">Construction Area:</span>{" "}
-                      {project.constructionArea ? project.constructionArea : "-"}
+                      {project.constructionArea
+                        ? project.constructionArea
+                        : "-"}
                     </div>
                   </div>
                 </div>
@@ -347,9 +385,11 @@ const Design = () => {
 
           // Normal Card
           return (
-            <motion.div 
-              key={project._id || index} 
-              className={`relative col-span-1 ${expandedIndex !== null ? 'opacity-50 hover:opacity-70' : ''}`}
+            <motion.div
+              key={project._id || index}
+              className={`relative col-span-1 ${
+                expandedIndex !== null ? "opacity-50 hover:opacity-70" : ""
+              }`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: expandedIndex !== null ? 0.5 : 1, y: 0 }}
               transition={{ duration: 0.3 }}
@@ -367,7 +407,9 @@ const Design = () => {
                 <img
                   src={
                     project.images && project.images.length > 0
-                      ? `${API_URL}/uploads/${project.images[0]}`
+                      ? `${API_URL.replace("/api", "")}/uploads/${
+                          project.images[0]
+                        }`
                       : ""
                   }
                   alt={project.title}
@@ -388,14 +430,14 @@ const Design = () => {
       </div>
 
       {/* Footer CTA Section */}
-      <motion.div 
+      <motion.div
         className="w-full py-24 px-8 md:px-16 bg-gradient-to-r from-neutral-900 via-gray-800 to-black text-white text-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <motion.h2 
+        <motion.h2
           className="text-3xl md:text-5xl font-extrabold tracking-tight mb-6"
           initial={{ y: 40 }}
           whileInView={{ y: 0 }}
@@ -403,21 +445,22 @@ const Design = () => {
         >
           Ready to Elevate Your Living Space?
         </motion.h2>
-        <motion.p 
+        <motion.p
           className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          Discover how JK WORKS blends design excellence with timeless functionality. Let’s bring your dream interior to life.
+          Discover how JK WORKS blends design excellence with timeless
+          functionality. Let’s bring your dream interior to life.
         </motion.p>
-        <motion.div 
+        <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <Link 
-            to="/contact" 
+          <Link
+            to="/contact"
             className="inline-block bg-white text-black px-10 py-4 text-lg font-semibold tracking-wide rounded-full transition-colors duration-300 hover:bg-yellow-400 hover:text-black shadow-md"
           >
             START YOUR PROJECT

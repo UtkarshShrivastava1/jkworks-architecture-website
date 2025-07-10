@@ -1,7 +1,6 @@
- 
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import jkLogo from '../assets/jk_logo.png'; 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import jkLogo from "../assets/jk_logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +10,7 @@ const Footer = () => {
   useEffect(() => {
     setIsVisible(true);
     const interval = setInterval(() => {
-      setRotation(prev => (prev + 1) % 360);
+      setRotation((prev) => (prev + 1) % 360);
     }, 20);
     return () => clearInterval(interval);
   }, []);
@@ -19,22 +18,21 @@ const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   };
 
-  // Combined click handler for footer links
-  const handleFooterLinkClick = () => {
-    scrollToTop();
-  };
-
   return (
-    <footer className="bg-[#2d2a2a] text-white w-full">
+    <footer
+      className={`bg-[#2d2a2a] text-white w-full transition-opacity duration-700 ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
         <div className="flex flex-col lg:flex-row justify-between items-start pb-8">
           {/* DIV 1: Company Logo */}
           <div className="mb-8 lg:mb-0 w-full lg:w-2/5">
-            <img 
+            <img
               src={jkLogo}
               alt="JK Works Logo"
               className="h-auto w-full max-w-xs md:max-w-sm"
@@ -49,58 +47,172 @@ const Footer = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {/* About Us */}
               <div>
-                <h3 className="font-semibold text-xl sm:text-2xl mb-3">About Us</h3>
+                <h3 className="font-semibold text-xl sm:text-2xl mb-3">
+                  About Us
+                </h3>
                 <ul className="text-xs sm:text-sm space-y-2">
-                  <li><Link to="/interior" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Interior</Link></li>
-                  <li><Link to="/exterior" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Exterior</Link></li>
-                  <li><Link to="/designs" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Design</Link></li>
-                  <li><Link to="/mycourses" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">My Courses</Link></li>
-                  <li><Link to="/login" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Admin</Link></li>
+                  <li>
+                    <Link
+                      to="/interior"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Interior
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/exterior"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Exterior
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/designs"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Design
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/mycourses"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      My Courses
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/login"
+                      className="hover:text-teal-600 transition-colors"
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    >
+                      Admin
+                    </Link>
+                  </li>
                 </ul>
               </div>
 
               {/* Support */}
               <div>
-                <h3 className="font-semibold text-xl sm:text-2xl mb-3">Support</h3>
+                <h3 className="font-semibold text-xl sm:text-2xl mb-3">
+                  Support
+                </h3>
                 <ul className="text-xs sm:text-sm space-y-2">
-                  <li><Link to="/contact" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Contact us</Link></li>
-                  <li><Link to="/faqs" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">FAQ's</Link></li>
-                  <li><Link to="/care-guide" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Material Care Guide</Link></li>
-                  <li><Link to="/trade-support" onClick={handleFooterLinkClick} className="hover:text-teal-600 transition-colors">Trade Professional Support</Link></li>
+                  <li>
+                    <Link
+                      to="/contact"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Contact us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/faqs"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      FAQ's
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/care-guide"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Material Care Guide
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/trade-support"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Trade Professional Support
+                    </Link>
+                  </li>
                 </ul>
               </div>
 
               {/* Social */}
               <div>
-                <h3 className="font-semibold text-xl sm:text-2xl mb-3">Social</h3>
+                <h3 className="font-semibold text-xl sm:text-2xl mb-3">
+                  Social
+                </h3>
                 <ul className="text-xs sm:text-sm space-y-2">
-                  <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-teal-600 transition-colors">Instagram</a></li>
-                  <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-teal-600 transition-colors">Twitter</a></li>
-                  <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-teal-600 transition-colors">Facebook</a></li>
-                  <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-teal-600 transition-colors">LinkedIn</a></li>
+                  <li>
+                    <a
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Instagram
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://twitter.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Twitter
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://facebook.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      Facebook
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://linkedin.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-teal-600 transition-colors"
+                    >
+                      LinkedIn
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               {/* Address */}
               <div>
-                <h3 className="font-semibold text-xl sm:text-2xl mb-3">Address</h3>
+                <h3 className="font-semibold text-xl sm:text-2xl mb-3">
+                  Address
+                </h3>
                 <ul className="text-xs sm:text-sm space-y-2">
-                  <li>8101 Pearl Plaza, Unit 4G, Pearl Dr, Ortigas Center, Pasig, Metro Manila</li> 
+                  <li>
+                    8101 Pearl Plaza, Unit 4G, Pearl Dr, Ortigas Center, Pasig,
+                    Metro Manila
+                  </li>
                 </ul>
               </div>
             </div>
-            
+
             {/* Animated JK WORKS Logo */}
             <div className="mt-8 sm:mt-10 md:mt-12">
               <div className="text-right w-full flex flex-col justify-end items-end">
                 <div>
-                  <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-none">JK</div>
+                  <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-none">
+                    JK
+                  </div>
                   <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-wider flex items-center justify-end">
-                    W
-                    {/* Animated O logo */}
+                    W{/* Animated O logo */}
                     <div className="relative inline-flex items-center justify-center mx-1 sm:mx-2">
                       <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 border-[4px] sm:border-[5px] md:border-[6px] border-white rounded-full flex items-center justify-center">
-                        <div 
+                        <div
                           className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-[4px] sm:border-[5px] md:border-[6px] border-white rounded-full"
                           style={{ transform: `rotate(${rotation}deg)` }}
                         ></div>
@@ -123,8 +235,8 @@ const Footer = () => {
           <div className="text-sm sm:text-base text-white">
             Terms of Service
           </div>
-          <button 
-            onClick={scrollToTop} 
+          <button
+            onClick={scrollToTop}
             className="text-sm sm:text-base text-black bg-white px-3 py-1 sm:px-4 sm:py-2 rounded hover:bg-gray-200 transition-colors"
           >
             Back to Top
