@@ -18,6 +18,7 @@ import Exterior from "./pages/Exterior";
 import Design from "./pages/Design";
 import ProjectDetails from "./pages/ProjectDetails";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import Login from "./pages/Login";
 import MyCourses from "./pages/MyCourses";
 import Dashboard from "./pages/Dashboard";
@@ -50,6 +51,7 @@ function AppContent() {
         <Route path="/letstalk" element={<Letstalk />} />
         <Route path="/interior" element={<Interior />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blogs/:id" element={<BlogDetail />} />
         <Route path="/ProjectDetails" element={<ProjectDetails />} />
         <Route path="/exterior" element={<Exterior />} />
         <Route path="/designs" element={<Design />} />

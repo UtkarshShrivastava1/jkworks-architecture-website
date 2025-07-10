@@ -161,12 +161,18 @@ const EditBlog = () => {
               <label className="block mb-1 font-medium text-gray-200">
                 Category
               </label>
-              <input
-                className="w-full border border-slate-700 rounded px-3 py-2 bg-slate-900 text-white"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                required
-              />
+              <select
+             value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+            className="w-full border border-slate-700 rounded px-3 py-2 bg-slate-900 text-white"
+              >
+           <option value="">Select category</option>
+          <option value="article">Article</option>
+          <option value="news">News</option>
+          <option value="youtube">YouTube</option>
+        </select>
+
             </div>
             <div>
               <label className="block mb-1 font-medium text-gray-200">
