@@ -138,7 +138,7 @@ const ContactPage = () => {
   </div>
 </div>
 {/* Mobile Logo (Below Button) */}
-<div className="mt-8 md:hidden flex flex-col items-start">
+<div className="mt-10 md:hidden flex flex-col items-start">
   {/* Wrapper aligned with button */}
   <div className="flex flex-col">
     {/* W + Rotating Circle + RKS */}
