@@ -10,9 +10,7 @@ import {
   Building,
   MessageSquare,
 } from "lucide-react";
-// import api from "../services/api"; // <-- Import the configured axios instance
-import api, { API_URL } from "../services/api";
-
+import api from "../services/api"; // <-- Import the configured axios instance
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({

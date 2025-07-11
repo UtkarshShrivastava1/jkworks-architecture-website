@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Hero from '../assets/I_hero.jpg';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import api, { API_URL } from "../services/api";
+import  { API_URL } from "../services/api";
 
 // import { API_URL } from "../services/api";
 

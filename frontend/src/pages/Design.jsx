@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Hero from "../assets/I_hero.jpg";
 // import { API_URL } from "../services/api";
-import api, { API_URL } from "../services/api";
+import  { API_URL } from "../services/api";
 
 
 const Design = () => {
