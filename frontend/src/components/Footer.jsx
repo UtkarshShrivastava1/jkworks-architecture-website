@@ -146,7 +146,7 @@ const Footer = () => {
                 <ul className="text-xs sm:text-sm space-y-2">
                   <li>
                     <a
-                      href="https://instagram.com"
+                      href="https://www.instagram.com/j_k_works_?igsh=MWpkYzBudm12NjBudQ=="
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-teal-600 transition-colors"
