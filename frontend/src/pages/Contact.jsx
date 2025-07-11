@@ -127,7 +127,7 @@ const ContactPage = () => {
         {/* Logo Section */}
         <div className="mt-10 md:mt-12">
           <div className="flex flex-col md:flex-row md:justify-end items-start md:items-center">
-            <div className="text-5xl md:text-7xl font-extrabold leading-none">
+            <div className="text-6xl md:text-8xl font-extrabold leading-none">
               JK
             </div>
             <div className="text-6xl md:text-8xl font-extrabold tracking-wider flex items-center mt-2 md:mt-0 md:ml-4">
