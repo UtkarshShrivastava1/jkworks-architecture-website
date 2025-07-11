@@ -122,12 +122,12 @@ const ContactForm = () => {
               <div className="space-y-4">
                 <div className="flex items-center justify-center space-x-3 hover:bg-gray-700 p-3 rounded-lg transition-colors duration-200">
                   <Phone className="w-5 h-5 text-[#c99e70]" />
-                  <span className="text-base sm:text-lg">+91 555-123-4567</span>
+                  <span className="text-base sm:text-lg">+91 7999857133</span>
                 </div>
                 <div className="flex items-center justify-center space-x-3 hover:bg-gray-700 p-3 rounded-lg transition-colors duration-200">
                   <Mail className="w-5 h-5 text-[#c99e70]" />
                   <span className="text-base sm:text-lg">
-                    contact@example.com
+                    jkworks1995@gmail.com
                   </span>
                 </div>
               </div>

@@ -6,6 +6,7 @@ const ContactPage = () => {
   const [rotation, setRotation] = useState(0);
   const [form, setForm] = useState({
     name: "",
+    companyName: "", // ✅ Added companyName
     email: "",
     phone: "",
     message: "",
@@ -36,6 +37,7 @@ const ContactPage = () => {
         setStatus("Message sent!");
         setForm({
           name: "",
+          companyName: "",
           email: "",
           phone: "",
           message: "",
@@ -77,6 +79,19 @@ const ContactPage = () => {
                 required
               />
             </div>
+
+            <div>
+              <label className="block mb-2 text-sm">Company Name</label>
+              <input
+                type="text"
+                name="companyName"
+                className="w-full border border-black p-2"
+                value={form.companyName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
             <div>
               <label className="block mb-2 text-sm">Email</label>
               <input
@@ -88,6 +103,7 @@ const ContactPage = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block mb-2 text-sm">Phone</label>
               <input
@@ -98,6 +114,7 @@ const ContactPage = () => {
                 onChange={handleChange}
               />
             </div>
+
             <div>
               <label className="block mb-2 text-sm">Message</label>
               <textarea
@@ -110,62 +127,51 @@ const ContactPage = () => {
               />
             </div>
 
-{/* Button + Logo */}
-<div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mt-6">
-  {/* Submit Button */}
-  <button
-    type="submit"
-    className="w-full md:w-auto h-12 bg-[#b39069] text-black py-3 px-6 hover:bg-black hover:text-white transition-colors"
-  >
-    LET'S TALK
-  </button>
+            {/* Button + Logo */}
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mt-6">
+              <button
+                type="submit"
+                className="w-full md:w-auto h-12 bg-[#b39069] text-black py-3 px-6 hover:bg-black hover:text-white transition-colors"
+              >
+                LET'S TALK
+              </button>
 
-  {/* Desktop Logo (Right of Button) */}
-  <div className="hidden md:flex flex-col items-center md:items-end">
-    <div className="text-4xl font-extrabold leading-none mb-1">JK</div>
-    <div className="flex items-center">
-      <span className="text-5xl font-extrabold tracking-wider">W</span>
-      <div className="relative inline-flex items-center justify-center mx-2">
-        <div className="w-12 h-12 border-[6px] border-black rounded-full flex items-center justify-center">
-          <div
-            className="w-6 h-6 border-[6px] border-black rounded-full"
-            style={{ transform: `rotate(${rotation}deg)` }}
-          ></div>
-        </div>
-      </div>
-      <span className="text-5xl font-extrabold tracking-wider">RKS</span>
-    </div>
-  </div>
-</div>
-{/* Mobile Logo (Below Button) */}
-<div className="mt-10 md:hidden flex flex-col items-start">
-  {/* Wrapper aligned with button */}
-  <div className="flex flex-col">
-    {/* W + Rotating Circle + RKS */}
-    <div className="flex items-center relative">
-      {/* JK above W, aligned in center of "W" */}
-      <div className="absolute left-0 top-[-2.2rem]">
-        <span className="text-3xl font-extrabold">JK</span>
-      </div>
+              <div className="hidden md:flex flex-col items-center md:items-end">
+                <div className="text-4xl font-extrabold leading-none mb-1">JK</div>
+                <div className="flex items-center">
+                  <span className="text-5xl font-extrabold tracking-wider">W</span>
+                  <div className="relative inline-flex items-center justify-center mx-2">
+                    <div className="w-12 h-12 border-[6px] border-black rounded-full flex items-center justify-center">
+                      <div
+                        className="w-6 h-6 border-[6px] border-black rounded-full"
+                        style={{ transform: `rotate(${rotation}deg)` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <span className="text-5xl font-extrabold tracking-wider">RKS</span>
+                </div>
+              </div>
+            </div>
 
-      {/* W */}
-      <span className="text-4xl font-extrabold tracking-wider">W</span>
-
-      {/* Rotating Circle */}
-      <div className="relative inline-flex items-center justify-center mx-2">
-        <div className="w-10 h-10 border-[4px] border-black rounded-full flex items-center justify-center">
-          <div
-            className="w-5 h-5 border-[4px] border-black rounded-full"
-            style={{ transform: `rotate(${rotation}deg)` }}
-          ></div>
-        </div>
-      </div>
-
-      {/* RKS */}
-      <span className="text-4xl font-extrabold tracking-wider">RKS</span>
-    </div>
-  </div>
-</div>
+            <div className="mt-10 md:hidden flex flex-col items-start">
+              <div className="flex flex-col">
+                <div className="flex items-center relative">
+                  <div className="absolute left-0 top-[-2.2rem]">
+                    <span className="text-3xl font-extrabold">JK</span>
+                  </div>
+                  <span className="text-4xl font-extrabold tracking-wider">W</span>
+                  <div className="relative inline-flex items-center justify-center mx-2">
+                    <div className="w-10 h-10 border-[4px] border-black rounded-full flex items-center justify-center">
+                      <div
+                        className="w-5 h-5 border-[4px] border-black rounded-full"
+                        style={{ transform: `rotate(${rotation}deg)` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <span className="text-4xl font-extrabold tracking-wider">RKS</span>
+                </div>
+              </div>
+            </div>
 
             {status && (
               <div className="mt-2 text-sm text-center text-gray-700">
