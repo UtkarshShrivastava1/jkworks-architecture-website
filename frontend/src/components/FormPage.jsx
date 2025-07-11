@@ -10,7 +10,9 @@ import {
   Building,
   MessageSquare,
 } from "lucide-react";
-import api from "../services/api"; // <-- Import the configured axios instance
+// import api from "../services/api"; // <-- Import the configured axios instance
+import api, { API_URL } from "../services/api";
+
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -78,7 +80,7 @@ const ContactForm = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           <div className="space-y-8">
             <div>
-              <div className="relative">
+              <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6 leading-tight relative z-10">
                   <span className="block text-gray-800 font-bold">
                     We don't just design structures;

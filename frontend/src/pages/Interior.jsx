@@ -3,8 +3,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Hero from '../assets/I_hero.jpg';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import api, { API_URL } from "../services/api";
 
-import { API_URL } from "../services/api";
+// import { API_URL } from "../services/api";
 
 const Interior = () => {
   const [rotation, setRotation] = useState(0);
@@ -151,38 +152,32 @@ const Interior = () => {
       {/* Header Section with Scroll Animation */}
       <motion.div 
         style={{ opacity: headerOpacity }}
-        className="w-full bg-gray-300 py-10 px-4 sm:py-16 sm:px-8 md:px-16 flex flex-col md:flex-row justify-between items-start md:items-center sticky top-0 z-30"
+        className="w-full bg-gray-300 py-10 px-4 sm:py-16 sm:px-8 md:px-16 
+             flex flex-row flex-wrap justify-between items-center gap-6 sticky top-0 z-30"
       >
         {/* Left Side: "HOMES WE'VE DESIGNED" */}
         <motion.div 
-          className="mb-8 md:mb-0"
+          className="text-left"
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-none">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-tight">
             HOMES WE'VE<br />DESIGNED
           </h1>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link to="/v" className="inline-block mt-6 bg-black text-white px-6 py-2 sm:px-8 sm:py-3 font-medium transition-all duration-300 hover:bg-gray-800 rounded">
-              VIEW PROJECTS
-            </Link>
-          </motion.div>
+         
         </motion.div>
 
         {/* Right Side: JK WORKS Logo with Animation */}
         <motion.div 
-          className="flex flex-col items-end ml-0 md:ml-8"
+          className="flex flex-col items-end min-w-[140px]"
           style={{ scale: logoScale }}
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="text-4xl xs:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter">JK</div>
-          <div className="text-5xl xs:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter flex items-center">
+          <div className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter">JK</div>
+          <div className="text-4xl xs:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter flex items-center">
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -194,9 +189,9 @@ const Interior = () => {
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <div className="w-10 h-10 xs:w-12 xs:h-12 md:w-20 md:h-20 border-4 md:border-[6px] border-black rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 xs:w-10 xs:h-10 md:w-16 md:h-16 border-4 md:border-[6px] border-black rounded-full flex items-center justify-center">
                 <motion.div
-                  className="w-6 h-6 xs:w-8 xs:h-8 md:w-12 md:h-12 border-4 md:border-[6px] border-black rounded-full"
+                  className="w-4 h-4 xs:w-6 xs:h-6 md:w-10 md:h-10 border-4 md:border-[6px] border-black rounded-full"
                   style={{ transform: `rotate(${rotation}deg)` }}
                   animate={{ 
                     boxShadow: ["0px 0px 0px rgba(0,0,0,0.2)", "0px 0px 15px rgba(0,0,0,0.2)", "0px 0px 0px rgba(0,0,0,0.2)"]
