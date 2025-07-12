@@ -4,7 +4,8 @@ import api, { API_URL } from "../services/api";
 
 
 export default function IntegratedBlogComponent() {
-  const [activeTab, setActiveTab] = useState('Article');
+  const [activeTab, setActiveTab] = useState('All news'); // Default to 'All news' for clarity
+  const [selectedTitle, setSelectedTitle] = useState('All Titles'); // New state for title filter
   const [currentPage, setCurrentPage] = useState(1);
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,6 +16,7 @@ useEffect(() => {
     try {
       const res = await api.get("/blogs"); // ✅ Use Axios instance with base URL
       const data = res.data;
+      console.log('Fetched blogs from API:', data); // Debug log
       setBlogs(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Error fetching blogs:", err);
@@ -26,16 +28,13 @@ useEffect(() => {
   fetchBlogs();
 }, []);
 
-  const categories = [
-    'Residential Design', 'Commercial Architecture', 'Interior Design', 'Landscape Architecture', 'Sustainable Design', 
-    'Urban Planning', 'Renovation & Restoration', 'Modern Architecture', 'Traditional Architecture', 'Industrial Design'
-  ];
+  const Title = [
+    'Residential Design', 'Modern Architecture','Passive Design','High-Density Housing ','3D-Printed Structures','Universal Design','AI','Commercial Architecture', 'Interior Design', 
+    'Urban Planning',   'Traditional Architecture', 'Industrial Design', 
+  ]; 
   
-  const secondaryCategories = [
-    'Building Materials', 'Construction Technology', 'Architectural Visualization', 'Design Process', 'Building Codes & Standards'
-  ];
-  
-  const tabs = ['Article', 'News', 'YouTube', 'All news'];
+  const categories= ['Article', 'News', 'YouTube', 'All news'];
+  const allTitlesOption = 'All Titles';
 
   // Convert API blogs to match the original blog post structure
   const blogPosts = blogs.map((blog, index) => ({
@@ -43,23 +42,27 @@ useEffect(() => {
     title: blog.title || 'Untitled',
     subtitle: blog.description || 'No description available',
     image: blog.image ? `${API_URL.replace("/api", "")}/uploads/${blog.image}` : '/api/placeholder/400/300',
-    categories: ['Architecture'], // Default category
+    Title: blog.title || 'Untitled', // Use blog title for filtering
     type: blog.category || blog.type || 'Article', // Use category or type from API
     author: blog.author || 'Admin',
     createdAt: blog.createdAt
   }));
+  console.log('blogPosts after mapping:', blogPosts); // Debug log
 
-  // Filter blogs based on active tab
+  // Two-factor filtering logic
   const getFilteredBlogs = () => {
-    if (activeTab === 'All news') {
-      return blogPosts; // Show all blogs
-    } else {
-      // Filter blogs by type that matches the active tab
-      return blogPosts.filter(blog => {
+    let filtered = blogPosts;
+    // Debug: print all blog titles and selectedTitle
+    console.log('All blog titles:', blogPosts.map(b => b.title), 'Selected title:', selectedTitle);
+    // Filter by title if not 'All Titles'
+    if (selectedTitle !== allTitlesOption) {
+      filtered = filtered.filter(blog => blog.title && blog.title.trim().toLowerCase() === selectedTitle.trim().toLowerCase());
+    }
+    // Filter by category if not 'All news'
+    if (activeTab !== 'All news') {
+      filtered = filtered.filter(blog => {
         const blogType = blog.type.toLowerCase().trim();
         const tabType = activeTab.toLowerCase().trim();
-        
-        // Handle different variations of the same type
         if (tabType === 'article' && (blogType === 'article' || blogType === 'articles')) {
           return true;
         }
@@ -69,18 +72,19 @@ useEffect(() => {
         if (tabType === 'youtube' && (blogType === 'youtube' || blogType === 'video' || blogType === 'videos')) {
           return true;
         }
-        
         return blogType === tabType;
       });
     }
+    return filtered;
   };
 
   const filteredBlogs = getFilteredBlogs();
+  console.log('selectedTitle:', selectedTitle, 'activeTab:', activeTab, 'filteredBlogs:', filteredBlogs); // Debug log
 
-  // Reset to page 1 when tab changes
+  // Reset to page 1 when either filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeTab]);
+  }, [activeTab, selectedTitle]);
 
   // Pagination logic
   const postsPerPage = 6;
@@ -107,27 +111,24 @@ useEffect(() => {
         </div>  
       </div>
 
-      {/* Categories Section */}
+      {/* Title Section */}
       <div className="py-8 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-7xl mx-auto">
-          {/* Primary Categories */}
+          {/* Primary Title */}
           <div className="flex flex-wrap justify-center gap-3 mb-6">
-            {categories.map((category) => (
+            {/* Add 'All Titles' option */}
+            <button
+              key={allTitlesOption}
+              onClick={() => setSelectedTitle(allTitlesOption)}
+              className={`px-6 py-3 bg-[#2d2a2a]/95 border-[#2d2a2a]/95 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 ${selectedTitle === allTitlesOption ? 'ring-2 ring-[#d59653] text-[#d59653]' : ''}`}
+            >
+              {allTitlesOption}
+            </button>
+            {Title.map((category) => (
               <button
                 key={category}
-                className="px-6 py-3  bg-[#2d2a2a]/95 hover:bg-[#2d2a2a]/105 border-[#2d2a2a]/95 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20"
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-          
-          {/* Secondary Categories */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {secondaryCategories.map((category) => (
-              <button
-                key={category}
-                className="px-6 py-3  bg-[#2d2a2a]/95  hover:bg-[#2d2a2a]/105 border-[#2d2a2a]/95 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20"
+                onClick={() => setSelectedTitle(category)}
+                className={`px-6 py-3 bg-[#2d2a2a]/95 border-[#2d2a2a]/95 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 ${selectedTitle === category ? 'ring-2 ring-[#d59653] text-[#d59653]' : ''}`}
               >
                 {category}
               </button>
@@ -136,17 +137,17 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* Content Tabs */}
+      {/* Content categories */}
       <div className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-full mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-1 mb-12">
-            {tabs.map((tab) => (
+            {categories.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`px-8 py-4 text-lg font-medium transition-all duration-300 relative ${
                   activeTab === tab
-                    ? 'text-black'
+                    ? 'text-black ring-2 ring-[#d59653]'
                     : 'text-black hover:text-black'
                 }`}
               >
@@ -157,10 +158,23 @@ useEffect(() => {
               </button>
             ))}
           </div>
-
-          {/* Current Tab Info */}
+          {/* Show active filters */}
           <div className="text-center mb-6">
-            <p className="text-gray-600 text-sm"> 
+            <p className="text-gray-600 text-sm">
+              {selectedTitle !== allTitlesOption && (
+                <span>
+                  {/* Filtering by Title: <span className="font-semibold text-[#d59653]">{selectedTitle}</span> */}
+                </span>
+              )}
+              {activeTab !== 'All news' && (
+                <span>
+                  {/* {selectedTitle !== allTitlesOption ? ' | ' : ''}Filtering by Category: 
+                  <span className="font-semibold text-[#d59653]">{activeTab}</span> */}
+                </span>
+              )}
+              {(selectedTitle !== allTitlesOption || activeTab !== 'All news') && (
+                <button onClick={() => { setSelectedTitle(allTitlesOption); setActiveTab('All news'); }} className="ml-4 px-2 py-1 text-xs bg-gray-300 text-black rounded hover:bg-gray-400">Clear Filters</button>
+              )}
             </p>
             {/* Debug info - remove in production */}
             {process.env.NODE_ENV === 'development' && (
@@ -276,4 +290,4 @@ useEffect(() => {
       </div>
     </div>
   );
-}
+} 
