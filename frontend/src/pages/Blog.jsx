@@ -41,7 +41,9 @@ useEffect(() => {
     id: blog._id || index,
     title: blog.title || 'Untitled',
     subtitle: blog.description || 'No description available',
-    image: blog.image ? `${API_URL.replace("/api", "")}/uploads/${blog.image}` : '/api/placeholder/400/300',
+    image: blog.image?.startsWith("http")
+  ? blog.image
+  : '/fallback.jpg', // use a public fallback image if Cloudinary URL is missing
     Title: blog.title || 'Untitled', // Use blog title for filtering
     type: blog.category || blog.type || 'Article', // Use category or type from API
     author: blog.author || 'Admin',
