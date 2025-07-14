@@ -21,9 +21,10 @@ exports.getBlogById = async (req, res) => {
   }
 };
 
+
 exports.createBlog = async (req, res) => {
   try {
-    const { title, category, description } = req.body;
+    const { title, category, description, tags, link } = req.body;
     let imageUrl = null;
 
     if (req.file) {
@@ -31,7 +32,7 @@ exports.createBlog = async (req, res) => {
       imageUrl = uploadResult.url;
 
       try {
-        fs.unlinkSync(req.file.path); // Clean up local file
+        fs.unlinkSync(req.file.path);
       } catch (err) {
         console.warn("Temp file deletion failed:", err.message);
       }
@@ -41,6 +42,8 @@ exports.createBlog = async (req, res) => {
       title,
       category,
       description,
+      tags: tags ? Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()) : [],
+      link: link || null,
       image: imageUrl,
       author: req.user ? req.user.name : "Admin",
     });
@@ -53,16 +56,23 @@ exports.createBlog = async (req, res) => {
   }
 };
 
+
 exports.updateBlog = async (req, res) => {
   try {
-    const { title, category, description } = req.body;
+    const { title, category, description, tags, link } = req.body;
     const blog = await Blog.findById(req.params.id);
 
     if (!blog) {
       return res.status(404).json({ error: 'Blog not found' });
     }
 
-    let updatedFields = { title, category, description };
+    let updatedFields = {
+      title,
+      category,
+      description,
+      tags: tags ? Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()) : [],
+      link: link || null,
+    };
 
     if (req.file) {
       const uploadResult = await uploadToCloudinary(req.file.path, 'jkworks/blogs');

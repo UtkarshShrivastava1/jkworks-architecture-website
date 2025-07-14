@@ -2,17 +2,18 @@ const multer = require('multer');
 const os = require('os');
 const path = require('path');
 
-// Temp storage engine (we’ll upload to Cloudinary after this)
+// Temporary disk storage (for Cloudinary upload later)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, os.tmpdir()); // Use OS temp directory
+    cb(null, os.tmpdir()); // Temporary OS directory
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, ''));
+    const safeName = Date.now() + '-' + file.originalname.replace(/\s+/g, '');
+    cb(null, safeName);
   }
 });
 
-// Optional: File filter for image types only
+// Only allow specific image types
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -25,10 +26,11 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// Final multer instance with 20MB limit
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB per file
+  limits: { fileSize: 20 * 1024 * 1024 }, // ✅ 20MB limit
 });
 
 module.exports = upload;
