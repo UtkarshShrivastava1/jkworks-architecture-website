@@ -3,7 +3,7 @@ const router = express.Router();
 const upload = require('../middlewares/multer');
 const { uploadToCloudinary } = require('../services/cloudinary');
 const fs = require('fs');
-const Project = require('../models/project');
+const Project = require('../models/Project');
 
 // Helper to delete local file
 const deleteLocalFile = (path) => {
