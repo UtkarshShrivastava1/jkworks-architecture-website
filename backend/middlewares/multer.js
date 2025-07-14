@@ -1,33 +1,34 @@
 const multer = require('multer');
+const os = require('os');
 const path = require('path');
 
-// Set storage engine
+// Temp storage engine (we’ll upload to Cloudinary after this)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '..', 'uploads'));
+    cb(null, os.tmpdir()); // Use OS temp directory
   },
   filename: function (req, file, cb) {
-    // Use Date.now() for unique file names
     cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, ''));
   }
 });
 
-// File filter (optional, for images only)
+// Optional: File filter for image types only
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif/;
+  const allowedTypes = /jpeg|jpg|png|gif|webp/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
+
   if (extname && mimetype) {
-    return cb(null, true);
+    cb(null, true);
   } else {
-    cb(new Error('Only images are allowed'));
+    cb(new Error('Only image files are allowed (jpg, jpeg, png, gif, webp)'));
   }
 };
 
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB per file
 });
 
 module.exports = upload;

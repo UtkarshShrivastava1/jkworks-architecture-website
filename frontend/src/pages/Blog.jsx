@@ -42,7 +42,10 @@ useEffect(() => {
     id: blog._id || index,
     title: blog.title || 'Untitled',
     subtitle: blog.description || 'No description available',
-    image: blog.image ? `${API_URL.replace("/api", "")}/uploads/${blog.image}` : '/api/placeholder/400/300',
+    image: blog.image?.includes("cloudinary.com") 
+  ? blog.image 
+  : `${API_URL.replace("/api", "")}/uploads/${blog.image}`,
+
     categories: ['Architecture'], // Default category
     type: blog.category || blog.type || 'Article', // Use category or type from API
     author: blog.author || 'Admin',

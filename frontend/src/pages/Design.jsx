@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Hero from "../assets/I_hero.jpg";
-// import { API_URL } from "../services/api";
 import  { API_URL } from "../services/api";
 
 
@@ -278,50 +277,41 @@ const Design = () => {
                         style={{ height: "340px" }}
                       >
                         {project.images.map((img, idx) => {
-                          const total = project.images.length;
-                          const style = getImageStyle(
-                            idx,
-                            currentImageIndex,
-                            total
-                          );
-                          return (
-                            <motion.img
-                              key={img}
-                              src={`${API_URL.replace(
-                                "/api",
-                                ""
-                              )}/uploads/${img}`}
-                              alt={project.title}
-                              style={{
-                                position: "absolute",
-                                top: 0,
-                                left: "50%",
-                                height: "320px",
-                                width: style.scale === 1.1 ? "100%" : "60%",
-                                boxShadow: style.boxShadow,
-                                zIndex: style.zIndex,
-                                opacity:
-                                  style.opacity !== undefined
-                                    ? style.opacity
-                                    : 1,
-                                transition: "all 0.5s cubic-bezier(.4,2,.3,1)",
-                                cursor:
-                                  style.scale === 1.1 ? "default" : "pointer",
-                                filter: style.filter,
-                                transform: `translateX(-50%) scale(${
-                                  style.scale
-                                }) translateX(${style.x || 0}px)`,
-                                pointerEvents: style.pointerEvents,
-                              }}
-                              onClick={(e) => {
-                                if (style.scale !== 1.1) {
-                                  e.stopPropagation();
-                                  setCurrentImageIndex(idx);
-                                }
-                              }}
-                            />
-                          );
-                        })}
+  if (!img?.startsWith("http")) return null; // ✅ Skip non-Cloudinary/invalid images
+
+  const total = project.images.length;
+  const style = getImageStyle(idx, currentImageIndex, total);
+
+  return (
+    <motion.img
+      key={img}
+      src={img}
+      alt={project.title}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: "50%",
+        height: "320px",
+        width: style.scale === 1.1 ? "100%" : "60%",
+        boxShadow: style.boxShadow,
+        zIndex: style.zIndex,
+        opacity: style.opacity !== undefined ? style.opacity : 1,
+        transition: "all 0.5s cubic-bezier(.4,2,.3,1)",
+        cursor: style.scale === 1.1 ? "default" : "pointer",
+        filter: style.filter,
+        transform: `translateX(-50%) scale(${style.scale}) translateX(${style.x || 0}px)`,
+        pointerEvents: style.pointerEvents,
+      }}
+      onClick={(e) => {
+        if (style.scale !== 1.1) {
+          e.stopPropagation();
+          setCurrentImageIndex(idx);
+        }
+      }}
+    />
+  );
+})}
+
                       </div>
                       {/* Right Arrow */}
                       {project.images.length > 1 && (
@@ -401,16 +391,15 @@ const Design = () => {
                 </div>
                 {/* Show first image only in card */}
                 <img
-                  src={
-                    project.images && project.images.length > 0
-                      ? `${API_URL.replace("/api", "")}/uploads/${
-                          project.images[0]
-                        }`
-                      : ""
-                  }
-                  alt={project.title}
-                  className="w-full h-40 xs:h-48 object-cover rounded-tl-2xl rounded-tr-2xl"
-                />
+  src={
+    project.images?.[0]?.startsWith("http")
+      ? project.images[0]
+      : "/fallback.jpg"
+  }
+  alt={project.title}
+  className="w-full h-40 xs:h-48 object-cover rounded-tl-2xl rounded-tr-2xl"
+/>
+
                 <div className="px-4 xs:px-6 pb-4 xs:pb-6 flex-1 flex flex-col">
                   <h3 className="font-bold text-base xs:text-lg mb-2 text-gray-900 leading-tight">
                     {project.title}

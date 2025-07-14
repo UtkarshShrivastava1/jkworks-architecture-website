@@ -61,7 +61,7 @@ const BlogDetail = () => {
           {/* Blog Image */}
           <div className="relative">
             <img
-              src={`${API_URL.replace("/api", "")}/uploads/${blog.image}`}
+              src={blog?.image || "/no-image.jpg"}
               alt={blog.title}
               className="w-full h-52 sm:h-72 object-cover"
             />

@@ -5,8 +5,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import  { API_URL } from "../services/api";
 
-// import { API_URL } from "../services/api";
-
 const Interior = () => {
   const [rotation, setRotation] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -258,58 +256,42 @@ const Interior = () => {
                 )}
                 {/* Images with coverflow effect */}
                 <div className="relative w-full flex items-center justify-center overflow-visible" style={{height: "340px"}}>
-                  {project.images.map((img, idx) => {
-                    const total = project.images.length;
-                    const isActive = idx === currentImageIndex;
-                    const isPrev = idx === (currentImageIndex - 1 + total) % total;
-                    const isNext = idx === (currentImageIndex + 1) % total;
+                 {project.images.map((img, idx) => {
+  if (!img?.startsWith("http")) return null; // ✅ Skip non-Cloudinary/invalid images
 
-                    let style = {
-                      position: "absolute",
-                      top: 0,
-                      left: "50%",
-                      height: "320px",
-                      width: isActive ? "100%" : "60%",
-                      boxShadow: isActive
-                        ? "0 8px 32px rgba(0,0,0,0.25)"
-                        : "0 2px 12px rgba(0,0,0,0.15)",
-                      zIndex: isActive ? 3 : (isPrev || isNext ? 2 : 1),
-                      opacity: isActive ? 1 : 0.7,
-                      transition: "all 0.5s cubic-bezier(.4,2,.3,1)",
-                      cursor: isActive ? "default" : "pointer",
-                      filter: isActive ? "brightness(1)" : "brightness(0.7)",
-                      transform: "",
-                    };
+  const total = project.images.length;
+  const style = getImageStyle(idx, currentImageIndex, total);
 
-                    if (isActive) {
-                      style.transform = "translateX(-50%) scale(1.05)";
-                    } else if (isPrev) {
-                      style.transform = "translateX(-70%) scale(0.92) rotateY(-18deg)";
-                    } else if (isNext) {
-                      style.transform = "translateX(-30%) scale(0.92) rotateY(18deg)";
-                    } else {
-                      style.opacity = 0;
-                      style.pointerEvents = "none";
-                      style.transform = idx < currentImageIndex
-                        ? "translateX(-200%) scale(0.7)"
-                        : "translateX(100%) scale(0.7)";
-                    }
+  return (
+    <motion.img
+      key={img}
+      src={img}
+      alt={project.title}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: "50%",
+        height: "320px",
+        width: style.scale === 1.1 ? "100%" : "60%",
+        boxShadow: style.boxShadow,
+        zIndex: style.zIndex,
+        opacity: style.opacity !== undefined ? style.opacity : 1,
+        transition: "all 0.5s cubic-bezier(.4,2,.3,1)",
+        cursor: style.scale === 1.1 ? "default" : "pointer",
+        filter: style.filter,
+        transform: `translateX(-50%) scale(${style.scale}) translateX(${style.x || 0}px)`,
+        pointerEvents: style.pointerEvents,
+      }}
+      onClick={(e) => {
+        if (style.scale !== 1.1) {
+          e.stopPropagation();
+          setCurrentImageIndex(idx);
+        }
+      }}
+    />
+  );
+})}
 
-                    return (
-                      <motion.img
-                        key={img}
-                        src={`${API_URL.replace("/api", "")}/uploads/${img}`}
-                        alt={project.title}
-                        style={style}
-                        onClick={e => {
-                          if (!isActive) {
-                            e.stopPropagation();
-                            setCurrentImageIndex(idx);
-                          }
-                        }}
-                      />
-                    );
-                  })}
                 </div>
                 {/* Right Arrow */}
                 {project.images.length > 1 && (
@@ -384,14 +366,15 @@ const Interior = () => {
           </div>
           {/* Show first image only in card */}
           <img
-            src={
-              project.images && project.images.length > 0
-              ? `${API_URL.replace("/api", "")}/uploads/${project.images[0]}`
-                : ""
-            }
-            alt={project.title}
-            className="w-full h-40 xs:h-48 object-cover rounded-tl-2xl rounded-tr-2xl"
-          />
+  src={
+    project.images?.[0]?.startsWith("http")
+      ? project.images[0]
+      : "/fallback.jpg"
+  }
+  alt={project.title}
+  className="w-full h-40 xs:h-48 object-cover rounded-tl-2xl rounded-tr-2xl"
+/>
+
           <div className="px-4 xs:px-6 pb-4 xs:pb-6 flex-1 flex flex-col">
             <h3 className="font-bold text-base xs:text-lg mb-2 text-gray-900 leading-tight">
               {project.title}

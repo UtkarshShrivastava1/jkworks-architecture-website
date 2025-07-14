@@ -25,7 +25,7 @@ const EditBlog = () => {
       setCategory(blog.category || "");
       setDescription(blog.description || blog.content || "");
       setImage(blog.image || "");
-      setPreview(blog.image ? `${API_URL.replace('/api', '')}/uploads/${blog.image}` : "");
+      setPreview(blog.image || "");
       setFetching(false);
     };
     fetchBlog();
@@ -34,13 +34,7 @@ const EditBlog = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setNewImage(file);
-    setPreview(
-      file
-        ? URL.createObjectURL(file)
-        : image
-        ? `${API_URL}/uploads/${image}`
-        : ""
-    );
+    setPreview(file ? URL.createObjectURL(file) : image);
   };
 
   const handleSubmit = async (e) => {
