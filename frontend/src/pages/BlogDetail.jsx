@@ -70,7 +70,7 @@ const BlogDetail = () => {
 
             {/* Tag Badge */}
             {tag && (
-              <span className="absolute top-4 left-4 bg-blue-600 text-white text-xs sm:text-sm px-3 py-1 rounded-full shadow-md">
+              <span className="absolute top-4 left-4 bg-gray-800 text-white text-xs sm:text-sm px-3 py-1 rounded-full shadow-md">
                 {tag}
               </span>
             )}

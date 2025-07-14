@@ -103,7 +103,7 @@ export default function IntegratedBlogComponent() {
                 </div>
                 <div className="p-4 bg-white">
                   <span className="text-xs px-2 py-1 bg-gray-800 text-white rounded-full">
-                    {blog.category}
+                    {Array.isArray(blog.tags) ? blog.tags[0] : blog.tags}
                   </span>
                   <h3 className="mt-2 font-semibold text-lg">{blog.title}</h3>
                 </div>
