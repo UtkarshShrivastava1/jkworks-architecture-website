@@ -2,6 +2,7 @@
  import { Link } from 'react-router-dom';
 import api, { API_URL } from "../services/api"; 
 
+// hi heloo
 
 export default function IntegratedBlogComponent() {
   const [activeTab, setActiveTab] = useState('All news'); // Default to 'All news' for clarity
