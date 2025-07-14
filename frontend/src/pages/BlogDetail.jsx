@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, CalendarDays, User } from "lucide-react";
-import api, { API_URL } from "../services/api";
+import { ArrowLeft, CalendarDays, User, Link as LinkIcon } from "lucide-react";
+import api from "../services/api";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -42,11 +42,12 @@ const BlogDetail = () => {
     );
   }
 
+  const tag = Array.isArray(blog.tags) ? blog.tags[0] : blog.tags;
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 text-gray-800">
-      {/* Blog Container */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-12 mt-8">
-        {/* ✅ Back Button below the main navbar */}
+        {/* Back Button */}
         <div className="mb-4">
           <button
             onClick={() => navigate(-1)}
@@ -57,20 +58,29 @@ const BlogDetail = () => {
           </button>
         </div>
 
+        {/* Blog Card */}
         <div className="bg-white shadow-md sm:shadow-lg rounded-lg overflow-hidden">
-          {/* Blog Image */}
           <div className="relative">
             <img
-              src={`${API_URL.replace("/api", "")}/uploads/${blog.image}`}
+              src={blog?.image || "/no-image.jpg"}
               alt={blog.title}
               className="w-full h-52 sm:h-72 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+
+            {/* Tag Badge */}
+            {tag && (
+              <span className="absolute top-4 left-4 bg-blue-600 text-white text-xs sm:text-sm px-3 py-1 rounded-full shadow-md">
+                {tag}
+              </span>
+            )}
           </div>
 
           {/* Blog Content */}
           <div className="p-4 sm:p-6">
-            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">{blog.title}</h1>
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+              {blog.title}
+            </h1>
 
             {/* Meta Info */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center text-sm text-gray-500 mb-4 sm:mb-6 gap-2 sm:gap-4">
@@ -87,10 +97,25 @@ const BlogDetail = () => {
               </span>
             </div>
 
-            {/* Blog Description */}
+            {/* Description */}
             <div className="prose prose-base sm:prose-lg max-w-none text-gray-700">
               <p>{blog.description}</p>
             </div>
+
+            {/* Optional Link */}
+            {blog.link && (
+              <div className="mt-6">
+                <a
+                  href={blog.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm sm:text-base font-medium"
+                >
+                  <LinkIcon className="w-4 h-4" />
+                  <span>Related Link</span>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>

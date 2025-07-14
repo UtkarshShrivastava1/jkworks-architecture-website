@@ -146,7 +146,7 @@ const Footer = () => {
                 <ul className="text-xs sm:text-sm space-y-2">
                   <li>
                     <a
-                      href="https://instagram.com"
+                      href="https://www.instagram.com/j_k_works_?igsh=MWpkYzBudm12NjBudQ=="
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-teal-600 transition-colors"
@@ -232,9 +232,9 @@ const Footer = () => {
           <div className="text-sm sm:text-base text-white">
             © {currentYear} JK WORKS
           </div>
-          <div className="text-sm sm:text-base text-white">
+          {/* <div className="text-sm sm:text-base text-white">
             Terms of Service
-          </div>
+          </div> */}
           <button
             onClick={scrollToTop}
             className="text-sm sm:text-base text-black bg-white px-3 py-1 sm:px-4 sm:py-2 rounded hover:bg-gray-200 transition-colors"

@@ -3,8 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Hero from '../assets/I_hero.jpg';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
-import { API_URL } from "../services/api";
+import  { API_URL } from "../services/api";
 
 const Interior = () => {
   const [rotation, setRotation] = useState(0);
@@ -151,38 +150,32 @@ const Interior = () => {
       {/* Header Section with Scroll Animation */}
       <motion.div 
         style={{ opacity: headerOpacity }}
-        className="w-full bg-gray-300 py-10 px-4 sm:py-16 sm:px-8 md:px-16 flex flex-col md:flex-row justify-between items-start md:items-center sticky top-0 z-30"
+        className="w-full bg-gray-300 py-10 px-4 sm:py-16 sm:px-8 md:px-16 
+             flex flex-row flex-wrap justify-between items-center gap-6 sticky top-0 z-30"
       >
         {/* Left Side: "HOMES WE'VE DESIGNED" */}
         <motion.div 
-          className="mb-8 md:mb-0"
+          className="text-left"
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-none">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-tight">
             HOMES WE'VE<br />DESIGNED
           </h1>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link to="/v" className="inline-block mt-6 bg-black text-white px-6 py-2 sm:px-8 sm:py-3 font-medium transition-all duration-300 hover:bg-gray-800 rounded">
-              VIEW PROJECTS
-            </Link>
-          </motion.div>
+         
         </motion.div>
 
         {/* Right Side: JK WORKS Logo with Animation */}
         <motion.div 
-          className="flex flex-col items-end ml-0 md:ml-8"
+          className="flex flex-col items-end min-w-[140px]"
           style={{ scale: logoScale }}
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="text-4xl xs:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter">JK</div>
-          <div className="text-5xl xs:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter flex items-center">
+          <div className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter">JK</div>
+          <div className="text-4xl xs:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter flex items-center">
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -194,9 +187,9 @@ const Interior = () => {
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <div className="w-10 h-10 xs:w-12 xs:h-12 md:w-20 md:h-20 border-4 md:border-[6px] border-black rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 xs:w-10 xs:h-10 md:w-16 md:h-16 border-4 md:border-[6px] border-black rounded-full flex items-center justify-center">
                 <motion.div
-                  className="w-6 h-6 xs:w-8 xs:h-8 md:w-12 md:h-12 border-4 md:border-[6px] border-black rounded-full"
+                  className="w-4 h-4 xs:w-6 xs:h-6 md:w-10 md:h-10 border-4 md:border-[6px] border-black rounded-full"
                   style={{ transform: `rotate(${rotation}deg)` }}
                   animate={{ 
                     boxShadow: ["0px 0px 0px rgba(0,0,0,0.2)", "0px 0px 15px rgba(0,0,0,0.2)", "0px 0px 0px rgba(0,0,0,0.2)"]
@@ -263,58 +256,42 @@ const Interior = () => {
                 )}
                 {/* Images with coverflow effect */}
                 <div className="relative w-full flex items-center justify-center overflow-visible" style={{height: "340px"}}>
-                  {project.images.map((img, idx) => {
-                    const total = project.images.length;
-                    const isActive = idx === currentImageIndex;
-                    const isPrev = idx === (currentImageIndex - 1 + total) % total;
-                    const isNext = idx === (currentImageIndex + 1) % total;
+                 {project.images.map((img, idx) => {
+  if (!img?.startsWith("http")) return null; // ✅ Skip non-Cloudinary/invalid images
 
-                    let style = {
-                      position: "absolute",
-                      top: 0,
-                      left: "50%",
-                      height: "320px",
-                      width: isActive ? "100%" : "60%",
-                      boxShadow: isActive
-                        ? "0 8px 32px rgba(0,0,0,0.25)"
-                        : "0 2px 12px rgba(0,0,0,0.15)",
-                      zIndex: isActive ? 3 : (isPrev || isNext ? 2 : 1),
-                      opacity: isActive ? 1 : 0.7,
-                      transition: "all 0.5s cubic-bezier(.4,2,.3,1)",
-                      cursor: isActive ? "default" : "pointer",
-                      filter: isActive ? "brightness(1)" : "brightness(0.7)",
-                      transform: "",
-                    };
+  const total = project.images.length;
+  const style = getImageStyle(idx, currentImageIndex, total);
 
-                    if (isActive) {
-                      style.transform = "translateX(-50%) scale(1.05)";
-                    } else if (isPrev) {
-                      style.transform = "translateX(-70%) scale(0.92) rotateY(-18deg)";
-                    } else if (isNext) {
-                      style.transform = "translateX(-30%) scale(0.92) rotateY(18deg)";
-                    } else {
-                      style.opacity = 0;
-                      style.pointerEvents = "none";
-                      style.transform = idx < currentImageIndex
-                        ? "translateX(-200%) scale(0.7)"
-                        : "translateX(100%) scale(0.7)";
-                    }
+  return (
+    <motion.img
+      key={img}
+      src={img}
+      alt={project.title}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: "50%",
+        height: "320px",
+        width: style.scale === 1.1 ? "100%" : "60%",
+        boxShadow: style.boxShadow,
+        zIndex: style.zIndex,
+        opacity: style.opacity !== undefined ? style.opacity : 1,
+        transition: "all 0.5s cubic-bezier(.4,2,.3,1)",
+        cursor: style.scale === 1.1 ? "default" : "pointer",
+        filter: style.filter,
+        transform: `translateX(-50%) scale(${style.scale}) translateX(${style.x || 0}px)`,
+        pointerEvents: style.pointerEvents,
+      }}
+      onClick={(e) => {
+        if (style.scale !== 1.1) {
+          e.stopPropagation();
+          setCurrentImageIndex(idx);
+        }
+      }}
+    />
+  );
+})}
 
-                    return (
-                      <motion.img
-                        key={img}
-                        src={`${API_URL.replace("/api", "")}/uploads/${img}`}
-                        alt={project.title}
-                        style={style}
-                        onClick={e => {
-                          if (!isActive) {
-                            e.stopPropagation();
-                            setCurrentImageIndex(idx);
-                          }
-                        }}
-                      />
-                    );
-                  })}
                 </div>
                 {/* Right Arrow */}
                 {project.images.length > 1 && (
@@ -389,14 +366,15 @@ const Interior = () => {
           </div>
           {/* Show first image only in card */}
           <img
-            src={
-              project.images && project.images.length > 0
-              ? `${API_URL.replace("/api", "")}/uploads/${project.images[0]}`
-                : ""
-            }
-            alt={project.title}
-            className="w-full h-40 xs:h-48 object-cover rounded-tl-2xl rounded-tr-2xl"
-          />
+  src={
+    project.images?.[0]?.startsWith("http")
+      ? project.images[0]
+      : "/fallback.jpg"
+  }
+  alt={project.title}
+  className="w-full h-40 xs:h-48 object-cover rounded-tl-2xl rounded-tr-2xl"
+/>
+
           <div className="px-4 xs:px-6 pb-4 xs:pb-6 flex-1 flex flex-col">
             <h3 className="font-bold text-base xs:text-lg mb-2 text-gray-900 leading-tight">
               {project.title}

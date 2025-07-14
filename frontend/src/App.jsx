@@ -8,7 +8,7 @@ import NavBar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Footer from "./components/Footer";
-import Letstalk from "./components/Letstalk";
+
 import ContactPage from "./pages/Contact";
 import Project from "./components/Project";
 import FormPage from "./components/FormPage";
@@ -48,7 +48,7 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/project" element={<Project />} />
         <Route path="/about" element={<About />} />
-        <Route path="/letstalk" element={<Letstalk />} />
+        
         <Route path="/interior" element={<Interior />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blogs/:id" element={<BlogDetail />} />

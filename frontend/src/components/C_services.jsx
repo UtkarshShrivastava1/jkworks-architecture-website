@@ -131,25 +131,52 @@ const BMWProcessComponent = () => {
   ))}
 </div>
 
-        {/* Statistics Section */}
-        <div className="mt-24 grid grid-cols-2 md:grid-cols-3 gap-8">
-          {[
-            { number: "50+", label: "Projects Delivered" },
-            { number: "7+", label: "Years of Excellence" },
-            { number: "95%", label: "Client Retention" },
-            // { number: "25+", label: "Industry Awards" },
-            
-          ].map((stat, index) => (
-            <div key={index} className="text-center group">
-              <div className="text-3xl sm:text-4xl font-bold  text-[#a77744] mb-2 group-hover:text-[#d59653] transition-colors duration-300">
-                {stat.number}
-              </div>
-              <div className=" text-[#a77744] text-sm sm:text-base">
-                {stat.label}
-              </div>
-            </div>
-          ))}
+      {/* Statistics Section */}
+<div className="mt-24">
+  {/* Mobile View: Two top items in row, third centered below */}
+  <div className="flex flex-col items-center space-y-8 md:hidden">
+    <div className="flex gap-8">
+      {[ 
+        { number: "50+", label: "Projects Delivered" },
+        { number: "7+", label: "Years of Excellence" }
+      ].map((stat, index) => (
+        <div key={index} className="text-center group">
+          <div className="text-3xl font-bold text-[#a77744] mb-2 group-hover:text-[#d59653] transition-colors duration-300">
+            {stat.number}
+          </div>
+          <div className="text-[#a77744] text-sm">
+            {stat.label}
+          </div>
         </div>
+      ))}
+    </div>
+
+    {/* 95% Centered Below */}
+    <div className="text-center group">
+      <div className="text-3xl font-bold text-[#a77744] mb-2 group-hover:text-[#d59653] transition-colors duration-300">
+        95%
+      </div>
+      <div className="text-[#a77744] text-sm">Client Retention</div>
+    </div>
+  </div>
+
+  {/* Desktop View: Perfectly aligned in grid */}
+  <div className="hidden md:grid grid-cols-3 gap-8">
+    {[
+      { number: "50+", label: "Projects Delivered" },
+      { number: "7+", label: "Years of Excellence" },
+      { number: "95%", label: "Client Retention" }
+    ].map((stat, index) => (
+      <div key={index} className="text-center group">
+        <div className="text-4xl font-bold text-[#a77744] mb-2 group-hover:text-[#d59653] transition-colors duration-300">
+          {stat.number}
+        </div>
+        <div className="text-[#a77744] text-base">{stat.label}</div>
+      </div>
+    ))}
+  </div>
+</div>
+ 
 
         {/* Additional Info Section */}
         <div className="mt-16 pt-8 border-t border-white/20">

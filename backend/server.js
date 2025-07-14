@@ -1,13 +1,26 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const path = require("path");
 const compression = require("compression");
 const helmet = require("helmet");
+const path = require("path");
 require("dotenv").config();
 require("colors");
 
-const app = express();
+const app = express(); // ✅ Must come before any app.use()
+
+// --------- Serve /uploads Folder for Local Images ---------
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"), {
+    setHeaders: (res) => {
+      res.set("Cross-Origin-Resource-Policy", "cross-origin");
+    },
+  })
+);
+
+// --------- Cloudinary Init (if using Cloudinary) ---------
+require("./services/cloudinary");
 
 // --------- Logging Helper ---------
 const log = (...args) => console.log(`[${new Date().toISOString()}]`, ...args);
@@ -31,10 +44,7 @@ const allowedOrigins = process.env.FRONTEND_URL
   : [];
 
 log("🛡️ Environment:".cyan, NODE_ENV);
-log(
-  "🔗 MongoDB URI Loaded:".cyan,
-  DB_URI.includes("mongodb") ? "✅ Valid" : "❌ Invalid"
-);
+log("🔗 MongoDB URI Loaded:".cyan, DB_URI.includes("mongodb") ? "✅ Valid" : "❌ Invalid");
 log("🌐 Allowed Frontend Origins:".cyan, allowedOrigins);
 
 // --------- CORS Setup ---------
@@ -42,7 +52,6 @@ app.use(
   cors({
     origin: (origin, callback) => {
       log("🌐 Incoming Origin:".blue, origin || "Internal/Server-side");
-
       if (!origin || allowedOrigins.includes(origin)) {
         log("✅ CORS Allowed:".green, origin || "Internal Request");
         callback(null, true);
@@ -88,9 +97,6 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/faqs", faqRoutes);
 app.use("/api/contact", contactRoutes);
-app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
-
-log("📁 Static uploads served from:".cyan, path.join(__dirname, "uploads"));
 
 // --------- Health Check ---------
 app.get("/", (req, res) => {
@@ -125,10 +131,7 @@ app.listen(PORT, () => {
   console.log("🔹 API Health:".brightCyan, `${BACKEND_PUBLIC_URL}/`);
   console.log("🔹 Node.js Version:".brightCyan, nodeVersion);
   console.log("🔹 Host Machine:".brightCyan, host);
-  console.log(
-    "🔹 MongoDB:".brightCyan,
-    isProduction ? "Production DB" : "Local DB"
-  );
+  console.log("🔹 MongoDB:".brightCyan, isProduction ? "Production DB" : "Local DB");
   console.log("🔹 Allowed CORS Origins:".brightCyan, allowedOrigins);
   console.log("⏱️ Started at:", new Date().toLocaleString());
   console.log("====================================\n".gray);
