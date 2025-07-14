@@ -72,10 +72,8 @@ const HeroSection = ({ projectRef }) => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
           >
-            {/* Glowing Background Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#c99e70]/20 to-[#facc15]/20 blur-3xl rounded-full transform scale-150"></div>
-            
             {/* Typewriter Text */}
+            
             <div className="relative z-10">
               <p className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#c99e70] via-[#facc15] to-[#c99e70] leading-tight">
                 {text}
