@@ -8,7 +8,7 @@ import NavBar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Footer from "./components/Footer";
-import Letstalk from "./components/Letstalk";
+
 import ContactPage from "./pages/Contact";
 import Project from "./components/Project";
 import FormPage from "./components/FormPage";
@@ -18,6 +18,7 @@ import Exterior from "./pages/Exterior";
 import Design from "./pages/Design";
 import ProjectDetails from "./pages/ProjectDetails";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import Login from "./pages/Login";
 import MyCourses from "./pages/MyCourses";
 import Dashboard from "./pages/Dashboard";
@@ -47,9 +48,10 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/project" element={<Project />} />
         <Route path="/about" element={<About />} />
-        <Route path="/letstalk" element={<Letstalk />} />
+        
         <Route path="/interior" element={<Interior />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blogs/:id" element={<BlogDetail />} />
         <Route path="/ProjectDetails" element={<ProjectDetails />} />
         <Route path="/exterior" element={<Exterior />} />
         <Route path="/designs" element={<Design />} />

@@ -17,12 +17,18 @@ const AdminBlog = () => {
     fetchBlogs();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this blog?")) {
+ const handleDelete = async (id) => {
+  if (window.confirm("Are you sure you want to delete this blog?")) {
+    try {
       await deleteBlog(id);
       setBlogs(blogs.filter((blog) => blog._id !== id));
+    } catch (error) {
+      console.error("Delete failed:", error);
+      alert("Failed to delete blog. Please check server logs.");
     }
-  };
+  }
+};
+
 
   const handleSidebarNavigate = (path) => {
     setSidebarOpen(false);
@@ -118,7 +124,7 @@ const AdminBlog = () => {
                 >
                   {blog.image && (
                     <img
-                      src={`${API_URL}/uploads/${blog.image}`}
+                      src={blog.image}
                       alt={blog.title}
                       className="w-full h-40 object-cover rounded mb-3 border"
                     />

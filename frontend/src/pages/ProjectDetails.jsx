@@ -64,7 +64,7 @@ function ProjectDetails() {
       {/* Hero Section */}
       <motion.div className="w-full h-[65vh] relative overflow-hidden" style={{ scale: heroScale }}>
         <motion.img
-          src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${project.heroImage}`}
+          src={project.heroImage}
           alt={project.title}
           className="w-full h-full object-cover"
           initial={{ scale: 1.2, y: 20 }}
@@ -171,7 +171,7 @@ function ProjectDetails() {
               transition={{ duration: 0.6, delay: i * 0.1 }}
             >
               <img
-                src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${img}`}
+                src={img}
                 alt={`Gallery ${i + 1}`}
                 className="w-full h-48 object-cover"
               />

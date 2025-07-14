@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ContactImage from "../assets/CONT.webp";
-import api from "../services/api"; // <-- Import the configured axios instance
+import api from "../services/api";
 
 const ContactPage = () => {
   const [rotation, setRotation] = useState(0);
   const [form, setForm] = useState({
     name: "",
+    companyName: "", // ✅ Added companyName
     email: "",
     phone: "",
     message: "",
@@ -30,13 +31,13 @@ const ContactPage = () => {
     e.preventDefault();
     setStatus("Sending...");
     try {
-      // Use api.post instead of fetch
       const res = await api.post("/contact", form);
       const data = res.data;
       if (data.success) {
         setStatus("Message sent!");
         setForm({
           name: "",
+          companyName: "",
           email: "",
           phone: "",
           message: "",
@@ -78,6 +79,19 @@ const ContactPage = () => {
                 required
               />
             </div>
+
+            <div>
+              <label className="block mb-2 text-sm">Company Name</label>
+              <input
+                type="text"
+                name="companyName"
+                className="w-full border border-black p-2"
+                value={form.companyName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
             <div>
               <label className="block mb-2 text-sm">Email</label>
               <input
@@ -89,6 +103,7 @@ const ContactPage = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block mb-2 text-sm">Phone</label>
               <input
@@ -99,6 +114,7 @@ const ContactPage = () => {
                 onChange={handleChange}
               />
             </div>
+
             <div>
               <label className="block mb-2 text-sm">Message</label>
               <textarea
@@ -110,39 +126,59 @@ const ContactPage = () => {
                 required
               />
             </div>
-            <button
-              type="submit"
-              className="w-full md:w-auto h-12 bg-[#b39069] text-black py-3 px-6 hover:bg-black hover:text-white transition-colors"
-            >
-              LET'S TALK
-            </button>
+
+            {/* Button + Logo */}
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mt-6">
+              <button
+                type="submit"
+                className="w-full md:w-auto h-12 bg-[#b39069] text-black py-3 px-6 hover:bg-black hover:text-white transition-colors"
+              >
+                LET'S TALK
+              </button>
+
+              <div className="hidden md:flex flex-col items-center md:items-end">
+                <div className="text-4xl font-extrabold leading-none mb-1">JK</div>
+                <div className="flex items-center">
+                  <span className="text-5xl font-extrabold tracking-wider">W</span>
+                  <div className="relative inline-flex items-center justify-center mx-2">
+                    <div className="w-12 h-12 border-[6px] border-black rounded-full flex items-center justify-center">
+                      <div
+                        className="w-6 h-6 border-[6px] border-black rounded-full"
+                        style={{ transform: `rotate(${rotation}deg)` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <span className="text-5xl font-extrabold tracking-wider">RKS</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-10 md:hidden flex flex-col items-start">
+              <div className="flex flex-col">
+                <div className="flex items-center relative">
+                  <div className="absolute left-0 top-[-2.2rem]">
+                    <span className="text-3xl font-extrabold">JK</span>
+                  </div>
+                  <span className="text-4xl font-extrabold tracking-wider">W</span>
+                  <div className="relative inline-flex items-center justify-center mx-2">
+                    <div className="w-10 h-10 border-[4px] border-black rounded-full flex items-center justify-center">
+                      <div
+                        className="w-5 h-5 border-[4px] border-black rounded-full"
+                        style={{ transform: `rotate(${rotation}deg)` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <span className="text-4xl font-extrabold tracking-wider">RKS</span>
+                </div>
+              </div>
+            </div>
+
             {status && (
               <div className="mt-2 text-sm text-center text-gray-700">
                 {status}
               </div>
             )}
           </form>
-        </div>
-
-        {/* Logo Section */}
-        <div className="mt-10 md:mt-12">
-          <div className="flex flex-col md:flex-row md:justify-end items-start md:items-center">
-            <div className="text-5xl md:text-7xl font-extrabold leading-none">
-              JK
-            </div>
-            <div className="text-6xl md:text-8xl font-extrabold tracking-wider flex items-center mt-2 md:mt-0 md:ml-4">
-              <span className="mr-1">W</span>
-              <div className="relative inline-flex items-center justify-center mx-2">
-                <div className="w-12 h-12 md:w-16 md:h-16 border-[6px] border-black rounded-full flex items-center justify-center">
-                  <div
-                    className="w-8 h-8 md:w-10 md:h-10 border-[6px] border-black rounded-full"
-                    style={{ transform: `rotate(${rotation}deg)` }}
-                  ></div>
-                </div>
-              </div>
-              <span>RKS</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

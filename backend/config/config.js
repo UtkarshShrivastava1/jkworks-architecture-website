@@ -11,12 +11,22 @@ const config = {
     dbUri: process.env.DEV_DB_URI,
     jwtSecret: process.env.DEV_JWT_SECRET,
     jwtRefreshSecret: process.env.DEV_JWT_REFRESH_SECRET,
+    cloudinary: {
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+      apiKey: process.env.CLOUDINARY_API_KEY,
+      apiSecret: process.env.CLOUDINARY_API_SECRET,
+    },
   },
   production: {
     port: process.env.PROD_PORT || 8000,
     dbUri: process.env.PROD_DB_URI,
     jwtSecret: process.env.PROD_JWT_SECRET,
     jwtRefreshSecret: process.env.PROD_JWT_REFRESH_SECRET,
+     cloudinary: {
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+      apiKey: process.env.CLOUDINARY_API_KEY,
+      apiSecret: process.env.CLOUDINARY_API_SECRET,
+    },
   },
 };
 

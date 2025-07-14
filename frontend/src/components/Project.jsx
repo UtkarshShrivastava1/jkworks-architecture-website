@@ -44,8 +44,8 @@ const ProjectsShowcase = () => {
           <p className="mt-6 text-xl text-gray-700 font-light italic max-w-2xl mx-auto">
             "Bringing your vision to life through innovative design and expert craftsmanship"
           </p>
-                              <div className="w-24 h-1 bg-gradient-to-r from-[#d59653] to-[#d07310] mx-auto mt-8 rounded-full"></div>
-
+        <div className="w-24 h-1 bg-gradient-to-r from-[#d59653] to-[#d07310] mx-auto mt-8 rounded-full">
+        </div>
         </div>
         
         <div className="flex flex-col lg:flex-row gap-8 items-start">

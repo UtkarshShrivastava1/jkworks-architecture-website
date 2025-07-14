@@ -178,13 +178,14 @@ const Dashboard = () => {
                     key={project._id}
                     className="bg-slate-800 p-3 sm:p-4 rounded-lg shadow hover:shadow-lg transition duration-200 flex flex-col"
                   >
-                       {project.images?.length > 0 && (
-                        <img
-                          src={`${API_URL}/uploads/${project.images[0]}`}
-                          alt={project.title}
-                          className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
-                          />
-                        )}
+                     {project.images?.[0]?.startsWith("http") && (
+  <img
+    src={project.images[0]}
+    alt={project.title}
+    className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
+  />
+)}
+
 
                     <h3 className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2">
                       {project.title}

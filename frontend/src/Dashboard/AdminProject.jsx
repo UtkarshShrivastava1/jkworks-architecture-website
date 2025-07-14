@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getProjects, deleteProject } from "../services/projectService";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar";
-import { API_URL } from "../services/api"; // <-- Import API_URL
 
 const AdminProject = () => {
   const [projects, setProjects] = useState([]);
@@ -119,14 +118,16 @@ const AdminProject = () => {
                   {/* Show all images */}
                   {project.images && project.images.length > 0 && (
                     <div className="flex gap-2 mb-3 flex-wrap">
-                      {project.images.map((img, idx) => (
-                        <img
-                          key={idx}
-                          src={`${API_URL}/uploads/${img}`}
-                          alt={project.title}
-                          className="w-24 h-20 object-cover rounded border"
-                        />
-                      ))}
+                      {project.images
+                        .filter((url) => url.startsWith("http")) // Only show Cloudinary URLs
+                        .map((url, i) => (
+                          <img
+                            key={i}
+                            src={url}
+                            alt={`project ${i}`}
+                            className="w-24 h-20 object-cover rounded border"
+                          />
+                        ))}
                     </div>
                   )}
                   <h3 className="text-lg font-semibold text-white mb-2">
