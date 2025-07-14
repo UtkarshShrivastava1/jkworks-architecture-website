@@ -324,55 +324,54 @@ const About = () => {
             </div>
           </div>
         </div> 
-
-        {/* Meet the Founder Section */}
-        <div className="max-w-7xl mx-auto mt-16 px-4 sm:px-6 lg:px-8 mb-24">
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
-            {/* Sidebar Content */}
-            <div className="lg:w-2/5 px-2">
-              <div className="pr-0 lg:pr-8">
-                <h2 className="text-2xl sm:text-3xl font-bold text-[#a77744] mb-6 lg:mb-8">Meet the Founder</h2>
-                
-                <div className="space-y-4 text-gray-700">
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Jitendra Kumar</h3>
-                    <p className="text-base sm:text-lg font-medium text-[#a77744] mb-1">Founder & Principal Architect, JK Works</p>
-                    <p className="text-sm sm:text-base text-gray-600 mb-4">M.Tech (Civil) with Specialization in Structural Engineering</p>
-                  </div>
-                  
-                  <div className="space-y-4 text-sm sm:text-base leading-relaxed">
-                    <p>
-                      With over 7 years of hands-on experience in the field of architecture and interior design, 
-                      Jitendra Kumar brings a wealth of expertise, creativity, and technical excellence to every 
-                      project. An accomplished professional with an M.Tech in (Civil) with Specialization in 
-                      Structural Engineering, he has successfully led the design and execution of 50+ diverse 
-                      projects, spanning residential, commercial, and institutional spaces.
-                    </p>
-                    
-                    <p>
-                      Jitendra's design philosophy is rooted in creating spaces that are not only aesthetically inspiring 
-                      but also highly functional and sustainable. His leadership at JK Works reflects a passion for 
-                      innovation, thinking outside the box, and delivering outstanding client experiences. Known 
-                      for his collaborative approach and attention to detail, Jitendra continues to drive JK Works 
-                      towards setting new benchmarks in architectural excellence and interior innovation.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+ {/* Meet the Founder Section */}
+<div className="max-w-7xl mx-auto mt-16 px-4 sm:px-6 lg:px-8 mb-24">
+  <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
+    {/* Image Section - Now appears first on mobile */}
+    <div className="lg:w-3/5 order-1 lg:order-2 mt-0 lg:mt-0 px-2 flex items-center justify-center">
+      <div className="w-full max-w-2xl">
+        <img
+          src={intro}
+          alt="Jitendra Kumar - Founder of JK Works"
+          className="w-full h-auto max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] object-cover rounded-lg shadow-lg"
+        />
+      </div>
+    </div>
+    
+    {/* Sidebar Content - Now appears second on mobile */}
+    <div className="lg:w-2/5 order-2 lg:order-1 px-2">
+      <div className="pr-0 lg:pr-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#a77744] mb-6 lg:mb-8">Meet the Founder</h2>
+        
+        <div className="space-y-4 text-gray-700">
+          <div>
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Jitendra Kumar</h3>
+            <p className="text-base sm:text-lg font-medium text-[#a77744] mb-1">Founder & Principal Architect, JK Works</p>
+            <p className="text-sm sm:text-base text-gray-600 mb-4">M.Tech (Civil) with Specialization in Structural Engineering</p>
+          </div>
+          
+          <div className="space-y-4 text-sm sm:text-base leading-relaxed">
+            <p>
+              With over 7 years of hands-on experience in the field of architecture and interior design, 
+              Jitendra Kumar brings a wealth of expertise, creativity, and technical excellence to every 
+              project. An accomplished professional with an M.Tech in (Civil) with Specialization in 
+              Structural Engineering, he has successfully led the design and execution of 50+ diverse 
+              projects, spanning residential, commercial, and institutional spaces.
+            </p>
             
-            {/* Image Section */}
-            <div className="lg:w-3/5 mt-6 lg:mt-0 px-2 flex items-center justify-center">
-              <div className="w-full max-w-2xl">
-                <img
-                  src={intro}
-                  alt="Jitendra Kumar - Founder of JK Works"
-                  className="w-full h-auto max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] object-cover rounded-lg shadow-lg"
-                />
-              </div>
-            </div>
+            <p>
+              Jitendra's design philosophy is rooted in creating spaces that are not only aesthetically inspiring 
+              but also highly functional and sustainable. His leadership at JK Works reflects a passion for 
+              innovation, thinking outside the box, and delivering outstanding client experiences. Known 
+              for his collaborative approach and attention to detail, Jitendra continues to drive JK Works 
+              towards setting new benchmarks in architectural excellence and interior innovation.
+            </p>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
       </div>
     </>
   );
