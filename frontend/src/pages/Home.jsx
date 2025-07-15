@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import NavBar from "../components/Navbar";
-// import Letstalk from "../components/Letstalk";
+
 import Project from "../components/Project";
 import video from "../assets/try.mp4";
 import FormPage from "../components/FormPage";
 import Cservices from '../components/C_services';
-
+import FAQs from "./Faq";
+ 
 const Home = () => {
   const projectRef = useRef(null);
   return (
@@ -20,6 +21,7 @@ const Home = () => {
       {/* <Letstalk /> */}
       <Cservices />
       <FormPage />
+      <FAQs/>
     </div>
   );
 };
@@ -74,8 +76,6 @@ const HeroSection = ({ projectRef }) => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
           >
-            {/* Glowing Background Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#c99e70]/20 to-[#facc15]/20 blur-3xl rounded-full transform scale-150"></div>
             
             {/* Typewriter Text */}
             <div className="relative z-10">
