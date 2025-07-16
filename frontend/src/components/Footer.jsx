@@ -230,7 +230,7 @@ const Footer = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center pt-4 space-y-3 sm:space-y-0">
           <div className="text-sm sm:text-base text-white">
-            Copyright © {currentYear}All rights reserved By  JK WORKS
+            Copyright © {currentYear} All rights reserved By  JK WORKS
           </div>
           <div className="text-sm sm:text-base text-white">  
           Powered By <a href="https://www.zager.in/homepage" className="text-blue-300 hover:underline">Zager Digital Services</a>
