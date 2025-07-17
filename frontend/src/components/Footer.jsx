@@ -226,6 +226,7 @@ const Footer = () => {
           </div>
         </div>
 
+
         <hr className="border-white-500 my-4 sm:my-6" />
 
         <div className="flex flex-col sm:flex-row justify-between items-center pt-4 space-y-3 sm:space-y-0">
