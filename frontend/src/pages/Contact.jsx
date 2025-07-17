@@ -20,7 +20,9 @@ const ContactPage = () => {
       setRotation((prev) => (prev + 1) % 360);
       requestAnimationFrame(animateO);
     };
+   
 
+    
     const animationId = requestAnimationFrame(animateO);
     return () => cancelAnimationFrame(animationId);
   }, []);
