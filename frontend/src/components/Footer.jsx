@@ -194,8 +194,8 @@ const Footer = () => {
                 </h3>
                 <ul className="text-xs sm:text-sm space-y-2">
                   <li>
-                    8101 Pearl Plaza, Unit 4G, Pearl Dr, Ortigas Center, Pasig,
-                    Metro Manila
+                   Quarter No. 21/b 
+                   Street No. 16 Sector-2 Bhilai , Durg
                   </li>
                 </ul>
               </div>

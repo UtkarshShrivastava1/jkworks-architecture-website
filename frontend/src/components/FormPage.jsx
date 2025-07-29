@@ -30,6 +30,30 @@ const ContactForm = () => {
     });
   };
 
+  // Define your social media links
+const socialLinks = [
+  {
+    Icon: Instagram,
+    url: "https://www.instagram.com/j_k_works_?igsh=MWpkYzBudm12NjBudQ==", // Replace with actual username
+    name: "Instagram"
+  },
+  {
+    Icon: Facebook,
+    url: "https://facebook.com/jkwork.owner", // Replace with actual page
+    name: "Facebook"
+  },
+  {
+    Icon: Linkedin,
+    url: "https://linkedin.com/in/jkwork-owner", // Replace with actual profile
+    name: "LinkedIn"
+  },
+  {
+    Icon: Twitter,
+    url: "https://twitter.com/jkwork_owner", // Replace with actual handle
+    name: "Twitter"
+  }
+];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
@@ -98,7 +122,7 @@ const ContactForm = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+            {/* <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
               {[Instagram, Facebook, Linkedin, Twitter].map((Icon, i) => (
                 <div
                   key={i}
@@ -107,7 +131,23 @@ const ContactForm = () => {
                   <Icon className="w-6 h-6 text-white" />
                 </div>
               ))}
-            </div>
+            </div> */}
+
+
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+  {socialLinks.map(({ Icon, url, name }, i) => (
+    <a
+      key={i}
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 cursor-pointer hover:scale-110 hover:shadow-lg"
+      title={`Visit our ${name} page`}
+    >
+      <Icon className="w-6 h-6 text-white" />
+    </a>
+  ))}
+</div>
 
             <div className="bg-gray-800 rounded-2xl p-6 sm:p-8 text-white space-y-6 shadow-2xl">
               <div className="text-center">
