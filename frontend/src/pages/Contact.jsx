@@ -1,9 +1,12 @@
+import React, {  useState } from "react";
+import { Phone, Mail, User, Building, MessageCircle, Send } from "lucide-react";
+import CONT from '../assets/CONT.webp'; // Import the local background image
 import React, { useEffect, useState } from "react";
 import ContactImage from "../assets/CONT.webp";
 import api from "../services/api";
 
 const ContactPage = () => {
-  const [rotation, setRotation] = useState(0);
+  // const [rotation, setRotation] = useState(0);
   const [form, setForm] = useState({
     name: "",
     companyName: "", // ✅ Added companyName
@@ -22,6 +25,17 @@ const ContactPage = () => {
     const animationId = requestAnimationFrame(animateO);
     return () => cancelAnimationFrame(animationId);
   }, []);
+  // useEffect(() => {
+  //   const animateO = () => {
+  //     setRotation((prev) => (prev + 1) % 360);
+  //     requestAnimationFrame(animateO);
+  //   };
+   
+
+    
+  //   const animationId = requestAnimationFrame(animateO);
+  //   return () => cancelAnimationFrame(animationId);
+  // }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

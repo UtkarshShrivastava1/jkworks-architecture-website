@@ -201,31 +201,45 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Animated JK WORKS Logo */}
-            <div className="mt-8 sm:mt-10 md:mt-12">
-              <div className="text-right w-full flex flex-col justify-end items-end">
-                <div>
-                  <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-none">
-                    JK
-                  </div>
-                  <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-wider flex items-center justify-end">
-                    W{/* Animated O logo */}
-                    <div className="relative inline-flex items-center justify-center mx-1 sm:mx-2">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 border-[4px] sm:border-[5px] md:border-[6px] border-white rounded-full flex items-center justify-center">
-                        <div
-                          className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-[4px] sm:border-[5px] md:border-[6px] border-white rounded-full"
-                          style={{ transform: `rotate(${rotation}deg)` }}
-                        ></div>
-                      </div>
-                    </div>
-                    RKS
-                  </div>
-                </div>
-              </div>
-            </div>
+{/* Animated JK WORKS Logo - Zero spacing between THE and JK */}
+<div className="mt-4 sm:mt-6 md:mt-8 lg:mt-12">
+  <div className="text-right w-full flex flex-col justify-end items-end">
+    <div>
+      {/* THE and JK with ZERO spacing */}
+      <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold leading-none flex items-center flex-row justify-end">
+        <div 
+          className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-extrabold -rotate-90 origin-center inline-block align-baseline mr-0 order-first"
+          style={{ verticalAlign: 'baseline' }}
+        >
+          THE
+        </div>
+        <div className="order-last">JK</div>
+      </div>
+      
+      {/* WORKS with responsive animated O */}
+      <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-extrabold tracking-wide sm:tracking-wider flex items-center justify-end mt-1 sm:mt-2">
+        W
+        {/* Animated O logo with responsive sizing */}
+        <div className="relative inline-flex items-center justify-center mx-0.5 sm:mx-1 md:mx-2">
+          <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 2xl:w-16 2xl:h-16 border-2 sm:border-[3px] md:border-[4px] lg:border-[5px] xl:border-[6px] border-white rounded-full flex items-center justify-center">
+            <div
+              className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 border-2 sm:border-[3px] md:border-[4px] lg:border-[5px] xl:border-[6px] border-white rounded-full animate-spin"
+              style={{ transform: `rotate(${rotation}deg)` }}
+            ></div>
+          </div>
+        </div>
+        RKS
+      </div>
+    </div>
+  </div>
+</div>
+
+<<<<<<< Updated upstream
+=======
           </div>
         </div>
 
+>>>>>>> Stashed changes
         <hr className="border-white-500 my-4 sm:my-6" />
 
         <div className="flex flex-col sm:flex-row justify-between items-center pt-4 space-y-3 sm:space-y-0">
