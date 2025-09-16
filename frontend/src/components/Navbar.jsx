@@ -1,34 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion"; 
+import { AnimatePresence } from "framer-motion"; 
 
 function NavBar({ projectRef }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  // const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const location = useLocation();
 
-  // Track cursor position
-  useEffect(() => {
-    const updateCursorPosition = (e) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", updateCursorPosition);
-    window.addEventListener("touchmove", (e) => {
-      // For touch devices, get the first touch point
-      if (e.touches.length > 0) {
-        updateCursorPosition({
-          clientX: e.touches[0].clientX,
-          clientY: e.touches[0].clientY,
-        });
-      }
-    });
-
-    return () => {
-      window.removeEventListener("mousemove", updateCursorPosition);
-      window.removeEventListener("touchmove", updateCursorPosition);
-    };
-  }, []);
 
   // Scroll to Projects section on Home page
   const handleProjectsClick = (e) => {
@@ -51,23 +29,114 @@ function NavBar({ projectRef }) {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-[#2d2a2a]/95 backdrop-blur-md shadow-lg">
+  <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-white">
+    {/* Animated JK WORKS Logo for Navbar */}
+    <Link to="/" className="flex flex-col items-start">
+      {/* THE and JK line */}
+      <div className="flex items-center">
+        <div 
+          className="text-[50%] font-extrabold -rotate-90 origin-center inline-block align-baseline mr-0"
+          style={{ verticalAlign: 'baseline' }}
+        >
+          THE
+        </div>
+        <div className="text-lg md:text-xl font-serif font-bold">JK</div>
+      </div>
+      
+      {/* WORKS line with animated O */}
+      <div className="text-lg md:text-xl font-extrabold tracking-wide flex items-center -mt-1">
+        <span className="text-[#c99e70] font-sans">
+          W
+          {/* Animated O logo - smaller for navbar */}
+          <div className="relative inline-flex items-center justify-center mx-0.5">
+            <div className="w-3 h-3 md:w-4 md:h-4 border-2 border-white rounded-full flex items-center justify-center">
+              <div
+                className="w-1.5 h-1.5 md:w-2 md:h-3 border-2 border-white rounded-full animate-spin"
+                // style={{ transform: `rotate(${rotation || 0}deg)` }}
+              ></div>
+            </div>
+          </div>
+          RKS
+        </span>
+      </div>
+    </Link>
 
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-white">
-        {/* Logo */}
-        <Link to="/" className="text-2xl md:text-3xl font-bold tracking-tight">
-          <span className="font-serif">JK</span>
-          <span className="text-[#c99e70] font-sans"> WORKS</span>
-        </Link>
+    {/* Desktop Nav */}
+    <nav className="hidden md:flex space-x-8 text-sm tracking-wide font-medium uppercase">
+      {navLinks.map((link) =>
+        link.label === "PROJECTS" && location.pathname === "/" ? (
+          <button
+            key={link.to}
+            className="relative group text-white hover:text-[#f4a079] transition-colors bg-transparent border-none outline-none cursor-pointer"
+            onClick={handleProjectsClick}
+            style={{ padding: 0, background: "none" }}
+          >
+            {link.label}
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#f4a079] transition-all duration-300 group-hover:w-full"></span>
+          </button>
+        ) : (
+          <Link
+            key={link.to}
+            to={link.to}
+            className="relative group text-white hover:text-[#f4a079] transition-colors"
+            onClick={link.label === "PROJECTS" ? () => setIsMobileOpen(false) : undefined}
+          >
+            {link.label}
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#f4a079] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+        )
+      )}
+    </nav>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex space-x-8 text-sm tracking-wide font-medium uppercase">
+    {/* Mobile Toggle Button */}
+    <button
+      onClick={() => setIsMobileOpen(!isMobileOpen)}
+      className="md:hidden text-white focus:outline-none"
+      aria-label="Toggle menu"
+    >
+      <svg
+        className="w-7 h-7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+      >
+        {isMobileOpen ? (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        ) : (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        )}
+      </svg>
+    </button>
+  </div>
+
+  {/* Mobile Menu */}
+  <AnimatePresence>
+    {isMobileOpen && (
+      <motion.div
+        className="md:hidden bg-[#2d2a2a]/95 backdrop-blur-lg shadow-xl absolute top-full left-0 w-full px-6 py-6 z-40 text-white"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="flex flex-col space-y-4">
           {navLinks.map((link) =>
             link.label === "PROJECTS" && location.pathname === "/" ? (
               <button
                 key={link.to}
-                className="relative group text-white hover:text-[#f4a079] transition-colors bg-transparent border-none outline-none cursor-pointer"
-                onClick={handleProjectsClick}
-                style={{ padding: 0, background: "none" }}
+                className="text-base px-4 py-2 rounded hover:bg-[#f4a079]/10 transition-all uppercase tracking-wide text-left bg-transparent border-none outline-none cursor-pointer"
+                onClick={(e) => {
+                  handleProjectsClick(e);
+                }}
               >
                 {link.label}
                 <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#f4a079] transition-all duration-300 group-hover:w-full"></span>
@@ -76,86 +145,20 @@ function NavBar({ projectRef }) {
               <Link
                 key={link.to}
                 to={link.to}
-                className="relative group text-white hover:text-[#f4a079] transition-colors"
-                onClick={link.label === "PROJECTS" ? () => setIsMobileOpen(false) : undefined}
+                onClick={() => setIsMobileOpen(false)}
+                className="text-base px-4 py-2 rounded hover:bg-[#f4a079]/10 transition-all uppercase tracking-wide"
               >
                 {link.label}
                 <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#f4a079] transition-all duration-300 group-hover:w-full"></span>
               </Link>
             )
           )}
-        </nav>
+        </div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+</header>
 
-        {/* Mobile Toggle Button */}
-        <button
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="md:hidden text-white focus:outline-none"
-          aria-label="Toggle menu"
-        >
-          <svg
-            className="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            {isMobileOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.div
-            className="md:hidden bg-[#2d2a2a]/95 backdrop-blur-lg shadow-xl absolute top-full left-0 w-full px-6 py-6 z-40 text-white"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) =>
-                link.label === "PROJECTS" && location.pathname === "/" ? (
-                  <button
-                    key={link.to}
-                    className="text-base px-4 py-2 rounded hover:bg-[#f4a079]/10 transition-all uppercase tracking-wide text-left bg-transparent border-none outline-none cursor-pointer"
-                    onClick={(e) => {
-                      handleProjectsClick(e);
-                    }}
-                  >
-                    {link.label}
-                    <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#f4a079] transition-all duration-300 group-hover:w-full"></span>
-                  </button>
-                ) : (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    onClick={() => setIsMobileOpen(false)}
-                    className="text-base px-4 py-2 rounded hover:bg-[#f4a079]/10 transition-all uppercase tracking-wide"
-                  >
-                    {link.label}
-                    <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#f4a079] transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
-                )
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
   );
 }
 
