@@ -1,29 +1,64 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext2";
 import { loginAdmin } from "../services/authService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { login, token } = useAuth(); // Also get current token for debugging
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    
+    // Debug: Check if user is already logged in
+    console.log('🔍 Login page loaded. Current token:', token);
+    if (token) {
+      console.log('✅ User already authenticated, redirecting...');
+      const from = location.state?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
+    }
+  }, [token, navigate, location]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    
+    console.log('🚀 Login attempt started...');
+    
     try {
+      console.log('📡 Calling loginAdmin service...');
       const token = await loginAdmin({ email, password });
-      localStorage.setItem("token", token);
-      login(token);
-      navigate("/dashboard");
+      
+      console.log('✅ Token received from API:', token ? 'Yes' : 'No');
+      console.log('🔑 Token preview:', token ? token.substring(0, 20) + '...' : 'null');
+      
+      if (token) {
+        // Store token in localStorage
+        localStorage.setItem("token", token);
+        console.log('💾 Token saved to localStorage');
+        
+        // Update auth context
+        login(token);
+        console.log('🔐 Auth context updated');
+        
+        // Small delay to ensure state updates
+        setTimeout(() => {
+          const from = location.state?.from?.pathname || '/dashboard';
+          console.log('🎯 Redirecting to:', from);
+          navigate(from, { replace: true });
+        }, 100);
+        
+      } else {
+        throw new Error('No token received from server');
+      }
+      
     } catch (err) {
-      alert("Login failed: " + err.message);
+      console.error('💥 Login error:', err);
+      alert("Login failed: " + (err.message || 'Unknown error'));
     } finally {
       setIsLoading(false);
     }
@@ -106,7 +141,7 @@ const Login = () => {
                 </svg>
               </div>
               <h1 className="text-2xl font-bold text-white">
-                Arch<span className="text-blue-400">Admin</span>
+                JK WORKS<span className="text-blue-400">Admin</span>
               </h1>
             </div>
 
@@ -160,7 +195,10 @@ const Login = () => {
                   className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {isLoading ? (
-                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                      <span>Signing In...</span>
+                    </>
                   ) : (
                     <span>Sign In</span>
                   )}

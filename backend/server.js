@@ -92,7 +92,7 @@ const blogRoutes = require("./routes/blogs");
 const faqRoutes = require("./routes/faqRoutes");
 const contactRoutes = require("./routes/contact");
 
-app.use("/api/auth", authRoutes);
+app.use("/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/faqs", faqRoutes);

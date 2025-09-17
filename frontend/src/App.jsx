@@ -34,8 +34,9 @@ import AdminFAQ from "./Dashboard/AdminFAQ";
 import CreateFAQ from "./Dashboard/CreateFAQ";
 import EditFAQ from "./Dashboard/EditFAQ";
 
-// 🔥 Import scroll handler
+// Import scroll handler and your existing ProtectedRoute
 import ScrollToTop from "./components/ScrollToTop";
+import ProtectedRoute from "./layout/ProtectedRoute";
 
 function AppContent() {
   const location = useLocation();
@@ -45,10 +46,10 @@ function AppContent() {
     <>
       {!hideNavAndFooter && <NavBar />}
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/project" element={<Project />} />
         <Route path="/about" element={<About />} />
-        
         <Route path="/interior" element={<Interior />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blogs/:id" element={<BlogDetail />} />
@@ -62,17 +63,19 @@ function AppContent() {
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/faqs" element={<FAQs />} />
 
-        {/* Dashboard Routes */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/blogs" element={<AdminBlog />} />
-        <Route path="/dashboard/blogs/create" element={<CreateBlog />} />
-        <Route path="/dashboard/blogs/edit/:id" element={<EditBlog />} />
-        <Route path="/dashboard/projects" element={<AdminProject />} />
-        <Route path="/dashboard/projects/create" element={<CreateProject />} />
-        <Route path="/dashboard/projects/edit/:id" element={<EditProject />} />
-        <Route path="/dashboard/faqs" element={<AdminFAQ />} />
-        <Route path="/dashboard/faqs/create" element={<CreateFAQ />} />
-        <Route path="/dashboard/faqs/edit/:id" element={<EditFAQ />} />
+        {/* Protected Dashboard Routes - All under one ProtectedRoute */}
+        <Route path="/dashboard" element={<ProtectedRoute />}>
+          <Route index element={<Dashboard />} />
+          <Route path="blogs" element={<AdminBlog />} />
+          <Route path="blogs/create" element={<CreateBlog />} />
+          <Route path="blogs/edit/:id" element={<EditBlog />} />
+          <Route path="projects" element={<AdminProject />} />
+          <Route path="projects/create" element={<CreateProject />} />
+          <Route path="projects/edit/:id" element={<EditProject />} />
+          <Route path="faqs" element={<AdminFAQ />} />
+          <Route path="faqs/create" element={<CreateFAQ />} />
+          <Route path="faqs/edit/:id" element={<EditFAQ />} />
+        </Route>
 
         <Route path="*" element={<Login />} />
       </Routes>
@@ -84,7 +87,7 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <ScrollToTop /> {/*  Ensure scroll reset on route change */}
+      <ScrollToTop />
       <AppContent />
     </Router>
   );
